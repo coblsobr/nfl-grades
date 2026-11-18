@@ -1,0 +1,1625 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>NFL Grades</title>
+<meta name="theme-color" content="#1d4ed8">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="NFL Grades">
+<style>
+:root{--color-bg:#f6f6f3;--color-panel:#fff;--color-fg:#18181b;--color-fg-muted:#5c5c63;--color-border-line:#e2e2dc;--cds-surface-popover:#f1f1ec;
+--cds-chart-grid:#ececE6;--cds-chart-axis:#b4b4ab;--cds-chart-reference:#94948c;--cds-chart-muted:#c4c4bc;--cds-border:#d6d6cf;--cds-text-secondary:#5c5c63;
+--color-ok:#1f7a35;--color-warn:#a35f00;--color-bad:#c62828;--cds-font-size-caption:13px;--cds-font-size-body:15px;--cds-font-size-heading:18px;--cds-font-size-title:26px;
+--cds-gap-xs:4px;--cds-gap-sm:8px;--cds-gap-md:16px;--cds-gap-lg:24px;--cds-pad-xs:4px;--cds-pad-sm:8px;--cds-pad-md:12px;--cds-pad-lg:16px;--cds-radius:8px;
+--cds-font-weight-medium:500;--cds-shadow-popover:0 4px 12px rgba(0,0,0,.12);--cds-dur-slow:.3s;--font-anthropic-sans:system-ui,sans-serif;--font-anthropic-serif:Georgia,serif}
+@media (prefers-color-scheme: dark){:root{--color-bg:#111317;--color-panel:#1a1d23;--color-fg:#f2f3f5;--color-fg-muted:#a5a9b2;--color-border-line:#2c3038;
+--cds-surface-popover:#232731;--cds-chart-grid:#262a33;--cds-chart-axis:#4f5560;--cds-chart-reference:#6e7480;--cds-chart-muted:#4a4f59;--cds-border:#353a44;
+--cds-text-secondary:#a5a9b2;--color-ok:#6fd08c;--color-warn:#f0c060;--color-bad:#ff8a80}}
+html,body{margin:0;background:var(--color-bg);color:var(--color-fg)} body{padding:0 10px env(safe-area-inset-bottom,0)}
+.ng-updated{font-size:12px;color:var(--color-fg-muted);margin:-6px 0 10px}
+.ng-toast{position:fixed;left:50%;top:12px;transform:translateX(-50%);background:#1d4ed8;color:#fff;padding:8px 14px;border-radius:999px;font:600 14px system-ui;z-index:50;box-shadow:0 4px 14px rgba(0,0,0,.2)}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<script>
+(function () {
+  const FILES = { team_season: 'team_season', team_week: 'team_week', team_stats: 'team_stats', coaching: 'coaching', schedule: 'schedule', roster: 'roster',
+    player_season: 'player_season', fun_facts: 'fun_facts', direction_check: 'direction_check', expert_picks: 'expert_picks', pick_record: 'pick_record' };
+  const fileFor = (id) => { let m;
+    if (FILES[id]) return FILES[id];
+    if ((m = id.match(/^pw_(\d{4})$/))) return 'player_week_' + m[1];
+    if ((m = id.match(/^ps_(\d{4})_([rp])$/))) return 'player_stats_' + m[1] + '_' + m[2];
+    if ((m = id.match(/^pwk_(\d{4})$/))) return 'player_week_stats_' + m[1];
+    return id; };
+  let store = {}; const calcs = {}, draws = {}; let onData = () => {};
+  let saved = {}; try { saved = JSON.parse(localStorage.getItem('ng-params') || '{}'); } catch (e) {}
+  const params = Object.assign({ season: '2026', scope: 'regular', tab: 'teams', pos: 'QB', team: null, player: null, tview: 'list' }, saved);
+  let pending = false;
+  const schedule = () => { if (!pending) { pending = true; requestAnimationFrame(() => { pending = false; run(); }); } };
+  const load = (id) => {
+    if (store[id]) return store[id];
+    store[id] = { status: 'loading', data: [] };
+    fetch('data/' + fileFor(id) + '.csv?v=' + encodeURIComponent(window.NG_VERSION || ''), { cache: 'no-cache' })
+      .then((r) => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.text(); })
+      .then((t) => { store[id] = { status: 'ok', data: d3.csvParse(t) }; schedule(); })
+      .catch((e) => { store[id] = { status: 'error', data: [], error: String(e) }; schedule(); });
+    return store[id];
+  };
+  const calcData = (id) => {
+    const c = calcs[id], ins = c.inputs.map(load);
+    if (ins.some((x) => x.status === 'loading')) return { status: 'loading', data: [] };
+    if (ins.some((x) => x.status === 'error')) return { status: 'error', data: [] };
+    const k = ins.map((x) => x.data.length).join();
+    if (c._k !== k) { c._data = c.fn(...ins.map((x) => x.data)); c._k = k; }
+    return { status: 'ok', data: c._data };
+  };
+  const shown = (el) => { for (let n = el; n; n = n.parentElement) if (n.hidden) return false; return true; };
+  function run() {
+    try { onData(); } catch (e) { console.error('onData', e); }
+    document.querySelectorAll('[data-draw]').forEach((el) => {
+      if (!shown(el)) return; const f = draws[el.dataset.draw];
+      if (f) { try { f(el); } catch (e) { console.error(el.dataset.draw, e); } }
+    });
+  }
+  window.dash = {
+    params: () => ({ ...params }), colors: ['#2f6db5', '#e07a2f', '#3a9a5b', '#a4508b', '#5b6ee1', '#c9a227'],
+    data: (id) => (calcs[id] ? calcData(id) : load(id)),
+    calc: (id, spec) => { calcs[id] = spec; },
+    draw: (name, fn) => { if (fn) draws[name] = fn; else schedule(); },
+    onData: (fn) => { onData = fn; },
+    setParams: (p) => { Object.assign(params, p);
+      try { localStorage.setItem('ng-params', JSON.stringify({ season: params.season, scope: params.scope, pos: params.pos, tview: params.tview })); } catch (e) {}
+      schedule(); },
+    setLink: (tab) => { try { history.replaceState(null, '', '#' + tab); } catch (e) {} },
+  };
+  window.__ngRun = run;
+  window.__ngReload = () => { store = {}; Object.values(calcs).forEach((c) => { c._k = null; }); schedule(); };
+  window.__ngParams = params;
+})();
+</script>
+</head><body>
+<meta name="dash-one-writer">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@500;600;700&display=swap');
+  /* ---------- base ---------- */
+  .ng { --ng-font: 'Barlow', 'Helvetica Neue', Arial, system-ui, sans-serif; --ng-cond: 'Barlow Condensed', 'Arial Narrow', 'Helvetica Neue', system-ui, sans-serif;
+        --ng-accent: #1f4fd1; --ng-pad: 14px; --ng-rad: 12px;
+        font-family: var(--ng-font); color: var(--color-fg); max-width: 56rem; margin-inline: auto; font-size: var(--cds-font-size-body); }
+  .ng button, .ng select, .ng input { font-family: var(--ng-font); }
+  .ng b { font-weight: 600; }
+  .ng-muted { color: var(--color-fg-muted); }
+  .ng-note { margin: 0; color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); }
+  .ng-hi { color: var(--color-ok); font-weight: 700; } .ng-lo { color: var(--color-bad); }
+  .ng-ok { color: var(--color-ok); } .ng-warn { color: var(--color-warn); } .ng-bad { color: var(--color-bad); }
+  .ng[data-colors="off"] .ng-hi, .ng[data-colors="off"] .ng-lo { color: inherit; font-weight: inherit; }
+  /* ---------- top bar + bottom nav ---------- */
+  .ng-top { position: sticky; top: 0; z-index: 4; display: flex; align-items: center; gap: 6px; padding: 8px 0; margin-bottom: 12px;
+            background: var(--color-bg); border-bottom: 1px solid var(--color-border-line); }
+  .ng-brand { flex: 1; min-width: 0; font-family: var(--ng-cond); font-weight: 700; font-size: 20px; letter-spacing: .02em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .ng .ng-mini { font-size: 13px; padding: 4px 6px; min-height: 2rem; max-width: 7.5rem; border: 1px solid var(--color-border-line); border-radius: 8px; background: var(--color-panel); color: var(--color-fg); }
+  .ng-icon { min-width: 2.25rem; min-height: 2.25rem; border: 1px solid var(--color-border-line); background: var(--color-panel); border-radius: 8px; cursor: pointer; font-size: 1rem; }
+  .ng-bottom { position: sticky; bottom: 0; z-index: 5; display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 20px;
+               background: var(--color-panel); border-top: 1px solid var(--color-border-line); padding-bottom: env(safe-area-inset-bottom, 0px); }
+  .ng-bottom button { display: flex; flex-direction: column; align-items: center; gap: 2px; background: none; border: 0; color: var(--color-fg-muted);
+                      font-size: 12px; padding: 7px 0; min-height: 3.1rem; cursor: pointer; }
+  .ng-bottom button span { font-size: 1.15rem; line-height: 1; }
+  .ng-bottom button[aria-current="page"] { color: var(--ng-accent); font-weight: 700; }
+  .ng-back { background: none; border: 0; color: var(--color-fg-muted); cursor: pointer; padding: 4px 0; margin-bottom: 8px; font-size: var(--cds-font-size-body); min-height: 2.25rem; }
+  /* ---------- sections ---------- */
+  .ng-lede { margin: 0 0 12px; }
+  .ng-grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); margin-bottom: 12px; }
+  .ng-card { background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: var(--ng-rad); padding: var(--ng-pad); margin-bottom: 12px; min-width: 0; }
+  .ng-grid > .ng-card { margin-bottom: 0; }
+  .ng-card h2 { margin: 0 0 4px; font-family: var(--ng-cond); font-weight: 700; font-size: 15px; letter-spacing: .08em; text-transform: uppercase; color: var(--color-fg-muted); }
+  .ng-card > p { margin: 0 0 10px; color: var(--color-fg-muted); font-size: 13px; line-height: 1.4; }
+  .ng-h3 { margin: 14px 0 6px; font-family: var(--ng-cond); font-size: 14px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+  .ng-more { font-size: var(--cds-font-size-body); font-weight: 600; background: none; border: 1px solid var(--color-border-line); color: var(--color-fg); border-radius: 10px; padding: 8px 14px; margin-top: 10px; cursor: pointer; min-height: 2.75rem; }
+  .ng-more:disabled { opacity: .45; cursor: default; }
+  .ng-more-box { margin-top: 10px; } .ng-more-box summary { cursor: pointer; font-weight: 600; padding: 8px 0; }
+  .ng-scroll { max-height: none; overflow: visible; }
+  /* ---------- controls ---------- */
+  .ng-seg { display: flex; flex-wrap: nowrap; overflow-x: auto; gap: 0; border: 1px solid var(--color-border-line); border-radius: 10px; margin-bottom: 12px; background: var(--color-panel); max-width: 100%; }
+  .ng-seg button { flex: 1 0 auto; background: none; border: 0; color: var(--color-fg); padding: 8px 12px; min-height: 2.5rem; cursor: pointer; font-size: 14px; white-space: nowrap; }
+  .ng-seg button + button { border-left: 1px solid var(--color-border-line); }
+  .ng-seg button[aria-pressed="true"] { background: var(--ng-accent); color: #fff; font-weight: 600; }
+  .ng-chips { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px; margin-bottom: 8px; }
+  .ng-chips button { border: 1px solid var(--color-border-line); background: var(--color-panel); color: var(--color-fg); border-radius: 999px; padding: 5px 12px; cursor: pointer; white-space: nowrap; min-height: 2.25rem; font-size: 13px; }
+  .ng-chips button[aria-pressed="true"] { background: var(--ng-accent); border-color: var(--ng-accent); color: #fff; }
+  .ng input[type=search] { width: 100%; box-sizing: border-box; font-size: 15px; padding: 8px 10px; border: 1px solid var(--color-border-line); border-radius: 10px; background: var(--color-panel); color: var(--color-fg); }
+  .ng-search-row { margin-bottom: 10px; }
+  /* ---------- tables: scroll sideways inside the card, team column stays put ---------- */
+  .ng-tablewrap { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 0 calc(-1 * var(--ng-pad)); padding: 0 var(--ng-pad); container-type: inline-size; }
+  .ng-table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; font-size: 14px; }
+  .ng-table th { text-align: left; font-weight: 600; font-size: 12px; color: var(--color-fg-muted); text-transform: uppercase; letter-spacing: .03em;
+                 border-bottom: 1px solid var(--color-border-line); padding: 6px 8px; white-space: nowrap; background: var(--color-panel); }
+  .ng-table td { padding: 9px 8px; border-bottom: 1px solid var(--cds-chart-grid); white-space: nowrap; }
+  .ng-num { text-align: right; } th.ng-num { text-align: right; }
+  .ng-tap tbody tr { cursor: pointer; }
+  .ng-tap tbody tr:hover, .ng-table tr.ng-sel { background: var(--cds-surface-popover); }
+  .ng tr.ng-fav td:first-child { box-shadow: inset 4px 0 0 var(--ng-fav, var(--ng-accent)); }
+  .ng-sort, .ng-csort, .ng-ssort { all: unset; cursor: pointer; font: inherit; color: inherit; text-transform: inherit; letter-spacing: inherit; }
+  th[aria-sort="ascending"] button::after { content: " ▲"; font-size: 9px; } th[aria-sort="descending"] button::after { content: " ▼"; font-size: 9px; }
+  .ng-table td.ng-sorted { font-weight: 700; background: color-mix(in srgb, var(--ng-accent) 9%, transparent); }
+  .ng-stat-table th:first-child, .ng-stat-table td:first-child, .ng-team-table th:nth-child(2), .ng-team-table td:nth-child(2) { position: sticky; left: 0; z-index: 1; background: var(--color-panel); }
+  @container (max-width: 34rem) { .ng-wide { display: none; } }
+  .ng-badge { display: inline-block; min-width: 2.7em; text-align: center; font-family: var(--ng-cond); font-weight: 700; font-size: 13px; border-radius: 6px; padding: 2px 6px; letter-spacing: .03em; }
+  /* ---------- tiles / KPIs / hero ---------- */
+  .ng-kpis { display: grid; grid-template-columns: repeat(5, 1fr); border: 1px solid var(--color-border-line); border-radius: var(--ng-rad); overflow: hidden; background: var(--color-panel); margin-bottom: 12px; }
+  .ng-kpi { text-align: center; padding: 10px 2px; border-right: 1px solid var(--color-border-line); min-width: 0; }
+  .ng-kpi:last-child { border-right: 0; }
+  .ng-kl { font-size: 11px; text-transform: uppercase; letter-spacing: .05em; color: var(--color-fg-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .ng-kv { font-family: var(--ng-cond); font-weight: 700; font-size: 28px; line-height: 1.1; }
+  .ng-kr { font-size: 11px; color: var(--color-fg-muted); }
+  .ng-player-kpis { grid-template-columns: repeat(2, 1fr); }
+  .ng-hero { display: flex; align-items: center; gap: 12px; border-radius: var(--ng-rad); padding: 16px 18px; margin-bottom: 12px; background: var(--color-panel); border: 1px solid var(--color-border-line); }
+  .ng-hero-name { margin: 0; font-family: var(--ng-cond); font-weight: 700; font-size: 30px; line-height: 1.02; text-transform: uppercase; letter-spacing: .01em; }
+  .ng-hero-sub { font-size: 14px; opacity: .9; margin-top: 4px; }
+  .ng-rt { display: grid; gap: 8px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 8.5rem), 1fr)); margin-bottom: 8px; }
+  .ng-rtile { border: 1px solid var(--color-border-line); border-radius: 10px; padding: 8px 10px; background: var(--color-panel); min-width: 0; }
+  .ng-rl { font-size: 12px; color: var(--color-fg-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .ng-rr { font-family: var(--ng-cond); font-weight: 700; font-size: 24px; line-height: 1.15; }
+  .ng-rv { font-size: 12px; color: var(--color-fg-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .ng-rt-big .ng-rr { font-size: 30px; }
+  .ng-rtile.ng-hi .ng-rr { color: var(--color-ok); } .ng-rtile.ng-lo .ng-rr { color: var(--color-bad); }
+  .ng[data-colors="off"] .ng-rtile .ng-rr { color: inherit; }
+  /* ---------- charts, facts, picks ---------- */
+  .ng-chart { position: relative; min-height: 280px; }
+  .ng-chart-tall { min-height: 360px; touch-action: pan-y; } .ng-chart-tall svg { touch-action: pan-y; cursor: grab; }
+  .ng-zoombar { display: flex; gap: 6px; margin-bottom: 6px; }
+  .ng-zoom { min-width: 2.75rem; min-height: 2.5rem; border: 1px solid var(--color-border-line); background: var(--color-panel); color: var(--color-fg); border-radius: 8px; cursor: pointer; font-size: 15px; }
+  .ng-pick { border-top: 1px solid var(--color-border-line); margin-top: 8px; padding-top: 8px; }
+  .ng-pick-row { display: flex; flex-wrap: wrap; gap: 6px 12px; align-items: baseline; }
+  .ng-tip { position: absolute; pointer-events: none; background: var(--cds-surface-popover); border: 1px solid var(--cds-border); border-radius: 8px; box-shadow: var(--cds-shadow-popover); padding: 4px 8px; font-size: 12px; white-space: nowrap; z-index: 2; }
+  .ng-tip .ng-tip-h { color: var(--cds-text-secondary); }
+  .ng-facts { display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr)); }
+  .ng-fact { background: var(--color-panel); border: 1px solid var(--color-border-line); border-left: 5px solid var(--color-border-line); border-radius: 10px; padding: 12px; }
+  .ng-fh { font-weight: 700; margin-bottom: 4px; } .ng-ft { font-size: 14px; color: var(--color-fg-muted); line-height: 1.45; }
+  .ng-set { display: grid; gap: 14px; } .ng-set-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between; }
+  .ng-set-row > span { font-weight: 600; } .ng-set .ng-seg { margin: 0; }
+  .ng-prose p, .ng-prose li { line-height: 1.55; } .ng-prose ul { padding-left: 1.2rem; }
+  [data-dash-source-state=empty] { color: transparent; }
+  [data-dash-source-state=refreshing] { opacity: .5; transition: opacity var(--cds-dur-slow); }
+  /* ---------- sizes / themes ---------- */
+  .ng[data-size="large"] { --cds-font-size-caption: 15px; --cds-font-size-body: 17px; --cds-font-size-heading: 21px; --cds-font-size-title: 30px; }
+  .ng[data-size="large"] .ng-table { font-size: 16px; }
+  .ng[data-theme] { background: var(--color-bg); color: var(--color-fg); min-height: 100vh; padding-inline: 10px; }
+  .ng[data-theme="light"] { color-scheme: light; --color-bg: #f6f6f3; --color-panel: #ffffff; --color-fg: #18181b; --color-fg-muted: #5c5c63; --color-border-line: #e2e2dc;
+    --cds-surface-popover: #f1f1ec; --cds-chart-grid: #ececE6; --cds-chart-axis: #b4b4ab; --cds-chart-reference: #94948c; --cds-chart-muted: #c4c4bc; --cds-border: #d6d6cf;
+    --cds-text-secondary: #5c5c63; --color-ok: #1f7a35; --color-warn: #a35f00; --color-bad: #c62828; }
+  .ng[data-theme="dark"] { color-scheme: dark; --color-bg: #111317; --color-panel: #1a1d23; --color-fg: #f2f3f5; --color-fg-muted: #a5a9b2; --color-border-line: #2c3038;
+    --cds-surface-popover: #232731; --cds-chart-grid: #262a33; --cds-chart-axis: #4f5560; --cds-chart-reference: #6e7480; --cds-chart-muted: #4a4f59; --cds-border: #353a44;
+    --cds-text-secondary: #a5a9b2; --color-ok: #6fd08c; --color-warn: #f0c060; --color-bad: #ff8a80; }
+
+  /* =====================  LOOK: BROADCAST  =====================
+     TV-graphics feel: no rounded cards, dark title bars, dense striped tables, team-color stripes on rows */
+  .ng[data-look="broadcast"] { --ng-accent: #c8102e; --ng-rad: 0; --ng-pad: 0px; }
+  .ng[data-look="broadcast"] .ng-top { background: #0b1f3a; color: #fff; padding: 8px 10px; border: 0; }
+  .ng[data-look="broadcast"] .ng-brand { color: #fff; text-transform: uppercase; letter-spacing: .1em; }
+  .ng[data-look="broadcast"] .ng-card { border: 0; border-top: 3px solid #0b1f3a; padding: 0 0 6px; background: var(--color-panel); }
+  .ng[data-look="broadcast"] .ng-card h2 { margin: 0; padding: 8px 10px; background: #0b1f3a; color: #fff; font-size: 16px; letter-spacing: .12em; }
+  .ng[data-look="broadcast"] .ng-card > p { padding: 6px 10px 0; }
+  .ng[data-look="broadcast"] .ng-card > :not(h2):not(p):not(.ng-tablewrap):not(.ng-scroll) { margin-left: 10px; margin-right: 10px; }
+  .ng[data-look="broadcast"] .ng-tablewrap { margin: 0; padding: 0; }
+  .ng[data-look="broadcast"] .ng-table { font-size: 14px; }
+  .ng[data-look="broadcast"] .ng-table th { background: #e9edf3; color: #0b1f3a; font-family: var(--ng-cond); font-size: 13px; }
+  .ng[data-look="broadcast"][data-theme="dark"] .ng-table th { background: #1d2a40; color: #dfe6f1; }
+  .ng[data-look="broadcast"] .ng-table td { padding: 6px 8px; border-bottom: 0; }
+  .ng[data-look="broadcast"] .ng-table tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--color-fg) 4%, var(--color-panel)); }
+  .ng[data-look="broadcast"] .ng-table tbody tr td:first-child { box-shadow: inset 4px 0 0 var(--team, transparent); }
+  .ng[data-look="broadcast"] .ng-badge { border-radius: 0; }
+  .ng[data-look="broadcast"] .ng-seg, .ng[data-look="broadcast"] .ng-chips button, .ng[data-look="broadcast"] .ng-rtile, .ng[data-look="broadcast"] .ng-kpis, .ng[data-look="broadcast"] .ng-fact { border-radius: 0; }
+  .ng[data-look="broadcast"] .ng-hero { border-radius: 0; border: 0; padding: 18px 14px; }
+  .ng[data-look="broadcast"] .ng-hero-name { font-size: 34px; letter-spacing: .04em; }
+  .ng[data-look="broadcast"] .ng-kpis { border: 0; background: #0b1f3a; color: #fff; }
+  .ng[data-look="broadcast"] .ng-kpi { border-right-color: rgba(255,255,255,.15); } .ng[data-look="broadcast"] .ng-kl, .ng[data-look="broadcast"] .ng-kr { color: #b8c3d6; }
+  .ng[data-look="broadcast"] .ng-bottom { background: #0b1f3a; border: 0; }
+  .ng[data-look="broadcast"] .ng-bottom button { color: #b8c3d6; } .ng[data-look="broadcast"] .ng-bottom button[aria-current="page"] { color: #fff; box-shadow: inset 0 3px 0 var(--ng-accent); }
+  .ng[data-look="broadcast"] .ng-rt { margin: 8px 10px; }
+
+  /* =====================  LOOK: CARDS  =====================
+     Phone-first: every table row becomes its own card with labeled numbers; nothing scrolls sideways */
+  .ng[data-look="cards"] { --ng-accent: #1b7a3e; --ng-rad: 16px; }
+  .ng[data-look="cards"] .ng-card { background: transparent; border: 0; padding: 0; }
+  .ng[data-look="cards"] .ng-card h2 { font-size: 20px; color: var(--color-fg); letter-spacing: .02em; margin-bottom: 6px; }
+  .ng[data-look="cards"] .ng-tablewrap { overflow: visible; margin: 0; padding: 0; }
+  .ng[data-look="cards"] .ng-table thead { display: none; }
+  .ng[data-look="cards"] .ng-table, .ng[data-look="cards"] .ng-table tbody { display: block; }
+  .ng[data-look="cards"] .ng-table tbody { display: grid; gap: 8px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr)); }
+  .ng[data-look="cards"] .ng-table tr { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 6px 14px; padding: 10px 12px; background: var(--color-panel);
+        border: 1px solid var(--color-border-line); border-left: 6px solid var(--team, var(--ng-accent)); border-radius: 14px; }
+  .ng[data-look="cards"] .ng-table td { display: flex; flex-direction: column; padding: 0; border: 0; background: none !important; position: static !important; box-shadow: none !important; }
+  .ng[data-look="cards"] .ng-table td::before { content: attr(data-label); font-size: 10px; text-transform: uppercase; letter-spacing: .06em; color: var(--color-fg-muted); font-weight: 600; }
+  .ng[data-look="cards"] .ng-table td.ng-wide { display: flex; }
+  .ng[data-look="cards"] .ng-table td.ng-num { text-align: left; font-family: var(--ng-cond); font-size: 18px; font-weight: 600; }
+  .ng[data-look="cards"] .ng-table td:first-child { flex-basis: 100%; font-family: var(--ng-cond); font-size: 22px; font-weight: 700; }
+  .ng[data-look="cards"] .ng-table td:first-child::before { display: none; }
+  .ng[data-look="cards"] .ng-kpis { grid-template-columns: repeat(auto-fill, minmax(5.5rem, 1fr)); gap: 8px; border: 0; background: none; }
+  .ng[data-look="cards"] .ng-kpi { border: 1px solid var(--color-border-line); border-radius: 14px; background: var(--color-panel); }
+  .ng[data-look="cards"] .ng-hero { border: 0; border-radius: 20px; padding: 22px 18px; }
+  .ng[data-look="cards"] .ng-rtile { border-radius: 14px; }
+  .ng[data-look="cards"] .ng-seg { border-radius: 999px; } .ng[data-look="cards"] .ng-seg button { border-radius: 999px; }
+  .ng[data-look="cards"] .ng-seg button + button { border-left: 0; }
+</style>
+<style>
+  @media (max-width: 30rem) {
+    .ng-table td { padding: 8px 6px; } .ng-table th { padding: 6px 6px; }
+    .ng-scat-seg { display: grid; grid-template-columns: repeat(2, 1fr); } .ng-scat-seg button { border-left: 0 !important; border-top: 1px solid var(--color-border-line); }
+    .ng-scat-seg button:nth-child(-n+2) { border-top: 0; } .ng-scat-seg button:nth-child(even) { border-left: 1px solid var(--color-border-line) !important; }
+  }
+</style>
+<style>
+  .ng[data-look="broadcast"] .ng-brand { letter-spacing: .03em; font-size: 18px; }
+  /* Cards: tidy grid inside each card, headline line first, fewer numbers */
+  .ng[data-look="cards"] .ng-table tr { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px 10px; align-items: end; }
+  .ng[data-look="cards"] .ng-table td.ng-wide { display: none; }
+  .ng[data-look="cards"] .ng-table td:first-child { grid-column: 1 / 2; flex-basis: auto; font-size: 24px; align-self: center; }
+  .ng[data-look="cards"] .ng-table td:has(.ng-badge) { grid-column: 2 / -1; align-self: center; }
+  .ng[data-look="cards"] .ng-table td:first-child:has(.ng-badge) { grid-column: 1 / -1; }
+  .ng[data-look="cards"] .ng-table td:has(.ng-badge)::before { display: none; }
+  .ng[data-look="cards"] .ng-table td:has(.ng-badge) .ng-badge { font-size: 18px; padding: 3px 10px; }
+  .ng[data-look="cards"] .ng-table td:first-child:not(:has(.ng-badge)) + td:not(.ng-num) { grid-column: 2 / -1; font-size: 18px; font-weight: 600; align-self: center; }
+  .ng[data-look="cards"] .ng-table td:first-child:not(:has(.ng-badge)) + td:not(.ng-num)::before { display: none; }
+  .ng[data-look="cards"] .ng-table td { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+</style>
+<style>
+  .ng-rtile.ng-hi, .ng-rtile.ng-lo { font-weight: inherit; color: inherit; }
+  .ng-player-kpis { grid-template-columns: 1fr; }
+  .ng-set select { font-size: 15px; padding: 6px 8px; border: 1px solid var(--color-border-line); border-radius: 8px; background: var(--color-panel); color: var(--color-fg); min-height: 2.5rem; }
+  .ng-coach-table th:nth-child(2), .ng-coach-table td:nth-child(2) { position: sticky; left: 0; z-index: 1; background: var(--color-panel); }
+  .ng[data-look="cards"] .ng-table td:has(.ng-badge) { align-items: flex-start; }
+</style>
+<style>
+  .ng-brand { font-size: 18px; } .ng .ng-mini { max-width: 6.75rem; }
+  .ng[data-look="broadcast"] .ng-brand { font-size: 17px; letter-spacing: .02em; }
+</style>
+<style>
+  /* the column that says who a row is stays put while the rest scrolls sideways */
+  .ng-freeze1 th:nth-child(1), .ng-freeze1 td:nth-child(1),
+  .ng-freeze2 th:nth-child(2), .ng-freeze2 td:nth-child(2),
+  .ng-freeze3 th:nth-child(3), .ng-freeze3 td:nth-child(3) { position: sticky; left: 0; z-index: 1; background: var(--color-panel); box-shadow: 1px 0 0 var(--color-border-line); }
+  .ng[data-look="broadcast"] .ng-table tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--color-fg) 4%, var(--color-panel)); }
+  .ng-wide-btn { width: 100%; text-align: left; }
+</style>
+<style>
+  .ng-tablewrap { margin: 0; padding: 0; }
+</style>
+<style>
+  /* =================== v2 polish =================== */
+  .ng { --ng-accent: #1d4ed8; --ng-ink: #0f172a; --ng-pad: 16px; --ng-rad: 14px; --ng-shadow: 0 1px 2px rgba(15,23,42,.06), 0 2px 8px rgba(15,23,42,.04); }
+  .ng-top { gap: 8px; padding: 10px 0; border-bottom: 0; box-shadow: 0 1px 0 var(--color-border-line); }
+  .ng-brand { display: flex; align-items: center; gap: 8px; font-size: 19px; }
+  .ng-mark { display: inline-grid; place-items: center; width: 28px; height: 28px; border-radius: 8px; background: var(--ng-accent); color: #fff; font-family: var(--ng-cond); font-size: 14px; font-weight: 700; letter-spacing: .02em; flex: 0 0 auto; }
+  .ng .ng-mini { border-radius: 999px; padding: 4px 10px; font-weight: 600; }
+  .ng-icon { display: inline-grid; place-items: center; border-radius: 999px; padding: 0; }
+  .ng-icon svg, .ng-bottom svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .ng-bottom svg circle[r="1.6"] { fill: currentColor; }
+  .ng-bottom button { gap: 3px; font-weight: 600; letter-spacing: .01em; }
+  .ng-bottom button[aria-current="page"] { color: var(--ng-accent); }
+  .ng-page-title { font-family: var(--ng-cond); font-weight: 700; font-size: 30px; letter-spacing: .01em; margin: 2px 0 12px; line-height: 1.1; }
+  .ng-card { border: 0; box-shadow: var(--ng-shadow); }
+  .ng[data-theme="dark"] .ng-card { box-shadow: 0 0 0 1px var(--color-border-line); }
+  .ng-card h2 { font-size: 13px; letter-spacing: .1em; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid var(--color-border-line); }
+  .ng-card > p { margin-top: -2px; }
+  .ng-seg { border: 0; background: color-mix(in srgb, var(--color-fg) 6%, transparent); padding: 3px; border-radius: 12px; gap: 2px; }
+  .ng-seg button { border-radius: 9px; border-left: 0 !important; font-weight: 600; color: var(--color-fg-muted); min-height: 2.25rem; }
+  .ng-seg button[aria-pressed="true"] { background: var(--color-panel); color: var(--color-fg); box-shadow: 0 1px 3px rgba(15,23,42,.15); }
+  .ng-chips button { font-weight: 600; }
+  .ng-table th { font-size: 11px; letter-spacing: .06em; }
+  .ng-table td { border-bottom-color: color-mix(in srgb, var(--color-border-line) 70%, transparent); }
+  .ng-table tbody tr:last-child td { border-bottom: 0; }
+  .ng-table td.ng-num { font-family: var(--ng-cond); font-size: 16px; font-weight: 500; }
+  .ng-table td.ng-hi, .ng-table td.ng-lo { font-weight: 700; }
+  .ng-table td.ng-hi { color: var(--color-ok); background: color-mix(in srgb, var(--color-ok) 10%, transparent); }
+  .ng-table td.ng-lo { color: var(--color-bad); background: color-mix(in srgb, var(--color-bad) 8%, transparent); }
+  .ng[data-colors="off"] .ng-table td.ng-hi, .ng[data-colors="off"] .ng-table td.ng-lo { background: none; color: inherit; font-weight: 500; }
+  .ng-badge { border-radius: 5px; font-size: 12px; padding: 3px 6px; min-width: 2.9em; }
+  /* team header: team-color gradient with a big faint abbreviation */
+  .ng-hero { position: relative; overflow: hidden; border: 0; color: var(--team-t, #fff);
+             background: linear-gradient(135deg, var(--team-c, #334155) 0%, color-mix(in srgb, var(--team-c, #334155) 72%, #000) 100%); box-shadow: var(--ng-shadow); }
+  .ng-hero[data-abbr]::after { content: attr(data-abbr); position: absolute; right: -6px; bottom: -22px; font-family: var(--ng-cond); font-weight: 700; font-size: 110px; line-height: 1; opacity: .14; pointer-events: none; }
+  .ng-hero.ng-hero-player { background: var(--color-panel); color: var(--color-fg); box-shadow: var(--ng-shadow); border-left: 6px solid var(--team-c); }
+  .ng-hero-sub { font-weight: 600; letter-spacing: .02em; }
+  .ng-kpis { border: 0; box-shadow: var(--ng-shadow); }
+  .ng-kpi { border-right-color: color-mix(in srgb, var(--color-border-line) 70%, transparent); padding: 12px 2px; }
+  .ng-rtile { border: 0; background: color-mix(in srgb, var(--color-fg) 4%, var(--color-panel)); }
+  .ng-fact { border: 0; border-left: 4px solid var(--color-border-line); box-shadow: var(--ng-shadow); }
+  .ng-row-btn { display: flex; justify-content: space-between; align-items: center; width: 100%; background: none; border: 0; padding: 10px 0; font-size: 16px; font-weight: 600; color: var(--color-fg); cursor: pointer; }
+  .ng-row-btn span:last-child { font-size: 22px; color: var(--color-fg-muted); }
+  .ng-set { gap: 0; } .ng-set-row { padding: 10px 0; border-bottom: 1px solid color-mix(in srgb, var(--color-border-line) 70%, transparent); }
+  .ng-set-row:last-of-type { border-bottom: 0; }
+  .ng-back { font-weight: 600; color: var(--ng-accent); }
+  /* keep the other looks distinct on top of the new base */
+  .ng[data-look="broadcast"] .ng-card { box-shadow: none; } .ng[data-look="broadcast"] .ng-card h2 { border-bottom: 0; padding-bottom: 8px; }
+  .ng[data-look="broadcast"] .ng-seg { border-radius: 0; } .ng[data-look="broadcast"] .ng-seg button { border-radius: 0; }
+  .ng[data-look="broadcast"] .ng-seg button[aria-pressed="true"] { background: var(--ng-accent); color: #fff; }
+  .ng[data-look="broadcast"] .ng-mark { background: var(--ng-accent); border-radius: 2px; }
+  .ng[data-look="cards"] .ng-card { box-shadow: none; } .ng[data-look="cards"] .ng-card h2 { border-bottom: 0; }
+  .ng[data-look="cards"] .ng-table tr { box-shadow: var(--ng-shadow); border-top: 0; border-right: 0; border-bottom: 0; }
+</style>
+<style>
+  .ng-brand { font-size: clamp(15px, 4.4vw, 19px); letter-spacing: 0; }
+  .ng .ng-mini { max-width: 6.25rem; }
+  .ng-hero > div { position: relative; z-index: 1; }
+  .ng-hero[data-abbr]::after { font-size: 92px; right: -4px; bottom: -16px; opacity: .1; }
+  .ng-table td:first-child.ng-hi, .ng-table td:first-child.ng-lo { background: none; color: inherit; }
+</style>
+<style>
+  .ng-field { position: relative; border-radius: 10px; overflow: hidden; margin-bottom: 4px; }
+  .ng-field svg { display: block; }
+  .ng-lineup-key { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; font-size: 12px; } .ng-key { display: inline-flex; align-items: center; gap: 5px; white-space: nowrap; }
+  .ng-dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; border: 3px solid; background: #fff; box-sizing: border-box; width: 12px; height: 12px; }
+  .ng-dot-top { border-color: #22c55e; } .ng-dot-mid { border-color: #94a3b8; } .ng-dot-low { border-color: #ef4444; } .ng-dot-none { border-color: #64748b; }
+  .ng-lineup-note { margin: 6px 0 0; font-size: 13px; color: var(--color-fg-muted); }
+</style>
+<style>
+  .ng-weekpick { margin-top: 10px; } .ng-weekchips { margin-bottom: 6px; }
+  .ng-week-head { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; font-weight: 600; margin: 4px 0 8px; }
+  .ng-scat-seg { display: grid !important; grid-template-columns: repeat(4, 1fr); }
+  .ng-scat-seg button { border-left: 0 !important; padding: 7px 4px; font-size: 13px; }
+  .ng-stat-table th:nth-child(1), .ng-stat-table td:nth-child(1) { position: sticky; left: 0; z-index: 2; background: var(--color-panel); min-width: 2.2rem; width: 2.2rem; box-shadow: none; }
+  .ng-stat-table th:nth-child(2), .ng-stat-table td:nth-child(2) { left: 2.2rem; z-index: 2; }
+  .ng-table td.ng-rankcell { font-weight: 700; color: var(--color-fg-muted); width: 2.2rem; }
+  .ng-next-big { font-family: var(--ng-cond); font-weight: 700; font-size: 30px; line-height: 1.1; }
+  .ng-next-w { color: var(--color-ok); } .ng-next-l { color: var(--color-bad); }
+  .ng-next-sub { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin: 4px 0 8px; color: var(--color-fg-muted); }
+  .ng-top .ng-mini { max-width: none !important; flex: 0 0 auto !important; }
+  .ng-top .ng-brand { flex: 1 1 auto !important; min-width: 0 !important; } .ng-brand-text { overflow: hidden; text-overflow: ellipsis; }
+  /* the name never gets squeezed: the pickers shrink instead */
+  .ng-top .ng-brand { flex: 1 0 auto; min-width: max-content; }
+  .ng-top .ng-mini { flex: 0 1 auto; min-width: 0; max-width: 6rem; font-size: 12px; padding: 4px 8px; }
+  .ng-top .ng-icon { flex: 0 0 auto; min-width: 2rem; min-height: 2rem; width: 2rem; height: 2rem; }
+  .ng-brand-text { white-space: nowrap; }
+  .ng-lineup-out { color: var(--color-bad); }
+</style>
+
+<div class="ng" id="nfl-grades">
+  <header class="ng-top">
+    <span class="ng-brand" id="top"><span class="ng-mark" aria-hidden="true">NG</span><span class="ng-brand-text">NFL Grades</span></span>
+    <select class="ng-mini" data-draw="season" data-source="team_season" aria-label="Season"></select>
+    <select class="ng-mini" data-draw="view" data-source="team_week" aria-label="Season or a single week"></select>
+    <button type="button" class="ng-icon" data-go="more" aria-label="Settings"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"/></svg></button>
+  </header>
+
+  <!-- ===================== TEAMS ===================== -->
+  <section class="ng-page" data-page="teams" id="teams">
+    <h1 class="ng-page-title">Teams</h1>
+    <div class="ng-seg" role="group" aria-label="View">
+      <button type="button" data-view="list" aria-pressed="true">Rankings</button>
+      <button type="button" data-view="stats" aria-pressed="false">Stats</button>
+      <button type="button" data-view="chart" aria-pressed="false">Chart</button>
+      <button type="button" data-view="coach" aria-pressed="false">Coaching</button>
+    </div>
+    <div class="ng-tv" data-view="list">
+      <div class="ng-card ng-wkonly" id="team-week-card" hidden>
+        <h2>Power rankings after this week</h2>
+        <p>Where every team stood after that week. Preseason = last season's results plus this year's Week 1 starters rated by their ranks last season. It fades as games come in.</p>
+        <div class="ng-scroll">
+          <table class="ng-table ng-tap ng-go-team ng-freeze2" data-source="team_week" data-row-key="key">
+            <thead><tr><th data-field="power_rank_wk" class="ng-num">#</th><th data-field="team">Team</th><th data-field="record_wk">Record</th><th data-field="opp">Opp</th><th data-field="result">Result</th></tr></thead>
+            <tbody data-draw="team-week-rows"></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="ng-card ng-seasononly" id="team-table-card">
+        <h2>Power rankings</h2>
+        <p>Team strength 55% (offense 45 / defense 45 / special teams 10), record 15%, scoring margin 15%, roster 15%, blended with a preseason rating (last season + this year's starters, worth about 4 games, so it fades as the season goes). Head-to-head breaks close calls. Tap a team to open it.</p>
+        <div class="ng-tablewrap">
+          <table class="ng-table ng-tap ng-team-table ng-go-team ng-freeze2" data-source="team_season" data-row-key="key">
+            <thead><tr>
+              <th data-field="power_rank" class="ng-num"><button type="button" class="ng-sort" data-sort="power_rank">#</button></th>
+              <th data-field="team" class=""><button type="button" class="ng-sort" data-sort="team">Team</button></th>
+              <th data-field="record" class=""><button type="button" class="ng-sort" data-sort="record">Record</button></th>
+              <th data-field="next_txt" class="ng-wide2"><button type="button" class="ng-sort" data-sort="next_txt">Next game (our line)</button></th>
+              <th data-field="pd_txt" class="ng-num"><button type="button" class="ng-sort" data-sort="pd_txt">+/-</button></th>
+              <th data-field="off_rank" class="ng-num"><button type="button" class="ng-sort" data-sort="off_rank">Off</button></th>
+              <th data-field="def_rank" class="ng-num"><button type="button" class="ng-sort" data-sort="def_rank">Def</button></th>
+              <th data-field="st_rank" class="ng-num ng-wide"><button type="button" class="ng-sort" data-sort="st_rank">ST</button></th>
+              <th data-field="roster_rank" class="ng-num ng-wide"><button type="button" class="ng-sort" data-sort="roster_rank">Roster</button></th>
+              <th data-field="pass_off_rank" class="ng-num ng-wide"><button type="button" class="ng-sort" data-sort="pass_off_rank">Pass off</button></th>
+              <th data-field="run_off_rank" class="ng-num ng-wide"><button type="button" class="ng-sort" data-sort="run_off_rank">Run off</button></th>
+              <th data-field="pass_def_rank" class="ng-num ng-wide"><button type="button" class="ng-sort" data-sort="pass_def_rank">Pass def</button></th>
+              <th data-field="run_def_rank" class="ng-num ng-wide"><button type="button" class="ng-sort" data-sort="run_def_rank">Run def</button></th>
+            </tr></thead>
+            <tbody data-draw="team-rows"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="ng-tv" data-view="stats" hidden>
+      <div class="ng-card" id="league-stats-card">
+        <h2>League stats</h2>
+        <p>Tap a column to sort. Tap again to flip.</p>
+        <div class="ng-seg ng-scat-seg" role="group" aria-label="Stat group"><button type="button" data-cat="Offense" aria-pressed="false">Offense</button><button type="button" data-cat="Passing" aria-pressed="false">Passing</button><button type="button" data-cat="Rushing" aria-pressed="false">Rushing</button><button type="button" data-cat="Defense" aria-pressed="false">Defense</button><button type="button" data-cat="PassD" aria-pressed="false">Pass D</button><button type="button" data-cat="RunD" aria-pressed="false">Run D</button><button type="button" data-cat="Special" aria-pressed="false">Special</button><button type="button" data-cat="Calls" aria-pressed="false">Play calls</button></div>
+        <div class="ng-scat" data-cat="Offense" hidden>
+          <div class="ng-tablewrap">
+            <table class="ng-table ng-tap ng-go-team ng-stat-table ng-freeze2" data-source="team_stats_wide" data-row-key="key">
+              <thead><tr><th data-field="r0" class="ng-num ng-rankcol">#</th><th data-field="team">Team</th><th data-field="v0" class="ng-num"><button type="button" class="ng-ssort" data-sort="0">Pts/G</button></th><th data-field="v1" class="ng-num"><button type="button" class="ng-ssort" data-sort="1">Yds/Play</button></th><th data-field="v4" class="ng-num"><button type="button" class="ng-ssort" data-sort="4">EPA/Play</button></th><th data-field="v5" class="ng-num"><button type="button" class="ng-ssort" data-sort="5">Success</button></th><th data-field="v6" class="ng-num"><button type="button" class="ng-ssort" data-sort="6">3rd Down</button></th><th data-field="v7" class="ng-num"><button type="button" class="ng-ssort" data-sort="7">Red Zone TD</button></th><th data-field="v22" class="ng-num"><button type="button" class="ng-ssort" data-sort="22">Big Plays</button></th><th data-field="v8" class="ng-num"><button type="button" class="ng-ssort" data-sort="8">Turnovers</button></th></tr></thead>
+              <tbody data-draw="stats-Offense"></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="ng-scat" data-cat="Passing" hidden>
+          <div class="ng-tablewrap">
+            <table class="ng-table ng-tap ng-go-team ng-stat-table ng-freeze2" data-source="team_stats_wide" data-row-key="key">
+              <thead><tr><th data-field="r2" class="ng-num ng-rankcol">#</th><th data-field="team">Team</th><th data-field="v2" class="ng-num"><button type="button" class="ng-ssort" data-sort="2">Pass Yds/G</button></th><th data-field="v300" class="ng-num"><button type="button" class="ng-ssort" data-sort="300">Yds/Dropback</button></th><th data-field="v301" class="ng-num"><button type="button" class="ng-ssort" data-sort="301">EPA/Dropback</button></th><th data-field="v302" class="ng-num"><button type="button" class="ng-ssort" data-sort="302">Success</button></th><th data-field="v303" class="ng-num"><button type="button" class="ng-ssort" data-sort="303">Comp %</button></th><th data-field="v304" class="ng-num"><button type="button" class="ng-ssort" data-sort="304">Pass TD</button></th><th data-field="v305" class="ng-num"><button type="button" class="ng-ssort" data-sort="305">INT</button></th><th data-field="v306" class="ng-num"><button type="button" class="ng-ssort" data-sort="306">Big Plays</button></th><th data-field="v9" class="ng-num"><button type="button" class="ng-ssort" data-sort="9">Sacks Allowed</button></th><th data-field="v10" class="ng-num"><button type="button" class="ng-ssort" data-sort="10">Pressure Allowed</button></th></tr></thead>
+              <tbody data-draw="stats-Passing"></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="ng-scat" data-cat="Rushing" hidden>
+          <div class="ng-tablewrap">
+            <table class="ng-table ng-tap ng-go-team ng-stat-table ng-freeze2" data-source="team_stats_wide" data-row-key="key">
+              <thead><tr><th data-field="r3" class="ng-num ng-rankcol">#</th><th data-field="team">Team</th><th data-field="v3" class="ng-num"><button type="button" class="ng-ssort" data-sort="3">Rush Yds/G</button></th><th data-field="v307" class="ng-num"><button type="button" class="ng-ssort" data-sort="307">Yds/Carry</button></th><th data-field="v308" class="ng-num"><button type="button" class="ng-ssort" data-sort="308">EPA/Run</button></th><th data-field="v309" class="ng-num"><button type="button" class="ng-ssort" data-sort="309">Success</button></th><th data-field="v310" class="ng-num"><button type="button" class="ng-ssort" data-sort="310">Rush TD</button></th><th data-field="v311" class="ng-num"><button type="button" class="ng-ssort" data-sort="311">Big Runs</button></th><th data-field="v312" class="ng-num"><button type="button" class="ng-ssort" data-sort="312">Stuffed</button></th></tr></thead>
+              <tbody data-draw="stats-Rushing"></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="ng-scat" data-cat="Defense" hidden>
+          <div class="ng-tablewrap">
+            <table class="ng-table ng-tap ng-go-team ng-stat-table ng-freeze2" data-source="team_stats_wide" data-row-key="key">
+              <thead><tr><th data-field="r11" class="ng-num ng-rankcol">#</th><th data-field="team">Team</th><th data-field="v11" class="ng-num"><button type="button" class="ng-ssort" data-sort="11">Pts Allowed</button></th><th data-field="v12" class="ng-num"><button type="button" class="ng-ssort" data-sort="12">Yds/Play</button></th><th data-field="v15" class="ng-num"><button type="button" class="ng-ssort" data-sort="15">EPA/Play</button></th><th data-field="v16" class="ng-num"><button type="button" class="ng-ssort" data-sort="16">Success</button></th><th data-field="v17" class="ng-num"><button type="button" class="ng-ssort" data-sort="17">3rd Down</button></th><th data-field="v18" class="ng-num"><button type="button" class="ng-ssort" data-sort="18">Red Zone TD</button></th><th data-field="v28" class="ng-num"><button type="button" class="ng-ssort" data-sort="28">Big Plays</button></th><th data-field="v19" class="ng-num"><button type="button" class="ng-ssort" data-sort="19">Takeaways</button></th></tr></thead>
+              <tbody data-draw="stats-Defense"></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="ng-scat" data-cat="PassD" hidden>
+          <div class="ng-tablewrap">
+            <table class="ng-table ng-tap ng-go-team ng-stat-table ng-freeze2" data-source="team_stats_wide" data-row-key="key">
+              <thead><tr><th data-field="r13" class="ng-num ng-rankcol">#</th><th data-field="team">Team</th><th data-field="v13" class="ng-num"><button type="button" class="ng-ssort" data-sort="13">Pass Yds/G</button></th><th data-field="v313" class="ng-num"><button type="button" class="ng-ssort" data-sort="313">Yds/Dropback</button></th><th data-field="v314" class="ng-num"><button type="button" class="ng-ssort" data-sort="314">EPA/Dropback</button></th><th data-field="v315" class="ng-num"><button type="button" class="ng-ssort" data-sort="315">Success</button></th><th data-field="v316" class="ng-num"><button type="button" class="ng-ssort" data-sort="316">Comp %</button></th><th data-field="v317" class="ng-num"><button type="button" class="ng-ssort" data-sort="317">Pass TD</button></th><th data-field="v318" class="ng-num"><button type="button" class="ng-ssort" data-sort="318">INT</button></th><th data-field="v319" class="ng-num"><button type="button" class="ng-ssort" data-sort="319">Big Plays</button></th><th data-field="v20" class="ng-num"><button type="button" class="ng-ssort" data-sort="20">Sacks</button></th><th data-field="v21" class="ng-num"><button type="button" class="ng-ssort" data-sort="21">Pressure</button></th></tr></thead>
+              <tbody data-draw="stats-PassD"></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="ng-scat" data-cat="RunD" hidden>
+          <div class="ng-tablewrap">
+            <table class="ng-table ng-tap ng-go-team ng-stat-table ng-freeze2" data-source="team_stats_wide" data-row-key="key">
+              <thead><tr><th data-field="r14" class="ng-num ng-rankcol">#</th><th data-field="team">Team</th><th data-field="v14" class="ng-num"><button type="button" class="ng-ssort" data-sort="14">Rush Yds/G</button></th><th data-field="v320" class="ng-num"><button type="button" class="ng-ssort" data-sort="320">Yds/Carry</button></th><th data-field="v321" class="ng-num"><button type="button" class="ng-ssort" data-sort="321">EPA/Run</button></th><th data-field="v322" class="ng-num"><button type="button" class="ng-ssort" data-sort="322">Success</button></th><th data-field="v323" class="ng-num"><button type="button" class="ng-ssort" data-sort="323">Rush TD</button></th><th data-field="v324" class="ng-num"><button type="button" class="ng-ssort" data-sort="324">Big Runs</button></th><th data-field="v325" class="ng-num"><button type="button" class="ng-ssort" data-sort="325">Stuffed</button></th></tr></thead>
+              <tbody data-draw="stats-RunD"></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="ng-scat" data-cat="Special" hidden>
+          <div class="ng-tablewrap">
+            <table class="ng-table ng-tap ng-go-team ng-stat-table ng-freeze2" data-source="team_stats_wide" data-row-key="key">
+              <thead><tr><th data-field="r31" class="ng-num ng-rankcol">#</th><th data-field="team">Team</th><th data-field="v31" class="ng-num"><button type="button" class="ng-ssort" data-sort="31">FG %</button></th><th data-field="v32" class="ng-num"><button type="button" class="ng-ssort" data-sort="32">Net Punt</button></th><th data-field="v33" class="ng-num"><button type="button" class="ng-ssort" data-sort="33">ST Pts/G</button></th></tr></thead>
+              <tbody data-draw="stats-Special"></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="ng-scat" data-cat="Calls" hidden>
+          <div class="ng-tablewrap">
+            <table class="ng-table ng-tap ng-go-team ng-stat-table ng-freeze2" data-source="team_stats_wide" data-row-key="key">
+              <thead><tr><th data-field="r24" class="ng-num ng-rankcol">#</th><th data-field="team">Team</th><th data-field="v24" class="ng-num"><button type="button" class="ng-ssort" data-sort="24">Pass Lean</button></th><th data-field="v25" class="ng-num"><button type="button" class="ng-ssort" data-sort="25">Throw Depth</button></th><th data-field="v26" class="ng-num"><button type="button" class="ng-ssort" data-sort="26">Time to Throw</button></th><th data-field="v212" class="ng-num"><button type="button" class="ng-ssort" data-sort="212">Play Action</button></th><th data-field="v214" class="ng-num"><button type="button" class="ng-ssort" data-sort="214">Motion</button></th><th data-field="v215" class="ng-num"><button type="button" class="ng-ssort" data-sort="215">Screens</button></th><th data-field="v27" class="ng-num"><button type="button" class="ng-ssort" data-sort="27">4th & Short Go</button></th><th data-field="v209" class="ng-num"><button type="button" class="ng-ssort" data-sort="209">Goal-Line Pass</button></th></tr></thead>
+              <tbody data-draw="stats-Calls"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ng-tv" data-view="coach" hidden>
+      <div class="ng-card" id="coach-card">
+        <h2>Coaching and play calling</h2>
+        <p>Coaching = beating the Vegas spread 40%, play calling 35%, discipline 25%. Aggressiveness is just for fun.</p>
+        <div class="ng-tablewrap">
+          <table class="ng-table ng-tap ng-go-team ng-coach-table ng-freeze2" data-source="coaching" data-row-key="key">
+            <thead><tr>
+              <th data-field="coach_rank" class="ng-num"><button type="button" class="ng-csort" data-sort="coach_rank">Coaching</button></th>
+              <th data-field="team" class=""><button type="button" class="ng-csort" data-sort="team">Team</button></th>
+              <th data-field="playcall_rank" class="ng-num"><button type="button" class="ng-csort" data-sort="playcall_rank">Play calling</button></th>
+              <th data-field="ats_rank" class="ng-num"><button type="button" class="ng-csort" data-sort="ats_rank">Spread</button></th>
+              <th data-field="discipline_rank" class="ng-num"><button type="button" class="ng-csort" data-sort="discipline_rank">Discipline</button></th>
+              <th data-field="aggressive_rank" class="ng-num ng-wide"><button type="button" class="ng-csort" data-sort="aggressive_rank">Aggressive</button></th>
+              <th data-field="vs_vegas_txt" class="ng-num ng-wide"><button type="button" class="ng-csort" data-sort="vs_vegas_txt">vs Vegas</button></th>
+              <th data-field="close_txt" class=" ng-wide"><button type="button" class="ng-csort" data-sort="close_txt">Close games</button></th>
+            </tr></thead>
+            <tbody data-draw="coach-rows"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="ng-tv" data-view="chart" hidden>
+      <div class="ng-card" id="team-scatter-card">
+        <h2>Offense rank vs. defense rank</h2>
+        <p>Top right is good at both. Tap a team; pinch or use the buttons to zoom.</p>
+        <div class="ng-zoombar">
+          <button type="button" class="ng-zoom" data-zoom="in" aria-label="Zoom in">+</button>
+          <button type="button" class="ng-zoom" data-zoom="out" aria-label="Zoom out">−</button>
+          <button type="button" class="ng-zoom" data-zoom="reset">Reset</button>
+        </div>
+        <div class="ng-chart ng-chart-tall" data-draw="team-scatter" data-source="team_season" id="team-scatter"></div>
+        <div class="ng-pick">
+          <div data-draw="scatter-pick" data-source="team_season"></div>
+          <p class="ng-note ng-pick-hint">Tap any team in the chart.</p>
+          <button type="button" class="ng-more ng-open-team" disabled>Open team page →</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== ONE TEAM ===================== -->
+  <section class="ng-page" data-page="team" id="team" hidden>
+    <button type="button" class="ng-back">← Back</button>
+    <div class="ng-hero" data-draw="team-hero" data-source="team_season"></div>
+    <div class="ng-kpis">
+      <div class="ng-kpi"><div class="ng-kl">Power</div><div class="ng-kv">#<span data-draw="tk-power" data-source="team_season" data-field="power_rank">—</span></div></div>
+      <div class="ng-kpi"><div class="ng-kl">Off</div><div class="ng-kv">#<span data-draw="tk-off-r" data-source="team_season" data-field="off_rank">—</span></div></div>
+      <div class="ng-kpi"><div class="ng-kl">Def</div><div class="ng-kv">#<span data-draw="tk-def-r" data-source="team_season" data-field="def_rank">—</span></div></div>
+      <div class="ng-kpi"><div class="ng-kl">ST</div><div class="ng-kv">#<span data-draw="tk-st-r" data-source="team_season" data-field="st_rank">—</span></div></div>
+      <div class="ng-kpi"><div class="ng-kl">Roster</div><div class="ng-kv">#<span data-draw="tk-roster" data-source="team_season" data-field="roster_rank">—</span></div></div>
+    </div>
+    <div class="ng-card" id="team-lineup-card">
+      <h2>Starting lineup (healthy players)</h2>
+      <p class="ng-lineup-key">Rank at his position: <span class="ng-key"><span class="ng-dot ng-dot-top"></span>Top 25%</span><span class="ng-key"><span class="ng-dot ng-dot-mid"></span>Middle</span><span class="ng-key"><span class="ng-dot ng-dot-low"></span>Bottom 25%</span><span class="ng-key"><span class="ng-dot ng-dot-none"></span>Not ranked</span></p>
+      <h3 class="ng-h3">Offense</h3>
+      <div class="ng-field" data-draw="lineup-off" data-source="roster"></div>
+      <h3 class="ng-h3">Defense</h3>
+      <div class="ng-field" data-draw="lineup-def" data-source="roster"></div>
+    </div>
+    <div class="ng-grid">
+      <div class="ng-card" id="team-next-card">
+        <h2>Next game prediction</h2>
+        <div class="ng-next" data-draw="team-next" data-source="team_season"></div>
+        <p class="ng-note">A prediction, not a result: our own line from our power rankings plus home field. Minus = favored to win by that many, plus = expected to lose by that many. On past games it picked the winner about 64% of the time and missed the final margin by about 10 points on average.</p>
+      </div>
+    </div>
+    <div class="ng-card" id="team-roster-card">
+      <h2>Roster</h2>
+      <p>Starters plus the main backups. Snaps = share of the unit's snaps. Tap a player.</p>
+        <h3 class="ng-h3">Offense</h3>
+        <div class="ng-tablewrap">
+          <table class="ng-table ng-tap ng-go-player ng-freeze2" data-source="roster" data-row-key="key">
+            <thead><tr><th data-field="pos">Pos</th><th data-field="player">Player</th><th data-field="role">Role</th><th data-field="starts" class="ng-num ng-wide">Starts</th><th data-field="snap_pct" class="ng-num">Snaps</th><th data-field="rank" class="ng-num">Rank</th></tr></thead>
+            <tbody data-draw="roster-Offense"></tbody>
+          </table>
+        </div>
+        <h3 class="ng-h3">Defense</h3>
+        <div class="ng-tablewrap">
+          <table class="ng-table ng-tap ng-go-player ng-freeze2" data-source="roster" data-row-key="key">
+            <thead><tr><th data-field="pos">Pos</th><th data-field="player">Player</th><th data-field="role">Role</th><th data-field="starts" class="ng-num ng-wide">Starts</th><th data-field="snap_pct" class="ng-num">Snaps</th><th data-field="rank" class="ng-num">Rank</th></tr></thead>
+            <tbody data-draw="roster-Defense"></tbody>
+          </table>
+        </div>
+        <h3 class="ng-h3">Special teams</h3>
+        <div class="ng-tablewrap">
+          <table class="ng-table ng-tap ng-go-player ng-freeze2" data-source="roster" data-row-key="key">
+            <thead><tr><th data-field="pos">Pos</th><th data-field="player">Player</th><th data-field="role">Role</th><th data-field="starts" class="ng-num ng-wide">Starts</th><th data-field="snap_pct" class="ng-num">Snaps</th><th data-field="rank" class="ng-num">Rank</th></tr></thead>
+            <tbody data-draw="roster-Special"></tbody>
+          </table>
+        </div>
+    </div>
+    <div class="ng-card" id="team-sos-card">
+      <h2>Strength of schedule</h2>
+      <p>#1 is the hardest schedule, using our power rankings.</p>
+      <div class="ng-rt" data-draw="team-sos" data-source="team_season"></div>
+      <div class="ng-scroll">
+        <table class="ng-table ng-tap ng-go-team ng-freeze2" data-source="schedule" data-row-key="key">
+          <thead><tr><th data-field="week" class="ng-num">Wk</th><th data-field="opp">Opp</th><th data-field="ha">Where</th><th data-field="result">Result</th><th data-field="opp_power_rank" class="ng-num">Opp rank</th></tr></thead>
+          <tbody data-draw="team-schedule"></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="ng-card" id="team-coach-card">
+      <h2>Coaching</h2>
+      <div class="ng-rt ng-rt-big" data-draw="team-coach-top" data-source="coaching"></div>
+      <details class="ng-more-box">
+        <summary>More coaching numbers</summary>
+        <div class="ng-rt" data-draw="team-coach" data-source="team_stats"></div>
+      </details>
+    </div>
+    <div class="ng-card" id="team-stats-card">
+      <h2>Team stats</h2>
+      <p>Rank out of 32. #1 is best.</p>
+      <h3 class="ng-h3">Offense</h3>
+      <div class="ng-rt" data-draw="tstat-Offense" data-source="team_stats"></div>
+      <h3 class="ng-h3">Passing</h3>
+      <div class="ng-rt" data-draw="tstat-PassO" data-source="team_stats"></div>
+      <h3 class="ng-h3">Rushing</h3>
+      <div class="ng-rt" data-draw="tstat-RunO" data-source="team_stats"></div>
+      <h3 class="ng-h3">Defense</h3>
+      <div class="ng-rt" data-draw="tstat-Defense" data-source="team_stats"></div>
+      <h3 class="ng-h3">Pass defense</h3>
+      <div class="ng-rt" data-draw="tstat-PassD" data-source="team_stats"></div>
+      <h3 class="ng-h3">Run defense</h3>
+      <div class="ng-rt" data-draw="tstat-RunD" data-source="team_stats"></div>
+      <h3 class="ng-h3">Special teams</h3>
+      <div class="ng-rt" data-draw="tstat-Special" data-source="team_stats"></div>
+    </div>
+  </section>
+
+  <!-- ===================== PLAYERS ===================== -->
+  <section class="ng-page" data-page="players" id="players" hidden>
+    <h1 class="ng-page-title">Players</h1>
+    <div class="ng-chips" role="group" aria-label="Position"><button type="button" data-pos="QB" aria-pressed="false">QB</button><button type="button" data-pos="RB" aria-pressed="false">RB</button><button type="button" data-pos="WR" aria-pressed="false">WR</button><button type="button" data-pos="TE" aria-pressed="false">TE</button><button type="button" data-pos="OT" aria-pressed="false">Tackle</button><button type="button" data-pos="OG" aria-pressed="false">Guard</button><button type="button" data-pos="C" aria-pressed="false">Center</button><button type="button" data-pos="EDGE" aria-pressed="false">Edge</button><button type="button" data-pos="IDL" aria-pressed="false">D-line</button><button type="button" data-pos="LB" aria-pressed="false">LB</button><button type="button" data-pos="CB" aria-pressed="false">CB</button><button type="button" data-pos="S" aria-pressed="false">Safety</button><button type="button" data-pos="K" aria-pressed="false">K</button><button type="button" data-pos="P" aria-pressed="false">P</button></div>
+    <div class="ng-search-row"><input class="ng-search" type="search" placeholder="Search a player or team" aria-label="Search players"></div>
+    <div class="ng-card" id="player-table-card">
+      <h2>Player rankings</h2>
+      <p class="ng-seasononly">Players with at least about half a starter's snaps. Tap a player for his stats.</p>
+      <p class="ng-wkonly" hidden>Ranks for that one week, among players who played enough snaps in the game. Tap a player for his season.</p>
+        <div class="ng-sb ng-wkonly" data-season="2026" hidden>
+          <div class="ng-scroll">
+            <table class="ng-table ng-tap ng-go-player" data-source="wk_2026" data-row-key="key">
+              <thead><tr><th data-field="rank" class="ng-num">#</th><th data-field="player">Player</th><th data-field="team">Team</th></tr></thead>
+              <tbody data-draw="wk-rows-2026"></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="ng-sb ng-wkonly" data-season="2025" hidden>
+          <div class="ng-scroll">
+            <table class="ng-table ng-tap ng-go-player" data-source="wk_2025" data-row-key="key">
+              <thead><tr><th data-field="rank" class="ng-num">#</th><th data-field="player">Player</th><th data-field="team">Team</th></tr></thead>
+              <tbody data-draw="wk-rows-2025"></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="ng-sb ng-wkonly" data-season="2024" hidden>
+          <div class="ng-scroll">
+            <table class="ng-table ng-tap ng-go-player" data-source="wk_2024" data-row-key="key">
+              <thead><tr><th data-field="rank" class="ng-num">#</th><th data-field="player">Player</th><th data-field="team">Team</th></tr></thead>
+              <tbody data-draw="wk-rows-2024"></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="ng-sb ng-wkonly" data-season="2023" hidden>
+          <div class="ng-scroll">
+            <table class="ng-table ng-tap ng-go-player" data-source="wk_2023" data-row-key="key">
+              <thead><tr><th data-field="rank" class="ng-num">#</th><th data-field="player">Player</th><th data-field="team">Team</th></tr></thead>
+              <tbody data-draw="wk-rows-2023"></tbody>
+            </table>
+          </div>
+        </div>
+      <div class="ng-scroll ng-seasononly">
+        <table class="ng-table ng-tap ng-go-player ng-freeze2" data-source="player_season" data-row-key="key">
+          <thead><tr><th data-field="rank" class="ng-num">#</th><th data-field="player">Player</th><th data-field="team">Team</th></tr></thead>
+          <tbody data-draw="player-rows"></tbody>
+        </table>
+      </div>
+      <details class="ng-more-box ng-seasononly">
+        <summary>Limited snaps (not ranked)</summary>
+        <p class="ng-note">Backups and players who've barely played. They get a rank once they've played enough to judge. Listed best first.</p>
+        <table class="ng-table ng-tap ng-go-player ng-freeze1" data-source="player_season" data-row-key="key">
+          <thead><tr><th data-field="player">Player</th><th data-field="team">Team</th></tr></thead>
+          <tbody data-draw="player-rows-limited"></tbody>
+        </table>
+      </details>
+    </div>
+  </section>
+
+  <!-- ===================== ONE PLAYER ===================== -->
+  <section class="ng-page" data-page="player" id="player" hidden>
+    <button type="button" class="ng-back">← Back</button>
+    <div class="ng-hero" data-draw="player-hero" data-source="player_season"></div>
+    <div class="ng-kpis ng-player-kpis">
+      <div class="ng-kpi"><div class="ng-kl">Rank at position</div><div class="ng-kv">#<span data-draw="pk-rank" data-source="player_season" data-field="rank">—</span></div><div class="ng-kr">of <span data-draw="pk-pool" data-source="player_season" data-field="pool">—</span> ranked</div></div>
+    </div>
+    <p class="ng-note ng-unranked" hidden>Not ranked yet: he hasn't played enough snaps to judge. His stats are below.</p>
+    <div class="ng-grid">
+      <div class="ng-card" id="player-stats-card">
+        <h2>Stats and our ranks</h2>
+        <p>#1 is best at his position (for totals like yards, #1 is the most).</p>
+        <div class="ng-sb" data-season="2026" data-scope="regular" hidden>
+          <h3 class="ng-h3">What drives his rank</h3>
+          <div class="ng-rt" data-draw="pst-2026-r-grade" data-source="ps_2026_r"></div>
+          <h3 class="ng-h3">Season stats</h3>
+          <div class="ng-rt" data-draw="pst-2026-r-box" data-source="ps_2026_r"></div>
+        </div>
+        <div class="ng-sb" data-season="2025" data-scope="regular" hidden>
+          <h3 class="ng-h3">What drives his rank</h3>
+          <div class="ng-rt" data-draw="pst-2025-r-grade" data-source="ps_2025_r"></div>
+          <h3 class="ng-h3">Season stats</h3>
+          <div class="ng-rt" data-draw="pst-2025-r-box" data-source="ps_2025_r"></div>
+        </div>
+        <div class="ng-sb" data-season="2025" data-scope="with_playoffs" hidden>
+          <h3 class="ng-h3">What drives his rank</h3>
+          <div class="ng-rt" data-draw="pst-2025-p-grade" data-source="ps_2025_p"></div>
+          <h3 class="ng-h3">Season stats</h3>
+          <div class="ng-rt" data-draw="pst-2025-p-box" data-source="ps_2025_p"></div>
+        </div>
+        <div class="ng-sb" data-season="2024" data-scope="regular" hidden>
+          <h3 class="ng-h3">What drives his rank</h3>
+          <div class="ng-rt" data-draw="pst-2024-r-grade" data-source="ps_2024_r"></div>
+          <h3 class="ng-h3">Season stats</h3>
+          <div class="ng-rt" data-draw="pst-2024-r-box" data-source="ps_2024_r"></div>
+        </div>
+        <div class="ng-sb" data-season="2024" data-scope="with_playoffs" hidden>
+          <h3 class="ng-h3">What drives his rank</h3>
+          <div class="ng-rt" data-draw="pst-2024-p-grade" data-source="ps_2024_p"></div>
+          <h3 class="ng-h3">Season stats</h3>
+          <div class="ng-rt" data-draw="pst-2024-p-box" data-source="ps_2024_p"></div>
+        </div>
+        <div class="ng-sb" data-season="2023" data-scope="regular" hidden>
+          <h3 class="ng-h3">What drives his rank</h3>
+          <div class="ng-rt" data-draw="pst-2023-r-grade" data-source="ps_2023_r"></div>
+          <h3 class="ng-h3">Season stats</h3>
+          <div class="ng-rt" data-draw="pst-2023-r-box" data-source="ps_2023_r"></div>
+        </div>
+        <div class="ng-sb" data-season="2023" data-scope="with_playoffs" hidden>
+          <h3 class="ng-h3">What drives his rank</h3>
+          <div class="ng-rt" data-draw="pst-2023-p-grade" data-source="ps_2023_p"></div>
+          <h3 class="ng-h3">Season stats</h3>
+          <div class="ng-rt" data-draw="pst-2023-p-box" data-source="ps_2023_p"></div>
+        </div>
+      </div>
+      <div class="ng-card" id="player-trend-card">
+        <h2>Week by week</h2>
+        <p>His rank at his position each week (higher is better). Tap a week on the chart or a week button to see that game's stats.</p>
+        <div class="ng-sb" data-season="2026" hidden><div class="ng-chart" data-draw="ptrend-2026" data-source="pw_2026"></div><div class="ng-weekpick" data-draw="pweek-2026" data-source="pwk_2026"></div></div>
+        <div class="ng-sb" data-season="2025" hidden><div class="ng-chart" data-draw="ptrend-2025" data-source="pw_2025"></div><div class="ng-weekpick" data-draw="pweek-2025" data-source="pwk_2025"></div></div>
+        <div class="ng-sb" data-season="2024" hidden><div class="ng-chart" data-draw="ptrend-2024" data-source="pw_2024"></div><div class="ng-weekpick" data-draw="pweek-2024" data-source="pwk_2024"></div></div>
+        <div class="ng-sb" data-season="2023" hidden><div class="ng-chart" data-draw="ptrend-2023" data-source="pw_2023"></div><div class="ng-weekpick" data-draw="pweek-2023" data-source="pwk_2023"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FUN FACTS ===================== -->
+  <section class="ng-page" data-page="facts" id="facts" hidden>
+    <button type="button" class="ng-back">← Back</button>
+    <h1 class="ng-page-title">Fun facts</h1>
+    <p class="ng-lede">Fun facts and deeper numbers from the season you picked, all pulled from the same data as the grades.</p>
+    <div class="ng-card" id="facts-teams"><h2>Teams</h2><div class="ng-facts" data-draw="facts-Teams" data-source="fun_facts"></div></div>
+    <div class="ng-card" id="facts-players"><h2>Players</h2><div class="ng-facts" data-draw="facts-Players" data-source="fun_facts"></div></div>
+    <div class="ng-card" id="facts-coaching"><h2>Coaching</h2><div class="ng-facts" data-draw="facts-Coaching" data-source="fun_facts"></div></div>
+    <div class="ng-card" id="facts-games"><h2>Games</h2><div class="ng-facts" data-draw="facts-Games" data-source="fun_facts"></div></div>
+  </section>
+
+  <!-- ===================== MORE (settings + how it works) ===================== -->
+  <section class="ng-page" data-page="more" id="more" hidden>
+    <h1 class="ng-page-title">More</h1>
+    <div class="ng-card" id="extras">
+      <h2>Extras</h2>
+      <button type="button" class="ng-row-btn" data-go="facts"><span>Fun facts</span><span aria-hidden="true">›</span></button>
+    </div>
+    <div class="ng-card" id="pick-record">
+      <h2>Our prediction record</h2>
+      <p>If you had taken every pick the app made before each game (our line using only what we knew the week before), this is how it would have gone. Ties don't count.</p>
+      <div class="ng-rt" data-draw="pick-total" data-source="pick_record"></div>
+      <h3 class="ng-h3">By week (season picked at the top)</h3>
+      <div class="ng-tablewrap">
+        <table class="ng-table" data-source="pick_record" data-row-key="key">
+          <thead><tr><th data-field="week" class="ng-num">Week</th><th data-field="record">Record</th><th data-field="pct" class="ng-num">Right</th></tr></thead>
+          <tbody data-draw="pick-weeks"></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="ng-card" id="settings">
+      <h2>Settings</h2>
+      <p>Saved on this device only.</p>
+      <div class="ng-set">
+        <div class="ng-set-row"><span>Theme</span>
+          <div class="ng-seg ng-set-theme" role="group" aria-label="Theme">
+            <button type="button" data-val="system">System</button><button type="button" data-val="light">Light</button><button type="button" data-val="dark">Dark</button>
+          </div></div>
+        <div class="ng-set-row"><span>Look</span>
+          <div class="ng-seg ng-set-look" role="group" aria-label="Look">
+            <button type="button" data-val="clean">Clean</button><button type="button" data-val="broadcast">Broadcast</button><button type="button" data-val="cards">Cards</button>
+          </div></div>
+        <div class="ng-set-row"><span>Text size</span>
+          <div class="ng-seg ng-set-size" role="group" aria-label="Text size">
+            <button type="button" data-val="normal">Standard</button><button type="button" data-val="large">Large</button>
+          </div></div>
+        <div class="ng-set-row"><span>Rank colors</span>
+          <div class="ng-seg ng-set-colors" role="group" aria-label="Rank colors">
+            <button type="button" data-val="on">On</button><button type="button" data-val="off">Off</button>
+          </div></div>
+        <div class="ng-set-row"><span>Favorite team</span>
+          <select class="ng-set-fav" aria-label="Favorite team"><option value="">None</option><option value="ARI">ARI</option><option value="ATL">ATL</option><option value="BAL">BAL</option><option value="BUF">BUF</option><option value="CAR">CAR</option><option value="CHI">CHI</option><option value="CIN">CIN</option><option value="CLE">CLE</option><option value="DAL">DAL</option><option value="DEN">DEN</option><option value="DET">DET</option><option value="GB">GB</option><option value="HOU">HOU</option><option value="IND">IND</option><option value="JAX">JAX</option><option value="KC">KC</option><option value="LV">LV</option><option value="LAC">LAC</option><option value="LA">LA</option><option value="MIA">MIA</option><option value="MIN">MIN</option><option value="NE">NE</option><option value="NO">NO</option><option value="NYG">NYG</option><option value="NYJ">NYJ</option><option value="PHI">PHI</option><option value="PIT">PIT</option><option value="SF">SF</option><option value="SEA">SEA</option><option value="TB">TB</option><option value="TEN">TEN</option><option value="WAS">WAS</option></select></div>
+        <div class="ng-set-row"><span>Open the app on</span>
+          <div class="ng-seg ng-set-start" role="group" aria-label="Start page">
+            <button type="button" data-val="home">Team rankings</button><button type="button" data-val="fav">My team</button>
+          </div></div>
+        <button type="button" class="ng-more ng-set-reset">Reset settings</button>
+      </div>
+    </div>
+
+    <div class="ng-card ng-prose" id="about-how">
+      <h2>How the grades work</h2>
+      <p>Every grade is built only from free, public football data. Nothing is copied from any paid grading service.</p>
+      <ul>
+        <li><b>Ranks first:</b> behind every rank is a grade built from the stats below; the app shows the rank because that's what means something.</li>
+        <li><b>What goes in:</b> the stats that best separate good players from bad at each position, like points added per play for quarterbacks, yards per route for receivers, pressure rate for pass rushers and passer rating allowed for corners. Tap any player to see exactly which pieces make up his grade.</li>
+        <li><b>Who gets ranked:</b> everyone who played gets a grade, but only players with at least about half a starter's workload get a rank. A backup with a few snaps is listed separately and his grade is pulled toward a typical backup's.</li>
+        <li><b>Each season stands alone.</b> "With playoffs" adds a finished season's postseason games.</li>
+        <li><b>Coaching:</b> aggressiveness compares 4th-down decisions with what the rest of the league does in the same spot and counts timid punts; play calling looks at early-down efficiency, play-action payoff and predictability; "beat expectations" compares wins with the Vegas lines. None of it can tell who actually called a play.</li>
+        <li><b>Teams:</b> offense, defense and special teams are measured in points added per play, adjusted for the strength of the opponents faced.</li>
+        <li><b>Limits:</b> offensive line grades are estimates, because free data doesn't say which lineman allowed a pressure. Tight end blocking isn't graded yet.</li>
+      </ul>
+      <p class="ng-note">Data: nflverse play-by-play, FTN Data via nflverse (CC-BY-SA 4.0), NFL Next Gen Stats and Pro Football Reference.</p>
+    </div>
+    <div class="ng-card" id="about-check">
+      <h2>Sanity check against the experts (2025)</h2>
+      <p>We compare against PFF's published 2025 top lists and the AP All-Pro teams (names only). Agreement: 0 is no better than random, 1 is every expert pick near our top.</p>
+      <div class="ng-scroll">
+        <table class="ng-table ng-freeze1" data-source="direction_check" data-row-key="pos">
+          <thead><tr><th data-field="pos">Pos</th><th data-field="experts_found" class="ng-num">Expert picks</th><th data-field="hits" class="ng-num">Near our top</th><th data-field="random_hits" class="ng-num">Random would get</th><th data-field="agreement" class="ng-num">Agreement</th><th data-field="status">Status</th></tr></thead>
+          <tbody data-draw="exp-summary"></tbody>
+        </table>
+      </div>
+      <h3 class="ng-h3">Where each expert pick landed</h3>
+      <div class="ng-scroll">
+        <table class="ng-table ng-freeze3" data-source="expert_picks" data-row-key="key">
+          <thead><tr><th data-field="pos">Pos</th><th data-field="expert_order" class="ng-num">Their order</th><th data-field="player">Player</th><th data-field="our_rank" class="ng-num">Our rank</th><th data-field="pool" class="ng-num">Of</th></tr></thead>
+          <tbody data-draw="exp-picks"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+  <nav class="ng-bottom" aria-label="Main">
+    <button type="button" data-go="teams"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6l7-3z"/></svg>Teams</button>
+    <button type="button" data-go="players"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg>Players</button>
+    <button type="button" data-go="more"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg>More</button>
+  </nav>
+</div>
+<script>
+  // ================= shared =================
+  const NG = window.NG = { teamSort: 'power_rank', teamDir: 1, q: '' };
+  NG.TC = { ARI: ['#97233F', '#fff'], ATL: ['#A71930', '#fff'], BAL: ['#241773', '#fff'], BUF: ['#00338D', '#fff'], CAR: ['#0085CA', '#fff'], CHI: ['#0B162A', '#fff'], CIN: ['#FB4F14', '#000'], CLE: ['#311D00', '#FF3C00'], DAL: ['#003594', '#fff'], DEN: ['#FB4F14', '#002244'], DET: ['#0076B6', '#fff'], GB: ['#203731', '#FFB612'], HOU: ['#03202F', '#fff'], IND: ['#002C5F', '#fff'], JAX: ['#006778', '#fff'], KC: ['#E31837', '#fff'], LV: ['#000000', '#A5ACAF'], LAC: ['#0080C6', '#FFC20E'], LA: ['#003594', '#FFD100'], MIA: ['#008E97', '#fff'], MIN: ['#4F2683', '#FFC62F'], NE: ['#002244', '#fff'], NO: ['#D3BC8D', '#101820'], NYG: ['#0B2265', '#fff'], NYJ: ['#125740', '#fff'], PHI: ['#004C54', '#fff'], PIT: ['#FFB612', '#101820'], SF: ['#AA0000', '#fff'], SEA: ['#002244', '#69BE28'], TB: ['#D50A0A', '#fff'], TEN: ['#4B92DB', '#0C2340'], WAS: ['#5A1414', '#FFB612'] };
+  NG.TN = { ARI: 'Arizona Cardinals', ATL: 'Atlanta Falcons', BAL: 'Baltimore Ravens', BUF: 'Buffalo Bills', CAR: 'Carolina Panthers', CHI: 'Chicago Bears', CIN: 'Cincinnati Bengals', CLE: 'Cleveland Browns', DAL: 'Dallas Cowboys', DEN: 'Denver Broncos', DET: 'Detroit Lions', GB: 'Green Bay Packers', HOU: 'Houston Texans', IND: 'Indianapolis Colts', JAX: 'Jacksonville Jaguars', KC: 'Kansas City Chiefs', LV: 'Las Vegas Raiders', LAC: 'Los Angeles Chargers', LA: 'Los Angeles Rams', MIA: 'Miami Dolphins', MIN: 'Minnesota Vikings', NE: 'New England Patriots', NO: 'New Orleans Saints', NYG: 'New York Giants', NYJ: 'New York Jets', PHI: 'Philadelphia Eagles', PIT: 'Pittsburgh Steelers', SF: 'San Francisco 49ers', SEA: 'Seattle Seahawks', TB: 'Tampa Bay Buccaneers', TEN: 'Tennessee Titans', WAS: 'Washington Commanders' };
+  NG.POS = { QB: 'Quarterback', RB: 'Running back', WR: 'Wide receiver', TE: 'Tight end', OT: 'Offensive tackle', OG: 'Guard', C: 'Center', EDGE: 'Edge rusher', IDL: 'Interior D-line', LB: 'Linebacker', CB: 'Cornerback', S: 'Safety', K: 'Kicker', P: 'Punter' };
+  NG.color = (t) => (NG.TC[t] || ['var(--cds-chart-muted)', 'var(--color-fg)'])[0];
+  NG.badge = (t) => {
+    const s = document.createElement('span'); s.className = 'ng-badge'; s.textContent = t;
+    const c = NG.TC[t]; if (c) { s.style.background = c[0]; s.style.color = c[1]; }
+    return s;
+  };
+  NG.p = () => {
+    const p = dash.params();
+    return { season: String(p.season ?? '2026'), scope: p.scope ?? 'regular', tab: (!p.tab || p.tab === 'home') ? 'teams' : p.tab, pos: p.pos ?? 'QB',
+             team: p.team ?? null, player: p.player ?? null, tview: p.tview ?? 'list', scat: p.scat ?? 'Offense', week: p.week ? String(p.week) : null };
+  };
+  NG.hasPlayoffs = (season) => {
+    const d = dash.data('team_season');
+    return d.status === 'ok' && d.data.some((r) => r.season === season && r.scope === 'with_playoffs');
+  };
+  NG.scope = () => { const p = NG.p(); return NG.hasPlayoffs(p.season) ? p.scope : 'regular'; };
+  NG.enc = (v) => encodeURIComponent(String(v));
+  NG.where = (el, key) => el.setAttribute('data-where', 'key=' + NG.enc(key));
+  NG.teamRows = () => {
+    const d = dash.data('team_season'), p = NG.p(), sc = NG.scope();
+    if (d.status !== 'ok') return null;
+    return d.data.filter((r) => r.season === p.season && r.scope === sc);
+  };
+  NG.pickTeam = (rows) => {
+    const p = NG.p();
+    if (p.team && rows.some((r) => r.team === p.team)) return p.team;
+    const best = rows.slice().sort((a, b) => +a.power_rank - +b.power_rank)[0];
+    return best ? best.team : null;
+  };
+  NG.teamRow = () => { const rows = NG.teamRows(); if (!rows) return null; const t = NG.pickTeam(rows); return rows.find((r) => r.team === t) || null; };
+  NG.playerPool = () => {
+    const d = dash.data('player_season'), p = NG.p(), sc = NG.scope();
+    if (d.status !== 'ok') return null;
+    // ranked players first by rank, then players with limited snaps by grade
+    return d.data.filter((r) => r.season === p.season && r.scope === sc && r.pos === p.pos)
+      .sort((a, b) => (a.rank && b.rank ? +a.rank - +b.rank : a.rank ? -1 : b.rank ? 1 : +a.order - +b.order));
+  };
+  NG.pickPlayer = (pool) => { const p = NG.p(); return pool.find((r) => r.gsis_id === p.player) || pool[0] || null; };
+  const curPlayer = () => { const pool = NG.playerPool(); return pool ? NG.pickPlayer(pool) : null; };
+  NG.gradeClass = (g) => (+g >= 80 ? 'ng-hi' : +g < 60 ? 'ng-lo' : '');
+  NG.rankClass = (r, of) => { if (!r || !of) return ''; const q = +r / +of; return q <= 0.1 ? 'ng-hi' : q > 0.9 ? 'ng-lo' : ''; };
+  NG.hist = [];
+  NG.go = (tab, extra) => {
+    const cur = NG.p();
+    if (tab !== cur.tab || (extra && (extra.team !== cur.team || extra.player !== cur.player))) NG.hist.push({ tab: cur.tab, team: cur.team, player: cur.player, pos: cur.pos });
+    if (NG.hist.length > 30) NG.hist.shift();
+    dash.setParams({ tab, ...(extra || {}) }); dash.setLink(tab);
+    document.querySelectorAll('#nfl-grades').forEach((el) => el.scrollIntoView({ block: 'start' }));
+  };
+  NG.measure = (svg, texts) => {
+    let w = 0;
+    texts.forEach((t) => { const n = svg.append('text').style('font-size', 'var(--cds-font-size-caption)').text(t); w = Math.max(w, n.node().getComputedTextLength()); n.remove(); });
+    return w;
+  };
+  NG.tip = (el) => {
+    let t = el.querySelector('.ng-tip');
+    if (!t) { t = document.createElement('div'); t.className = 'ng-tip'; t.hidden = true; el.append(t); }
+    return {
+      show(x, y, head, lines) {
+        t.replaceChildren();
+        const h = document.createElement('div'); h.className = 'ng-tip-h'; h.textContent = head; t.append(h);
+        lines.forEach((l) => { const d = document.createElement('div'); d.textContent = l; t.append(d); });
+        t.hidden = false;
+        const W = el.clientWidth;
+        t.style.left = Math.max(0, Math.min(W - t.offsetWidth, x + 12)) + 'px';
+        t.style.top = Math.max(0, y - t.offsetHeight - 8) + 'px';
+      },
+      hide() { t.hidden = true; },
+    };
+  };
+  NG.axis = (g) => g.attr('font-size', null).attr('font-family', null)
+    .call((s) => s.selectAll('text').attr('fill', 'var(--color-fg-muted)').style('font-size', 'var(--cds-font-size-caption)'))
+    .call((s) => s.selectAll('line,path').attr('stroke', 'var(--cds-chart-axis)'));
+  NG.SHORT = {"Points per game": "Points/game", "Yards per play": "Yards/play", "Passing yards per game": "Pass yds/game", "Rushing yards per game": "Rush yds/game", "Points added per play (EPA)": "EPA/play", "3rd-down conversion rate": "3rd down %", "Red-zone TD rate": "Red zone TD %", "Pressure rate allowed": "Pressure allowed", "Explosive play rate": "Big plays", "Early-down EPA per play": "Early-down EPA", "Pass rate over expected": "Pass-heavy", "Average depth of target (yds)": "Throw depth", "QB time to throw (sec)": "Time to throw", "Go-for-it rate on 4th and 1-2": "4th & short go %", "Points allowed per game": "Points allowed", "Yards per play allowed": "Yards/play allowed", "Passing yards allowed per game": "Pass yds allowed", "Rushing yards allowed per game": "Rush yds allowed", "Points added per play allowed (EPA)": "EPA allowed", "Success rate allowed": "Success allowed", "3rd-down conversion rate allowed": "3rd down % allowed", "Red-zone TD rate allowed": "Red zone TD % allowed", "Explosive plays allowed rate": "Big plays allowed", "Early-down EPA allowed per play": "Early-down EPA allowed", "Field goal %": "FG %", "Net punt average": "Net punt avg", "Special teams points added per game": "ST points/game", "Wins above expected (luck)": "Close-game luck", "Aggressiveness rank (4th downs + punts)": "Aggressiveness", "Play-calling rank": "Play calling", "Beat-expectations rank": "Beat expectations", "Go-for-it rate vs. league in same spots": "4th-down boldness", "Extra 4th-down tries vs. league": "Extra 4th-down tries", "4th-down conversion rate": "4th-down conversions", "Timid punts (surrender score 10+)": "Timid punts", "Average surrender score per punt": "Punt timidity", "Early-down pass rate vs. expected (neutral)": "Early-down pass lean", "Early-down EPA per play (neutral)": "Early-down EPA", "Pass rate inside the 3 on 1st/2nd down": "Goal-line pass %", "Pass rate inside the 3 vs. expected": "Goal-line pass lean", "Plays inside the 3 on 1st/2nd down": "Goal-line plays", "Play-action rate": "Play action %", "Play-action EPA boost": "Play-action boost", "Pre-snap motion rate": "Motion %", "Screen rate": "Screen %", "Predictability (shotgun vs under-center pass gap)": "Predictability", "Wins vs. Vegas expectations": "Wins vs Vegas", "Vegas-expected wins": "Vegas wins", "Record in one-score games": "One-score games", "Fumble recovery rate (all fumbles in its games)": "Fumble recoveries", "Starts (50%+ of snaps)": "Starts", "Completion %": "Comp %", "Passing yards": "Pass yds", "Passing TDs": "Pass TD", "Interceptions": "INT", "Yards per attempt": "Yds/att", "Rushing yards": "Rush yds", "Rushing TDs": "Rush TD", "Yards per carry": "Yds/carry", "Yards after contact": "After contact", "Receptions": "Catches", "Receiving yards": "Rec yds", "Receiving TDs": "Rec TD", "Yards per catch": "Yds/catch", "Yards after catch": "YAC", "Offensive snaps": "Snaps", "Defensive snaps": "Snaps", "Penalty yards": "Penalty yds", "Tackles for loss": "TFL", "Pass breakups": "Passes broken up", "Passer rating allowed": "Rating allowed", "FG attempts": "FG att", "50+ yard FGs made": "50+ FGs", "Extra points made": "XP made", "Extra point attempts": "XP att", "Gross average": "Gross avg", "Net average": "Net avg", "Inside the 20": "Inside 20", "Points added over an average QB": "Value vs avg QB", "Completion % over expected": "CPOE", "Interception-worthy throw rate": "Bad-throw rate", "Sacks he caused (rate)": "Sacks he caused", "Rush yards over expected per carry": "Yds over expected", "Receiving yards per route": "Rec yds/route", "Broken tackles per touch": "Broken tackle rate", "Yards per route run": "Yds/route", "Targets per route": "Targets/route", "Route share (role size)": "Route share", "Points added per target": "EPA/target", "Separation over expected (yds)": "Separation", "Catch rate over expected": "Catch rate +/-", "Yards after catch over expected": "YAC +/-", "Pressures allowed vs expected, per 100 pass snaps": "Pressures allowed", "Run success through his gaps vs expected": "Run blocking", "Run EPA through his gaps vs expected": "Run block EPA", "Penalty rate per snap": "Penalty rate", "Team offensive line grade": "Line quality", "Run stop rate": "Run stops", "Missed tackle rate": "Missed tackles", "Yards allowed per coverage snap": "Yds/cover snap", "Targets per coverage snap": "Targeted rate", "Yards allowed per target": "Yds/target", "Completions allowed over expected": "Catches +/-", "YAC allowed per catch": "YAC allowed", "Plays on the ball (INT + PBU) rate": "Ball plays", "Plays on the ball per coverage snap": "Ball plays", "Points over expected per kick": "Kick value", "Points added per punt": "EPA/punt", "Inside-20 rate": "Inside-20 %"};
+  Object.assign(NG.SHORT, { 'Yards per dropback': 'Yds/dropback', 'EPA per dropback': 'EPA/dropback', 'Pass success rate': 'Success', 'Big pass plays (20+ yds)': 'Big plays',
+    'Yards per carry': 'Yds/carry', 'EPA per run': 'EPA/run', 'Run success rate': 'Success', 'Big runs (10+ yds)': 'Big runs', 'Stuffed (0 or fewer yds)': 'Stuffed',
+    'Yards per dropback allowed': 'Yds/dropback', 'EPA per dropback allowed': 'EPA/dropback', 'Pass success rate allowed': 'Success allowed', 'Completion % allowed': 'Comp % allowed',
+    'Passing TDs allowed': 'Pass TDs', 'Interceptions made': 'INTs', 'Big pass plays (20+ yds) allowed': 'Big plays', 'Yards per carry allowed': 'Yds/carry',
+    'EPA per run allowed': 'EPA/run', 'Run success rate allowed': 'Success allowed', 'Rushing TDs allowed': 'Rush TDs', 'Big runs (10+ yds) allowed': 'Big runs', 'Runs stuffed': 'Stuffed' });
+  NG.short = (label) => { const l = String(label).replace(/\s*\(\d+% of grade\)$/, ''); return NG.SHORT[l] || l; };
+  // one tile: label, big rank (or the value when there is no rank), small value
+  NG.tile = (label, rank, of, value) => {
+    const t = document.createElement('div'); t.className = 'ng-rtile ' + (rank ? NG.rankClass(rank, of) : '');
+    const l = document.createElement('div'); l.className = 'ng-rl'; l.textContent = label; l.title = label;
+    const r = document.createElement('div'); r.className = 'ng-rr'; r.textContent = rank ? '#' + rank : (value || '—');
+    t.append(l, r);
+    if (rank && value) { const v = document.createElement('div'); v.className = 'ng-rv'; v.textContent = value; t.append(v); }
+    return t;
+  };
+  NG.cells = (tr, row, fields, numeric, of) => fields.forEach((f) => {
+    const td = document.createElement('td');
+    if (f === 'team' && row.team) td.append(NG.badge(row.team)); else td.textContent = row[f];
+    const cls = [];
+    if (numeric.includes(f)) cls.push('ng-num');
+    if (f.endsWith('rank')) cls.push(NG.rankClass(row[f], of || row.pool || 32));
+    td.className = cls.filter(Boolean).join(' ');
+    tr.append(td);
+  });
+
+  // ================= settings (this device only) =================
+  NG.settings = (() => { try { return JSON.parse(localStorage.getItem('ng-settings') || '{}'); } catch (e) { return {}; } })();
+  NG.saveSettings = () => { try { localStorage.setItem('ng-settings', JSON.stringify(NG.settings)); } catch (e) { /* storage off: settings last this visit */ } };
+  NG.applySettings = () => {
+    const st = NG.settings;
+    document.querySelectorAll('#nfl-grades').forEach((root) => {
+      if (st.theme === 'light' || st.theme === 'dark') root.setAttribute('data-theme', st.theme); else root.removeAttribute('data-theme');
+      root.setAttribute('data-size', st.size || 'normal');
+      root.setAttribute('data-colors', st.colors || 'on');
+      root.setAttribute('data-look', st.look || 'clean');
+      root.style.setProperty('--ng-fav', st.fav ? NG.color(st.fav) : 'transparent');
+    });
+    const pressed = (sel, val) => document.querySelectorAll(sel + ' button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.val === val)));
+    pressed('.ng-set-theme', st.theme || 'system'); pressed('.ng-set-size', st.size || 'normal');
+    pressed('.ng-set-colors', st.colors || 'on'); pressed('.ng-set-start', st.start || 'home'); pressed('.ng-set-look', st.look || 'clean');
+    document.querySelectorAll('.ng-set-fav').forEach((s) => { s.value = st.fav || ''; });
+    document.querySelectorAll('.ng-fav-empty, .ng-fav-set').forEach((n) => { n.hidden = !!st.fav; });
+    document.querySelectorAll('.ng-fav-open').forEach((n) => { n.hidden = !st.fav; });
+  };
+  [['.ng-set-theme', 'theme'], ['.ng-set-size', 'size'], ['.ng-set-colors', 'colors'], ['.ng-set-start', 'start'], ['.ng-set-look', 'look']].forEach(([sel, k]) =>
+    document.querySelectorAll(sel + ' button').forEach((b) => b.addEventListener('click', () => {
+      NG.settings[k] = b.dataset.val; NG.saveSettings(); NG.applySettings();
+      if (k !== 'start') ['team-scatter', 'team-trend', 'ptrend-2023', 'ptrend-2024', 'ptrend-2025', 'ptrend-2026'].forEach((n) => dash.draw(n));
+    })));
+  document.querySelectorAll('.ng-set-fav').forEach((s) => s.addEventListener('change', () => {
+    NG.settings.fav = s.value || undefined; NG.saveSettings(); NG.applySettings();
+    ['home-fav', 'home-power', 'team-rows'].forEach((n) => dash.draw(n));
+  }));
+  document.querySelectorAll('.ng-set-reset').forEach((b) => b.addEventListener('click', () => {
+    NG.settings = {}; NG.saveSettings(); NG.applySettings(); ['home-fav', 'home-power', 'team-rows'].forEach((n) => dash.draw(n));
+  }));
+  document.querySelectorAll('.ng-fav-open').forEach((b) => b.addEventListener('click', () => { if (NG.settings.fav) NG.go('team', { team: NG.settings.fav }); }));
+  NG.applySettings();
+  // Label each table cell with its column name and give each row its team color, so the Cards and Broadcast looks can use them.
+  NG.finishRows = (tb) => {
+    const table = tb.closest('table'); if (!table) return;
+    const labels = [...table.querySelectorAll('thead th')].map((th) => th.textContent.trim());
+    tb.querySelectorAll('tr').forEach((tr) => {
+      [...tr.children].forEach((td, i) => { if (labels[i] !== undefined) td.setAttribute('data-label', labels[i]); });
+      const t = tr.dataset.team || (tr.querySelector('.ng-badge') || {}).textContent || ((tb.dataset.draw || '').startsWith('roster-') ? (NG.teamRow() || {}).team : null);
+      if (t && NG.TC[t]) tr.style.setProperty('--team', NG.color(t));
+    });
+  };
+  new MutationObserver((muts) => { const seen = new Set(); muts.forEach((m) => { const tb = m.target.closest && m.target.closest('tbody'); if (tb && !seen.has(tb)) { seen.add(tb); NG.finishRows(tb); } }); })
+    .observe(document.getElementById('nfl-grades'), { childList: true, subtree: true });
+
+  // ================= controls =================
+  document.querySelectorAll('[data-go]').forEach((b) => b.addEventListener('click', () => NG.go(b.dataset.go)));
+  document.querySelectorAll('.ng-back').forEach((b) => b.addEventListener('click', () => {
+    const prev = NG.hist.pop();
+    const fallback = { team: 'teams', player: 'players' }[NG.p().tab] || 'teams';
+    if (prev && prev.tab !== NG.p().tab) { dash.setParams(prev); dash.setLink(prev.tab); }
+    else if (prev) { dash.setParams(prev); }
+    else NG.go(fallback);
+    document.querySelectorAll('#nfl-grades').forEach((el) => el.scrollIntoView({ block: 'start' }));
+  }));
+  document.querySelectorAll('.ng-seg button[data-view]').forEach((b) => b.addEventListener('click', () => dash.setParams({ tview: b.dataset.view })));
+  document.querySelectorAll('.ng-scat-seg button').forEach((b) => b.addEventListener('click', () => dash.setParams({ scat: b.dataset.cat })));
+  NG.sel = null;   // team picked in the chart (a tap selects; it never navigates)
+  document.querySelectorAll('.ng-zoom').forEach((b) => b.addEventListener('click', () => {
+    if (!NG.zoom) return;
+    const z = NG.zoom;
+    if (b.dataset.zoom === 'reset') z.svg.transition().duration(250).call(z.beh.transform, d3.zoomIdentity);
+    else z.svg.transition().duration(250).call(z.beh.scaleBy, b.dataset.zoom === 'in' ? 1.6 : 1 / 1.6);
+  }));
+  document.querySelectorAll('.ng-open-team').forEach((b) => b.addEventListener('click', () => { if (NG.sel) NG.go('team', { team: NG.sel }); }));
+  document.querySelectorAll('.ng-chips button').forEach((b) => b.addEventListener('click', () => dash.setParams({ pos: b.dataset.pos, player: null })));
+  document.querySelectorAll('.ng-search').forEach((s) => s.addEventListener('input', () => { NG.q = s.value.trim().toLowerCase(); dash.draw('player-rows'); }));
+  document.querySelectorAll('.ng-team-table').forEach((t) => t.addEventListener('click', (e) => {
+    const b = e.target.closest('.ng-sort'); if (!b) return;
+    e.stopPropagation();
+    const k = b.dataset.sort;
+    NG.teamDir = NG.teamSort === k ? -NG.teamDir : 1;
+    if (k === 'record' && NG.teamSort !== k) NG.teamDir = -1;
+    NG.teamSort = k;
+    t.querySelectorAll('th').forEach((th) => th.setAttribute('aria-sort', th.dataset.field === k ? (NG.teamDir > 0 ? 'ascending' : 'descending') : 'none'));
+    dash.draw('team-rows');
+  }, true));
+  document.querySelectorAll('.ng-go-team').forEach((t) => t.addEventListener('click', (e) => {
+    const tr = e.target.closest('tr[data-team]'); if (tr) NG.go('team', { team: tr.dataset.team });
+  }));
+  document.querySelectorAll('.ng-go-player').forEach((t) => t.addEventListener('click', (e) => {
+    const tr = e.target.closest('tr[data-pid]'); if (tr) NG.go('player', { pos: tr.dataset.pos, player: tr.dataset.pid });
+  }));
+
+  dash.onData(() => {
+    const p = NG.p(), sc = NG.scope(), po = NG.hasPlayoffs(p.season);
+    document.querySelectorAll('.ng-page').forEach((s) => { s.hidden = s.dataset.page !== p.tab; });
+    const parent = { team: 'teams', player: 'players', facts: 'more' }[p.tab] || p.tab;
+    document.querySelectorAll('.ng-bottom button').forEach((b) => (b.dataset.go === parent ? b.setAttribute('aria-current', 'page') : b.removeAttribute('aria-current')));
+    document.querySelectorAll('.ng-sb:not(.ng-wkonly)').forEach((b) => { b.hidden = !(b.dataset.season === p.season && (!b.dataset.scope || b.dataset.scope === sc)); });
+    document.querySelectorAll('.ng-chips button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.pos === p.pos)));
+    document.querySelectorAll('.ng-seg button[data-view]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.view === p.tview)));
+    document.querySelectorAll('.ng-tv').forEach((b) => { b.hidden = b.dataset.view !== p.tview; });
+    document.querySelectorAll('.ng-scat').forEach((b) => { b.hidden = b.dataset.cat !== p.scat; });
+    document.querySelectorAll('.ng-scat-seg button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.cat === p.scat)));
+    const wkMode = !!p.week && (p.tab === 'players' || p.tab === 'teams');
+    document.querySelectorAll('.ng-wkonly').forEach((n) => { if (!n.classList.contains('ng-sb')) n.hidden = !wkMode; });
+    document.querySelectorAll('.ng-sb.ng-wkonly').forEach((n) => { n.hidden = !(wkMode && n.dataset.season === p.season); });
+    document.querySelectorAll('.ng-seasononly').forEach((n) => { n.hidden = wkMode; });
+    if (p.tab === 'player') { const r = curPlayer(); document.querySelectorAll('.ng-unranked').forEach((n) => { n.hidden = !(r && !r.rank); }); }
+    document.querySelectorAll('.ng-pick-hint').forEach((n) => { n.hidden = !!NG.sel; });
+    document.querySelectorAll('.ng-open-team').forEach((n) => { n.disabled = !NG.sel; });
+  });
+
+  // ================= header =================
+  dash.draw('season', (sel) => {
+    const d = dash.data('team_season'), p = NG.p();
+    const seasons = d.status === 'ok' ? [...new Set(d.data.map((r) => r.season))].sort().reverse() : [];
+    sel.replaceChildren(...seasons.map((s) => new Option(s, s)));
+    sel.value = p.season;
+    sel.onchange = () => dash.setParams({ season: sel.value, team: null, player: null, week: null });
+  });
+  dash.draw('view', (sel) => {
+    const d = dash.data('team_week'), p = NG.p();
+    const weeks = d.status === 'ok' ? [...new Set(d.data.filter((r) => r.season === p.season).map((r) => +r.week))].sort((a, b) => a - b) : [];
+    const opts = [new Option('Season', 'regular')];
+    if (NG.hasPlayoffs(p.season)) opts.push(new Option('+ Playoffs', 'with_playoffs'));
+    weeks.forEach((w) => opts.push(new Option(w === 0 ? 'Preseason' : 'Wk ' + w, 'w' + w)));
+    sel.replaceChildren(...opts);
+    sel.value = p.week ? 'w' + p.week : NG.scope();
+    sel.onchange = () => (sel.value[0] === 'w' ? dash.setParams({ week: sel.value.slice(1), scope: 'regular' }) : dash.setParams({ week: null, scope: sel.value }));
+  });
+  const topRow = () => { const rows = NG.teamRows(); return rows && rows.length ? rows.slice().sort((a, b) => +a.overall_rank - +b.overall_rank)[0] : null; };
+
+  // ================= home =================
+  const factCard = (r) => {
+    const c = document.createElement('div'); c.className = 'ng-fact'; c.style.borderLeftColor = NG.color(r.team);
+    const h = document.createElement('div'); h.className = 'ng-fh'; h.textContent = r.title;
+    const t = document.createElement('div'); t.className = 'ng-ft'; t.textContent = r.text;
+    c.append(h, t); return c;
+  };
+  ['Teams', 'Players', 'Coaching', 'Games'].forEach((cat) => dash.draw('facts-' + cat, (el) => {
+    el.replaceChildren();
+    const d = dash.data('fun_facts'), p = NG.p(); if (d.status !== 'ok') return;
+    d.data.filter((r) => r.season === p.season && r.cat === cat).forEach((r) => el.append(factCard(r)));
+  }));
+
+  // ================= teams =================
+  const TEAM_FIELDS = ['power_rank', 'team', 'record', 'next_txt', 'pd_txt', 'off_rank', 'def_rank', 'st_rank', 'roster_rank', 'pass_off_rank', 'run_off_rank', 'pass_def_rank', 'run_def_rank', 'sos_rank'];
+  const WIDE = new Set(['st_rank', 'roster_rank', 'pass_off_rank', 'run_off_rank', 'pass_def_rank', 'run_def_rank', 'sos_rank']);
+  dash.draw('team-rows', (tb) => {
+    tb.replaceChildren();
+    const rows = NG.teamRows(); if (!rows) return;
+    const k = NG.teamSort;
+    const wins = (r) => { const [w, l, t] = r.record.split('-').map(Number); return w + 0.5 * (t || 0) - 0.001 * l; };
+    const val = (r) => (k === 'pd_txt' ? -parseInt(r.pd_txt, 10) : +r[k]);
+    rows.slice().sort((a, b) => NG.teamDir * (k === 'team' ? a.team.localeCompare(b.team) : k === 'next_txt' ? String(b.next_txt).localeCompare(String(a.next_txt)) : k === 'record' ? wins(b) - wins(a) : (val(a) - val(b)))).forEach((r) => {
+      const tr = document.createElement('tr'); tr.dataset.key = r.key; tr.dataset.team = r.team;
+      if (r.team === NG.settings.fav) tr.className = 'ng-fav';
+      NG.cells(tr, r, TEAM_FIELDS, TEAM_FIELDS.filter((f) => f !== 'team' && f !== 'record' && f !== 'next_txt'), 32);
+      tr.querySelectorAll('td').forEach((td, i) => { if (WIDE.has(TEAM_FIELDS[i])) td.classList.add('ng-wide'); });
+      tb.append(tr);
+    });
+  });
+  dash.draw('team-scatter', (el) => {
+    el.replaceChildren();
+    const rows = NG.teamRows(); if (!rows || !rows.length) return;
+    const W = el.clientWidth, H = Math.max(340, Math.min(560, W * 0.9));
+    const svg = d3.select(el).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`).attr('role', 'img').attr('aria-label', 'Offense grade vs defense grade by team');
+    const ml = NG.measure(svg, ['#32']) + 22, mr = 28, mt = 26, mb = 42;
+    const x0 = d3.scaleLinear([34.5, -0.5], [ml, W - mr]), y0 = d3.scaleLinear([34.5, -0.5], [H - mb, mt]);
+    const clipId = 'ng-clip-' + Math.random().toString(36).slice(2);
+    svg.append('defs').append('clipPath').attr('id', clipId).append('rect').attr('x', ml).attr('y', mt).attr('width', W - ml - mr).attr('height', H - mt - mb);
+    const gx = svg.append('g').attr('transform', `translate(0,${H - mb})`), gy = svg.append('g').attr('transform', `translate(${ml},0)`);
+    svg.append('text').attr('x', W - mr).attr('y', H - 6).attr('text-anchor', 'end').attr('fill', 'var(--color-fg-muted)').style('font-size', 'var(--cds-font-size-caption)').text('Better offense →');
+    svg.append('text').attr('x', ml + 6).attr('y', mt - 4).attr('fill', 'var(--color-fg-muted)').style('font-size', 'var(--cds-font-size-caption)').text('↑ Better defense');
+    const plot = svg.append('g').attr('clip-path', `url(#${clipId})`);
+    const vx = plot.append('line').attr('stroke', 'var(--cds-chart-reference)').attr('stroke-dasharray', '4 4');
+    const hy = plot.append('line').attr('stroke', 'var(--cds-chart-reference)').attr('stroke-dasharray', '4 4');
+    const dots = plot.append('g').selectAll('g').data(rows).join('g').style('cursor', 'pointer')
+      .on('click', (ev, r) => { NG.sel = NG.sel === r.team ? null : r.team; dash.draw('scatter-pick'); paint();
+        document.querySelectorAll('.ng-pick-hint').forEach((n) => { n.hidden = !!NG.sel; });
+        document.querySelectorAll('.ng-open-team').forEach((n) => { n.disabled = !NG.sel; }); });
+    dots.append('circle').attr('r', 14).attr('stroke-width', 2);
+    dots.append('text').attr('text-anchor', 'middle').attr('dy', '0.35em').style('font-size', '9px').style('font-weight', 700).style('pointer-events', 'none').text((r) => r.team);
+    const paint = () => {
+      dots.select('circle').attr('fill', (r) => NG.color(r.team)).attr('opacity', (r) => (!NG.sel || r.team === NG.sel ? 1 : 0.35))
+        .attr('stroke', (r) => (r.team === NG.sel ? 'var(--color-fg)' : 'var(--color-panel)'));
+      dots.select('text').attr('fill', (r) => (NG.TC[r.team] || [0, '#fff'])[1]).attr('opacity', (r) => (!NG.sel || r.team === NG.sel ? 1 : 0.5));
+      dots.filter((r) => r.team === NG.sel).raise();
+    };
+    const place = (t) => {
+      const x = t.rescaleX(x0), y = t.rescaleY(y0);
+      const tv = [32, 24, 16, 8, 1];
+      gx.call(d3.axisBottom(x).tickValues(tv.filter((v) => v >= x.domain()[1] && v <= x.domain()[0])).tickFormat((d) => '#' + d)).call(NG.axis);
+      gy.call(d3.axisLeft(y).tickValues(tv.filter((v) => v >= y.domain()[1] && v <= y.domain()[0])).tickFormat((d) => '#' + d)).call(NG.axis);
+      vx.attr('x1', x(16.5)).attr('x2', x(16.5)).attr('y1', mt).attr('y2', H - mb);
+      hy.attr('x1', ml).attr('x2', W - mr).attr('y1', y(16.5)).attr('y2', y(16.5));
+      dots.attr('transform', (r) => `translate(${x(+r.off_rank)},${y(+r.def_rank)})`);
+    };
+    const beh = d3.zoom().scaleExtent([1, 8]).extent([[ml, mt], [W - mr, H - mb]]).translateExtent([[ml, mt], [W - mr, H - mb]])
+      .filter((ev) => (ev.type === 'wheel' ? ev.ctrlKey || ev.metaKey : ev.touches ? ev.touches.length > 1 || (NG.zoomT && NG.zoomT.k > 1) : !ev.button))
+      .on('zoom', (ev) => { NG.zoomT = ev.transform; place(ev.transform); });
+    svg.call(beh).on('dblclick.zoom', null).style('touch-action', 'pan-y');
+    NG.zoom = { svg, beh };
+    const t0 = NG.zoomT || d3.zoomIdentity;
+    svg.call(beh.transform, t0);
+    place(t0); paint();
+  });
+  dash.draw('scatter-pick', (el) => {
+    el.replaceChildren();
+    const rows = NG.teamRows(); if (!rows || !NG.sel) return;
+    const r = rows.find((x) => x.team === NG.sel); if (!r) return;
+    const row = document.createElement('div'); row.className = 'ng-pick-row';
+    const nm = document.createElement('b'); nm.textContent = NG.TN[r.team] || r.team;
+    const parts = [`${r.record}`, `Power #${r.power_rank}`, `Offense #${r.off_rank}`, `Defense #${r.def_rank}`, `Special teams #${r.st_rank}`];
+    row.append(NG.badge(r.team), nm, ...parts.map((t) => { const sp = document.createElement('span'); sp.textContent = t; return sp; }));
+    el.append(row);
+  });
+
+  dash.calc('team_stats_wide', { inputs: ['team_stats'], title: 'League team stats (one row per team)',
+    description: 'Team stats pivoted so each team is one row: v<n> is the value and r<n> the rank (1 = best) of stat number n.',
+    fn: (rows) => {
+      const by = new Map();
+      rows.forEach((r) => {
+        const k = `${r.season}|${r.scope}|${r.team}`;
+        if (!by.has(k)) by.set(k, { key: k, season: r.season, scope: r.scope, team: r.team });
+        const o = by.get(k); o['v' + r.ord] = r.value; o['r' + r.ord] = r.rank;
+      });
+      return [...by.values()];
+    } });
+  NG.ssort = {};
+  document.querySelectorAll('.ng-stat-table').forEach((t) => t.addEventListener('click', (e) => {
+    const b = e.target.closest('.ng-ssort'); if (!b) return;
+    e.stopPropagation();
+    const cat = t.closest('.ng-scat').dataset.cat;
+    const cur = NG.ssort[cat] || { ord: t.querySelectorAll('th')[2].dataset.field.slice(1), dir: 1 };
+    NG.ssort[cat] = { ord: b.dataset.sort, dir: cur.ord === b.dataset.sort ? -cur.dir : 1 };
+    t.querySelectorAll('th').forEach((th) => th.setAttribute('aria-sort', th.dataset.field === 'v' + b.dataset.sort ? (NG.ssort[cat].dir > 0 ? 'ascending' : 'descending') : 'none'));
+    t.querySelector('th.ng-rankcol').setAttribute('data-field', 'r' + b.dataset.sort);   // # shows the rank in the sorted stat
+    dash.draw('stats-' + cat);
+  }, true));
+  ['Offense', 'Passing', 'Rushing', 'Defense', 'PassD', 'RunD', 'Special', 'Calls'].forEach((cat) => dash.draw('stats-' + cat, (tb) => {
+    tb.replaceChildren();
+    const d = dash.data('team_stats_wide'), p = NG.p(), sc = NG.scope(); if (d.status !== 'ok') return;
+    const table = tb.closest('table');
+    const fields = [...table.querySelectorAll('th')].map((th) => th.dataset.field);
+    const first = fields[2].slice(1);
+    const srt = NG.ssort[cat] || { ord: first, dir: 1 };
+    d.data.filter((r) => r.season === p.season && r.scope === sc)
+      .sort((a, b) => srt.dir * ((+a['r' + srt.ord] || 99) - (+b['r' + srt.ord] || 99))).forEach((r) => {
+        const tr = document.createElement('tr'); tr.dataset.key = r.key; tr.dataset.team = r.team;
+        if (r.team === NG.settings.fav) tr.className = 'ng-fav';
+        fields.forEach((f) => {
+          const td = document.createElement('td');
+          if (f === 'team') td.append(NG.badge(r.team)); else if (f.startsWith('r')) { td.textContent = r['r' + srt.ord] ?? ''; td.className = 'ng-num ng-rankcell'; } else {
+            td.textContent = r[f] ?? '';
+            td.className = 'ng-num ' + NG.rankClass(r['r' + f.slice(1)], 32) + (f.slice(1) === srt.ord ? ' ng-sorted' : '');
+          }
+          tr.append(td);
+        });
+        tb.append(tr);
+      });
+  }));
+
+  // ================= one team =================
+  dash.draw('team-hero', (el) => {
+    el.replaceChildren();
+    const r = NG.teamRow(); if (!r) return;
+    const c = NG.TC[r.team] || ['#334155', '#fff'];
+    el.style.setProperty('--team-c', c[0]); el.style.setProperty('--team-t', c[1]); el.setAttribute('data-abbr', r.team);
+    const h = document.createElement('h2'); h.className = 'ng-hero-name'; h.textContent = NG.TN[r.team] || r.team;
+    const s = document.createElement('div'); s.className = 'ng-hero-sub';
+    s.textContent = `${r.record} · ${+r.point_diff > 0 ? '+' : ''}${r.point_diff} · ${r.season}${r.scope === 'regular' ? '' : ' incl. playoffs'}`;
+    const w = document.createElement('div'); w.append(h, s); el.append(w);
+  });
+  [['tk-power', 'power_rank'], ['tk-off-r', 'off_rank'], ['tk-def-r', 'def_rank'], ['tk-st-r', 'st_rank'], ['tk-roster', 'roster_rank']].forEach(([n, f]) =>
+    dash.draw(n, (el) => { const r = NG.teamRow(); el.textContent = r ? r[f] : '—'; if (r) NG.where(el, r.key); }));
+  ['Offense', 'Defense', 'Special'].forEach((u) => dash.draw('roster-' + u, (tb) => {
+    tb.replaceChildren();
+    const d = dash.data('roster'), r = NG.teamRow(); if (d.status !== 'ok' || !r) return;
+    const unit = u === 'Special' ? 'Special teams' : u;
+    d.data.filter((x) => x.season === r.season && x.team === r.team && x.unit === unit).sort((a, b) => +a.ord - +b.ord).forEach((x) => {
+      const tr = document.createElement('tr'); tr.dataset.key = x.key;
+      if (x.grade) { tr.dataset.pos = x.pos; tr.dataset.pid = x.gsis_id; }
+      NG.cells(tr, x, ['pos', 'player', 'role', 'starts', 'snap_pct', 'rank'], ['starts', 'snap_pct', 'rank'], 100);
+      const tds = tr.querySelectorAll('td'); tds[3].classList.add('ng-wide');
+      if (x.role !== 'Starter') tds[2].classList.add('ng-muted');
+      tb.append(tr);
+    });
+  }));
+  NG.COACH_SIDES = new Set(['Coaching', 'Play calling', 'Luck & expectations']);
+  NG.teamStatRows = () => {
+    const d = dash.data('team_stats'), r = NG.teamRow(); if (d.status !== 'ok' || !r) return null;
+    return d.data.filter((x) => x.season === r.season && x.scope === r.scope && x.team === r.team).sort((a, b) => +a.ord - +b.ord);
+  };
+  const HEAD3 = ['Aggressiveness rank (4th downs + punts)', 'Play-calling rank', 'Beat-expectations rank'];
+  dash.draw('team-coach-top', (el) => {
+    el.replaceChildren();
+    const d = dash.data('coaching'), r = NG.teamRow(); if (d.status !== 'ok' || !r) return;
+    const x = d.data.find((c) => c.season === r.season && c.scope === r.scope && c.team === r.team); if (!x) return;
+    [['Coaching', x.coach_rank, ''], ['Play calling', x.playcall_rank, ''], ['Beat the spread', x.ats_rank, x.ats_txt],
+     ['Discipline', x.discipline_rank, x.pen_txt], ['Aggressiveness (fun)', x.aggressive_rank, '']].forEach(([l, rk, v]) => el.append(NG.tile(l, rk, 32, v)));
+  });
+  dash.draw('team-coach', (el) => {
+    el.replaceChildren(); const rows = NG.teamStatRows(); if (!rows) return;
+    rows.filter((x) => (NG.COACH_SIDES.has(x.side) || x.side === 'Team') && !HEAD3.includes(x.stat)).forEach((x) => el.append(NG.tile(NG.short(x.stat), x.rank, 32, x.value)));
+  });
+  [['Offense', 'Offense'], ['Defense', 'Defense'], ['Special', 'Special teams'], ['PassO', 'Pass offense'], ['RunO', 'Run offense'], ['PassD', 'Pass defense'], ['RunD', 'Run defense']].forEach(([n, side]) => dash.draw('tstat-' + n, (el) => {
+    el.replaceChildren(); const rows = NG.teamStatRows(); if (!rows) return;
+    rows.filter((x) => x.side === side).forEach((x) => el.append(NG.tile(NG.short(x.stat), x.rank, 32, x.value)));
+  }));
+  NG.coachSort = 'coach_rank'; NG.coachDir = 1;
+  document.querySelectorAll('.ng-coach-table').forEach((t) => t.addEventListener('click', (e) => {
+    const b = e.target.closest('.ng-csort'); if (!b) return;
+    e.stopPropagation();
+    const k = b.dataset.sort;
+    NG.coachDir = NG.coachSort === k ? -NG.coachDir : 1; NG.coachSort = k;
+    t.querySelectorAll('th').forEach((th) => th.setAttribute('aria-sort', th.dataset.field === k ? (NG.coachDir > 0 ? 'ascending' : 'descending') : 'none'));
+    dash.draw('coach-rows');
+  }, true));
+  dash.draw('coach-rows', (tb) => {
+    tb.replaceChildren();
+    const d = dash.data('coaching'), p = NG.p(), sc = NG.scope(); if (d.status !== 'ok') return;
+    const k = NG.coachSort;
+    d.data.filter((x) => x.season === p.season && x.scope === sc)
+      .sort((a, b) => NG.coachDir * (k === 'team' ? a.team.localeCompare(b.team) : k === 'close_txt' ? (+b.close_txt.split('-')[0] - +a.close_txt.split('-')[0]) : k === 'vs_vegas_txt' ? (parseFloat(b.vs_vegas_txt) - parseFloat(a.vs_vegas_txt)) : (+a[k] - +b[k]))).forEach((x) => {
+        const tr = document.createElement('tr'); tr.dataset.key = x.key; tr.dataset.team = x.team;
+        if (x.team === NG.settings.fav) tr.className = 'ng-fav';
+        const F = ['coach_rank', 'team', 'playcall_rank', 'ats_rank', 'discipline_rank', 'aggressive_rank', 'vs_vegas_txt', 'close_txt'];
+        NG.cells(tr, x, F, F.filter((f) => f !== 'team' && f !== 'close_txt'), 32);
+        tr.querySelectorAll('td').forEach((td, i) => { if (i >= 5) td.classList.add('ng-wide'); });
+        tb.append(tr);
+      });
+  });
+  dash.draw('team-next', (el) => {
+    el.replaceChildren();
+    const r = NG.teamRow(); if (!r || !r.pick) return;
+    const pts = r.spread ? Math.abs(parseFloat(r.spread)) : 0;
+    const big = document.createElement('div'); big.className = 'ng-next-big ' + (r.pick === 'Win' ? 'ng-next-w' : r.pick === 'Loss' ? 'ng-next-l' : '');
+    big.textContent = r.pick === 'Bye' ? 'Bye week' : r.spread === '+0' ? 'Predicted: dead even' : `Predicted to ${r.pick === 'Win' ? 'win' : 'lose'} by ${pts}`;
+    const sub = document.createElement('div'); sub.className = 'ng-next-sub';
+    if (r.pick === 'Bye') sub.textContent = `Week ${r.next_week}: no game`;
+    else sub.append(`Week ${r.next_week} · ${r.ha === '@' ? 'at' : 'vs'} `, NG.badge(r.opp), ` · our line: ${r.team} ${r.spread} · ${r.chance} chance to win`);
+    el.append(big, sub);
+  });
+  dash.draw('pick-total', (el) => {
+    el.replaceChildren(); const d = dash.data('pick_record'); if (d.status !== 'ok') return;
+    d.data.filter((x) => x.week === '0').sort((a, b) => b.season.localeCompare(a.season)).forEach((x) => el.append(NG.tile(`${x.season} · ${x.pct} right`, null, null, x.record)));
+  });
+  dash.draw('pick-weeks', (tb) => {
+    tb.replaceChildren(); const d = dash.data('pick_record'), p = NG.p(); if (d.status !== 'ok') return;
+    d.data.filter((x) => x.season === p.season && x.week !== '0').sort((a, b) => +a.week - +b.week).forEach((x) => {
+      const tr = document.createElement('tr'); tr.dataset.key = x.key; NG.cells(tr, x, ['week', 'record', 'pct'], ['week', 'pct']); tb.append(tr);
+    });
+  });
+  dash.draw('team-sos', (el) => {
+    el.replaceChildren(); const r = NG.teamRow(); if (!r) return;
+    el.append(NG.tile('Schedule so far', r.sos_rank, 32, r.opp_record ? 'Opponents ' + r.opp_record : ''));
+    if (r.sos_left_rank) el.append(NG.tile('Remaining schedule', r.sos_left_rank, 32, r.left_record ? 'Opponents ' + r.left_record : ''));
+  });
+  dash.draw('team-schedule', (tb) => {
+    tb.replaceChildren();
+    const d = dash.data('schedule'), r = NG.teamRow(); if (d.status !== 'ok' || !r) return;
+    d.data.filter((x) => x.season === r.season && x.team === r.team).sort((a, b) => +a.week - +b.week).forEach((x) => {
+      const tr = document.createElement('tr'); tr.dataset.key = x.key; tr.dataset.team = x.opp;
+      const row = { ...x, team: undefined };
+      ['week', 'opp', 'ha', 'result', 'opp_power_rank'].forEach((f) => {
+        const td = document.createElement('td');
+        if (f === 'opp') td.append(NG.badge(x.opp)); else td.textContent = x[f];
+        if (f === 'week' || f === 'opp_power_rank') td.className = 'ng-num ' + (f === 'opp_power_rank' ? NG.rankClass(x[f], 32) : '');
+        if (f === 'result' && !x.result) td.className = 'ng-muted';
+        tr.append(td);
+      });
+      tb.append(tr);
+    });
+  });
+  // ---- starting lineup drawn like a play: every starter with our rank at his position ----
+  const SPOTS = {
+    off: { los: 0.30, spots: [['WR', 0.07, 0.30, 'WR'], ['OT', 0.30, 0.30, 'LT'], ['OG', 0.40, 0.30, 'LG'], ['C', 0.50, 0.30, 'C'], ['OG', 0.60, 0.30, 'RG'],
+                               ['OT', 0.70, 0.30, 'RT'], ['TE', 0.80, 0.34, 'TE'], ['WR', 0.93, 0.30, 'WR'], ['WR', 0.20, 0.44, 'SLOT'],
+                               ['QB', 0.50, 0.62, 'QB'], ['RB', 0.50, 0.85, 'RB']] },
+    def: { los: 0.80, spots: [['EDGE', 0.27, 0.74, 'EDGE'], ['IDL', 0.42, 0.74, 'DT'], ['IDL', 0.58, 0.74, 'DT'], ['EDGE', 0.73, 0.74, 'EDGE'],
+                               ['LB', 0.38, 0.52, 'LB'], ['LB', 0.62, 0.52, 'LB'], ['CB', 0.07, 0.66, 'CB'], ['CB', 0.93, 0.66, 'CB'],
+                               ['CB', 0.20, 0.52, 'NICKEL'], ['S', 0.34, 0.20, 'S'], ['S', 0.66, 0.20, 'S']] },
+  };
+  const drawLineup = (el, side) => {
+    el.replaceChildren();
+    const d = dash.data('roster'), ps = dash.data('player_season'), r = NG.teamRow(); if (d.status !== 'ok' || !r) return;
+    // healthy players only, in order of who has been playing most lately
+    const all = d.data.filter((x) => x.season === r.season && x.team === r.team);
+    const rows = all.filter((x) => x.avail !== '0').sort((a, b) => +a.cur_ord - +b.cur_ord || +a.ord - +b.ord);
+    const pools = {};
+    if (ps.status === 'ok') ps.data.forEach((x) => { if (x.season === r.season && x.scope === 'regular' && x.pool) pools[x.pos] = +x.pool; });
+    const used = {}, nodes = [];
+    SPOTS[side].spots.forEach(([pos, fx, fy, lab]) => {
+      const list = rows.filter((x) => x.pos === pos); const i = used[pos] || 0; used[pos] = i + 1;
+      const p = list[i]; if (!p) return;
+      const q = p.rank && pools[pos] ? +p.rank / pools[pos] : null;
+      nodes.push({ p, fx, fy, lab, q, tier: q === null ? 'none' : q <= 0.25 ? 'top' : q > 0.75 ? 'low' : 'mid' });
+    });
+    const W = el.clientWidth, H = Math.max(230, Math.round(W * 0.66)), R = Math.max(13, Math.min(19, W / 24));
+    const svg = d3.select(el).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`).attr('role', 'img')
+      .attr('aria-label', `${r.team} ${side === 'off' ? 'offense' : 'defense'} starters with position ranks`);
+    for (let i = 0; i < 8; i++) svg.append('rect').attr('x', 0).attr('y', (i * H) / 8).attr('width', W).attr('height', H / 8).attr('fill', i % 2 ? '#1d6a39' : '#21733f');
+    for (let i = 1; i < 8; i++) svg.append('line').attr('x1', 0).attr('x2', W).attr('y1', (i * H) / 8).attr('y2', (i * H) / 8).attr('stroke', '#fff').attr('stroke-opacity', 0.12);
+    const los = SPOTS[side].los * H;
+    svg.append('line').attr('x1', 0).attr('x2', W).attr('y1', los).attr('y2', los).attr('stroke', '#fff').attr('stroke-opacity', 0.7).attr('stroke-dasharray', '6 5');
+    const RING = { top: '#22c55e', mid: '#94a3b8', low: '#ef4444', none: '#64748b' };
+    const g = svg.append('g').selectAll('g').data(nodes).join('g').attr('transform', (n) => `translate(${n.fx * W},${n.fy * H})`)
+      .style('cursor', (n) => (n.p.grade ? 'pointer' : 'default'))
+      .on('click', (ev, n) => { if (n.p.grade) NG.go('player', { pos: n.p.pos, player: n.p.gsis_id }); });
+    g.append('circle').attr('r', R).attr('fill', '#fff').attr('stroke', (n) => RING[n.tier]).attr('stroke-width', 4);
+    g.append('text').attr('text-anchor', 'middle').attr('dy', '0.35em').style('font-family', 'var(--ng-cond)').style('font-weight', 700)
+      .style('font-size', `${Math.round(R * 0.9)}px`).attr('fill', '#0f172a').text((n) => (n.p.rank ? '#' + n.p.rank : '–'));
+    g.append('text').attr('text-anchor', 'middle').attr('y', -R - 4).style('font-size', '9px').style('font-weight', 700).style('letter-spacing', '.06em')
+      .attr('fill', '#fff').attr('fill-opacity', 0.85).text((n) => n.lab);
+    const STAGGER = new Set(['LG', 'RG']);   // the line is tight: drop every other lineman's name a row so names never collide
+    g.append('text').attr('text-anchor', 'middle').attr('y', (n) => R + (STAGGER.has(n.lab) ? 24 : 12)).style('font-size', '10.5px').style('font-weight', 600).attr('fill', '#fff')
+      .text((n) => { const parts = n.p.player.split(' '); let t = parts.length > 1 ? parts.slice(1).join(' ').replace(/ (Jr\.|Sr\.|II|III|IV)$/, '') : n.p.player;
+        return t.length > 9 ? t.slice(0, 8) + '…' : t; });
+    const sidePos = new Set(SPOTS[side].spots.map((x) => x[0]));
+    const outList = all.filter((x) => x.avail === '0' && sidePos.has(x.pos) && x.status);
+    if (outList.length) {
+      const o = document.createElement('p'); o.className = 'ng-lineup-note ng-lineup-out';
+      o.textContent = "Out: " + outList.map((x) => `${x.player} (${x.pos}: ${x.status})`).join(" · ");
+      el.append(o);
+    }
+    // Judge each position group against what a starter there should be: a team's best WR should be a top-32 WR,
+    // its second WR top-64, and so on. A group with nobody good is a bigger hole than one OK-but-not-great starter.
+    const GN = { QB: 'Quarterback', RB: 'Running back', WR: 'Wide receivers', TE: 'Tight end', OT: 'Tackles', OG: 'Guards', C: 'Center',
+                 EDGE: 'Edge rushers', IDL: 'Interior line', LB: 'Linebackers', CB: 'Cornerbacks', S: 'Safeties' };
+    const byPos = {};
+    nodes.forEach((n) => { (byPos[n.p.pos] = byPos[n.p.pos] || []).push(n); });
+    const groups = Object.entries(byPos).map(([pos, list]) => {
+      const pool = pools[pos] || 100;
+      const ranks = list.map((n) => (n.p.rank ? +n.p.rank : pool)).sort((a, b) => a - b);
+      const score = ranks.reduce((t, rk, i) => t + rk / (32 * (i + 1)), 0) / ranks.length;
+      return { pos, ranks, score, n: ranks.length };
+    });
+    if (groups.length) {
+      groups.sort((a, b) => b.score - a.score);
+      const w = groups[0], b = groups[groups.length - 1];
+      const note = document.createElement('p'); note.className = 'ng-lineup-note';
+      const best = w.ranks[0];
+      const need = w.n > 1 ? `a team's top ${w.pos} should be inside the top 32` : 'a starter should be inside the top 32';
+      note.textContent = w.score > 1
+        ? `Weakest group: ${GN[w.pos] || w.pos}. ${w.n > 1 ? 'Best is' : 'Ranked'} #${best} at ${w.pos}; ${need}. Strongest: ${GN[b.pos] || b.pos} (best #${b.ranks[0]}).`
+        : `No weak group: every starter is at or above what a starter at his spot should be. Strongest: ${GN[b.pos] || b.pos} (best #${b.ranks[0]}).`;
+      el.append(note);
+    }
+  };
+  dash.draw('lineup-off', (el) => drawLineup(el, 'off'));
+  dash.draw('lineup-def', (el) => drawLineup(el, 'def'));
+
+  dash.draw('team-trend', (el) => {
+    el.replaceChildren();
+    const wk = dash.data('team_week'), r = NG.teamRow(); if (wk.status !== 'ok' || !r) return;
+    const g = wk.data.filter((x) => x.season === r.season && x.team === r.team).map((x) => ({ ...x, w: +x.week })).sort((a, b) => a.w - b.w);
+    if (!g.length) return;
+    const series = [['Overall', 'overall_rank', 0], ['Offense', 'off_rank', 1], ['Defense', 'def_rank', 2]];
+    const W = el.clientWidth, H = 300;
+    const svg = d3.select(el).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`).attr('role', 'img').attr('aria-label', `${r.team} grades by week`);
+    const last = g[g.length - 1];
+    const ml = NG.measure(svg, ['#32']) + 12, mr = NG.measure(svg, series.map(([n, f]) => `${n} #${last[f]}`)) + 14, mt = 10, mb = 28;
+    const ext = d3.extent(g, (x) => x.w);
+    const x = d3.scaleLinear(ext[0] === ext[1] ? [ext[0] - 1, ext[1] + 1] : ext, [ml, W - mr]), y = d3.scaleLinear([32, 1], [H - mb, mt]);
+    svg.append('g').attr('transform', `translate(0,${H - mb})`).call(d3.axisBottom(x).ticks(Math.min(g.length, Math.floor(W / 50))).tickFormat((d) => (Number.isInteger(d) ? 'W' + d : ''))).call(NG.axis);
+    svg.append('g').attr('transform', `translate(${ml},0)`).call(d3.axisLeft(y).tickValues([32, 24, 16, 8, 1]).tickFormat((d) => '#' + d)).call(NG.axis);
+    svg.append('line').attr('x1', ml).attr('x2', W - mr).attr('y1', y(16.5)).attr('y2', y(16.5)).attr('stroke', 'var(--cds-chart-reference)').attr('stroke-dasharray', '4 4');
+    const ends = [];
+    series.forEach(([name, f, ci]) => {
+      const col = ci === 0 ? NG.color(r.team) : dash.colors[ci];
+      svg.append('path').datum(g).attr('d', d3.line().x((v) => x(v.w)).y((v) => y(+v[f]))).attr('fill', 'none').attr('stroke', col).attr('stroke-width', ci === 0 ? 3 : 1.5).attr('stroke-linecap', 'round').attr('stroke-linejoin', 'round').attr('opacity', ci === 0 ? 1 : 0.7);
+      svg.append('g').selectAll('circle').data(g).join('circle').attr('cx', (v) => x(v.w)).attr('cy', (v) => y(+v[f])).attr('r', ci === 0 ? 3.5 : 2).attr('fill', col);
+      ends.push({ name, v: last[f], y: y(+last[f]), col });
+    });
+    ends.sort((a, b) => a.y - b.y); for (let i = 1; i < ends.length; i++) ends[i].y = Math.max(ends[i].y, ends[i - 1].y + 14);
+    ends.forEach((e) => svg.append('text').attr('x', W - mr + 6).attr('y', e.y + 4).attr('fill', e.col).style('font-size', 'var(--cds-font-size-caption)').text(`${e.name} #${e.v}`));
+    const tip = NG.tip(el);
+    const rule = svg.append('line').attr('y1', mt).attr('y2', H - mb).attr('stroke', 'var(--cds-chart-axis)').attr('opacity', 0);
+    svg.append('rect').attr('x', ml).attr('y', mt).attr('width', Math.max(0, W - mr - ml)).attr('height', H - mb - mt).attr('fill', 'transparent')
+      .on('pointermove pointerdown', (ev) => { const [mx, my] = d3.pointer(ev, el); const v = g.reduce((a, b) => (Math.abs(x(b.w) - mx) < Math.abs(x(a.w) - mx) ? b : a)); rule.attr('x1', x(v.w)).attr('x2', x(v.w)).attr('opacity', 1); tip.show(x(v.w), my, `Week ${v.week} vs ${v.opp} · ${v.pf}-${v.pa}`, [`Overall #${v.overall_rank} of ${v.teams}`, `Offense #${v.off_rank}`, `Defense #${v.def_rank}`, `Special teams #${v.st_rank}`]); })
+      .on('pointerleave', () => { tip.hide(); rule.attr('opacity', 0); });
+  });
+
+  // ================= players =================
+  dash.draw('player-rows', (tb) => {
+    tb.replaceChildren();
+    const pool = NG.playerPool(); if (!pool) return;
+    const q = NG.q;
+    (q ? pool.filter((r) => (r.player + ' ' + r.team + ' ' + (NG.TN[r.team] || '')).toLowerCase().includes(q)) : pool).filter((r) => r.ranked === '1').forEach((r) => {
+      const tr = document.createElement('tr'); tr.dataset.key = r.key; tr.dataset.pos = r.pos; tr.dataset.pid = r.gsis_id;
+      NG.cells(tr, r, ['rank', 'player', 'team'], ['rank']);
+      tb.append(tr);
+    });
+  });
+
+  dash.draw('player-rows-limited', (tb) => {
+    tb.replaceChildren();
+    const pool = NG.playerPool(); if (!pool) return;
+    const q = NG.q;
+    pool.filter((r) => r.ranked !== '1' && (!q || (r.player + ' ' + r.team + ' ' + (NG.TN[r.team] || '')).toLowerCase().includes(q))).forEach((r) => {
+      const tr = document.createElement('tr'); tr.dataset.key = r.key; tr.dataset.pos = r.pos; tr.dataset.pid = r.gsis_id;
+      NG.cells(tr, r, ['player', 'team'], []);
+      tb.append(tr);
+    });
+  });
+  document.querySelectorAll('.ng-search').forEach((s) => s.addEventListener('input', () => dash.draw('player-rows-limited')));
+
+  const wkFn = (season) => (weeks, seasonRows) => {
+    const names = new Map(seasonRows.filter((r) => r.season === season && r.scope === 'regular').map((r) => [r.pos + '|' + r.gsis_id, r.player]));
+    return weeks.filter((r) => r.rank).map((r) => ({ key: `${r.week}|${r.pos}|${r.gsis_id}`, week: r.week, pos: r.pos, gsis_id: r.gsis_id,
+      player: names.get(r.pos + '|' + r.gsis_id) || r.gsis_id, team: r.team, rank: r.rank, pool: r.pool }));
+  };
+  dash.calc('wk_2026', { inputs: ['pw_2026', 'player_season'], title: 'Weekly ranks 2026', description: 'Each week\'s position ranks with player names.', fn: wkFn('2026') });
+  dash.calc('wk_2025', { inputs: ['pw_2025', 'player_season'], title: 'Weekly ranks 2025', description: 'Each week\'s position ranks with player names.', fn: wkFn('2025') });
+  dash.calc('wk_2024', { inputs: ['pw_2024', 'player_season'], title: 'Weekly ranks 2024', description: 'Each week\'s position ranks with player names.', fn: wkFn('2024') });
+  dash.calc('wk_2023', { inputs: ['pw_2023', 'player_season'], title: 'Weekly ranks 2023', description: 'Each week\'s position ranks with player names.', fn: wkFn('2023') });
+  ['2026', '2025', '2024', '2023'].forEach((s) => dash.draw('wk-rows-' + s, (tb) => {
+    tb.replaceChildren();
+    const d = dash.data('wk_' + s), p = NG.p(); if (d.status !== 'ok' || !p.week) return;
+    const q = NG.q;
+    d.data.filter((r) => r.week === p.week && r.pos === p.pos && (!q || (r.player + ' ' + r.team + ' ' + (NG.TN[r.team] || '')).toLowerCase().includes(q)))
+      .sort((a, b) => +a.rank - +b.rank).forEach((r) => {
+        const tr = document.createElement('tr'); tr.dataset.key = r.key; tr.dataset.pos = r.pos; tr.dataset.pid = r.gsis_id;
+        NG.cells(tr, r, ['rank', 'player', 'team'], ['rank']);
+        tb.append(tr);
+      });
+  }));
+  document.querySelectorAll('.ng-search').forEach((x) => x.addEventListener('input', () => ['2026', '2025', '2024', '2023'].forEach((s) => dash.draw('wk-rows-' + s))));
+  dash.draw('team-week-rows', (tb) => {
+    tb.replaceChildren();
+    const d = dash.data('team_week'), p = NG.p(); if (d.status !== 'ok' || !p.week) return;
+    d.data.filter((r) => r.season === p.season && r.week === p.week).sort((a, b) => +a.power_rank_wk - +b.power_rank_wk).forEach((r) => {
+      const tr = document.createElement('tr'); tr.dataset.key = r.key; tr.dataset.team = r.team;
+      if (r.team === NG.settings.fav) tr.className = 'ng-fav';
+      NG.cells(tr, r, ['power_rank_wk', 'team', 'record_wk', 'opp', 'result'], ['power_rank_wk'], 32);
+      tb.append(tr);
+    });
+  });
+
+  // ================= one player =================
+  dash.draw('player-hero', (el) => {
+    el.replaceChildren();
+    const r = curPlayer(); if (!r) return;
+    el.style.setProperty('--team-c', NG.color(r.team)); el.classList.add('ng-hero-player');
+    const h = document.createElement('h2'); h.className = 'ng-hero-name'; h.textContent = r.player;
+    const s = document.createElement('div'); s.className = 'ng-note'; s.append(NG.badge(r.team), ` ${NG.POS[r.pos] || r.pos} · ${NG.TN[r.team] || r.team} · ${r.season}`);
+    const w = document.createElement('div'); w.append(h, s); el.append(w);
+  });
+  [['pk-rank', 'rank'], ['pk-pool', 'pool']].forEach(([n, f]) => dash.draw(n, (el) => {
+    const r = curPlayer(); el.textContent = r ? r[f] : '—'; if (r) NG.where(el, r.key);
+  }));
+  const drawStats = (el, ds, part) => {
+    el.replaceChildren();
+    const d = dash.data(ds), r = curPlayer(); if (d.status !== 'ok' || !r) return;
+    d.data.filter((x) => x.gsis_id === r.gsis_id && x.pos === r.pos && ((+x.ord >= 100) === (part === 'grade'))).sort((a, b) => +a.ord - +b.ord)
+      .forEach((x) => el.append(NG.tile(NG.short(x.stat), x.rank, x.of, x.value)));
+  };
+  [['2023', 'r'], ['2023', 'p'], ['2024', 'r'], ['2024', 'p'], ['2025', 'r'], ['2025', 'p'], ['2026', 'r']].forEach(([s, c]) =>
+    ['box', 'grade'].forEach((part) => dash.draw(`pst-${s}-${c}-${part}`, (tb) => drawStats(tb, `ps_${s}_${c}`, part))));
+  const drawTrend = (el, ds) => {
+    el.replaceChildren();
+    const wk = dash.data(ds), r = curPlayer(); if (wk.status !== 'ok' || !r) return;
+    const g = wk.data.filter((x) => x.gsis_id === r.gsis_id && x.pos === r.pos && x.rank).map((x) => ({ ...x, w: +x.week })).sort((a, b) => a.w - b.w);
+    if (!g.length) return;
+    const W = el.clientWidth, H = 300;
+    const svg = d3.select(el).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`).attr('role', 'img').attr('aria-label', `${r.player} weekly ranks`);
+    const ml = NG.measure(svg, ['#100']) + 12, mr = 16, mt = 12, mb = 28;
+    const ymax = Math.max(10, d3.max(g, (v) => +v.pool));
+    const maxW = Math.max(2, wk.data.reduce((m, x) => Math.max(m, +x.week), 0));
+    const x = d3.scaleLinear([1, maxW], [ml, W - mr]), y = d3.scaleLinear([ymax, 1], [H - mb, mt]);
+    const col = NG.color(r.team);
+    svg.append('g').attr('transform', `translate(0,${H - mb})`).call(d3.axisBottom(x).ticks(Math.min(maxW, Math.floor(W / 45))).tickFormat((d) => (Number.isInteger(d) ? 'W' + d : ''))).call(NG.axis);
+    const yt = [1, ...d3.ticks(1, ymax, 4).filter((v) => v > 1)];
+    svg.append('g').attr('transform', `translate(${ml},0)`).call(d3.axisLeft(y).tickValues(yt).tickFormat((d) => '#' + d)).call(NG.axis);
+    svg.append('line').attr('x1', ml).attr('x2', W - mr).attr('y1', y(Math.max(1, ymax / 2))).attr('y2', y(Math.max(1, ymax / 2))).attr('stroke', 'var(--cds-chart-reference)').attr('stroke-dasharray', '4 4');
+    const line = d3.line().x((v) => x(v.w)).y((v) => y(+v.rank));
+    const runs = []; g.forEach((v, i) => { if (i === 0 || v.w - g[i - 1].w !== 1) runs.push([]); runs[runs.length - 1].push(v); });
+    runs.forEach((run) => svg.append('path').datum(run).attr('d', line).attr('fill', 'none').attr('stroke', col).attr('stroke-width', 2.5).attr('stroke-linecap', 'round').attr('stroke-linejoin', 'round'));
+    const selW = NG.pweek && NG.pweek.pid === r.gsis_id ? +NG.pweek.week : null;
+    svg.append('g').selectAll('circle').data(g).join('circle').attr('cx', (v) => x(v.w)).attr('cy', (v) => y(+v.rank)).attr('r', (v) => (v.w === selW ? 7 : 4))
+      .attr('fill', col).attr('stroke', (v) => (v.w === selW ? 'var(--color-fg)' : 'var(--color-panel)')).attr('stroke-width', (v) => (v.w === selW ? 2.5 : 1));
+    const tip = NG.tip(el);
+    svg.append('rect').attr('x', ml).attr('y', mt).attr('width', Math.max(0, W - mr - ml)).attr('height', H - mb - mt).attr('fill', 'transparent')
+      .on('pointermove pointerdown', (ev) => { const [mx, my] = d3.pointer(ev, el); const v = g.reduce((a, b) => (Math.abs(x(b.w) - mx) < Math.abs(x(a.w) - mx) ? b : a)); tip.show(x(v.w), my, `Week ${v.week} · ${v.team}`, [`#${v.rank} of ${v.pool} at his position`]); })
+      .on('pointerleave', (ev) => { if (ev.pointerType === 'mouse') tip.hide(); })
+      .on('click', (ev) => { const [mx] = d3.pointer(ev, el); const v = g.reduce((a, b) => (Math.abs(x(b.w) - mx) < Math.abs(x(a.w) - mx) ? b : a));
+        NG.pweek = { pid: r.gsis_id, week: String(v.w) }; const s = ds.slice(3); dash.draw('pweek-' + s); dash.draw('ptrend-' + s); });
+  };
+  ['2023', '2024', '2025', '2026'].forEach((s) => dash.draw('ptrend-' + s, (el) => drawTrend(el, 'pw_' + s)));
+  const WEEK_STATS = { QB: ['Comp', 'Att', 'Pass yds', 'Pass TD', 'INT', 'Sacked', 'Carries', 'Rush yds', 'Rush TD'], RB: ['Carries', 'Rush yds', 'Rush TD', 'Targets', 'Catches', 'Rec yds', 'Rec TD'],
+    WR: ['Targets', 'Catches', 'Rec yds', 'Rec TD', 'YAC', 'Carries', 'Rush yds'], TE: ['Targets', 'Catches', 'Rec yds', 'Rec TD', 'YAC'],
+    EDGE: ['Tackles', 'TFL', 'Sacks', 'QB hits', 'Passes broken up'], IDL: ['Tackles', 'TFL', 'Sacks', 'QB hits'], LB: ['Tackles', 'TFL', 'Sacks', 'QB hits', 'INTs', 'Passes broken up'],
+    CB: ['Tackles', 'INTs', 'Passes broken up', 'TFL'], S: ['Tackles', 'INTs', 'Passes broken up', 'TFL', 'Sacks'], K: ['FG made', 'FG att', 'XP made'], P: ['Punts'] };
+  const drawWeekPick = (el, season) => {
+    el.replaceChildren();
+    const d = dash.data('pwk_' + season), wk = dash.data('pw_' + season), r = curPlayer(); if (d.status !== 'ok' || !r) return;
+    const mine = d.data.filter((x) => x.gsis_id === r.gsis_id).sort((a, b) => +a.week - +b.week); if (!mine.length) return;
+    const sel = NG.pweek && NG.pweek.pid === r.gsis_id && mine.some((x) => x.week === NG.pweek.week) ? NG.pweek.week : mine[mine.length - 1].week;
+    const chips = document.createElement('div'); chips.className = 'ng-chips ng-weekchips';
+    mine.forEach((x) => { const b = document.createElement('button'); b.type = 'button'; b.textContent = 'Wk ' + x.week; b.setAttribute('aria-pressed', String(x.week === sel));
+      b.onclick = () => { NG.pweek = { pid: r.gsis_id, week: x.week }; dash.draw('pweek-' + season); dash.draw('ptrend-' + season); }; chips.append(b); });
+    const x = mine.find((m) => m.week === sel);
+    const head = document.createElement('div'); head.className = 'ng-week-head';
+    const wr = wk.status === 'ok' ? wk.data.find((w) => w.gsis_id === r.gsis_id && w.week === sel && w.pos === r.pos) : null;
+    head.append(`Week ${sel} vs `, NG.badge(x.opp), wr && wr.rank ? ` · ranked #${wr.rank} of ${wr.pool} at ${r.pos} that week` : '');
+    const tiles = document.createElement('div'); tiles.className = 'ng-rt';
+    const cols = WEEK_STATS[r.pos];
+    if (cols) cols.forEach((c) => { if (x[c] !== undefined) tiles.append(NG.tile(c, null, null, x[c])); });
+    else { const n = document.createElement('p'); n.className = 'ng-note'; n.textContent = "Linemen don't have box-score stats; his rank for the week is above."; tiles.append(n); }
+    el.append(chips, head, tiles);
+  };
+  ['2023', '2024', '2025', '2026'].forEach((s) => dash.draw('pweek-' + s, (el) => drawWeekPick(el, s)));
+
+  // ================= how it works =================
+  dash.draw('exp-summary', (tb) => {
+    tb.replaceChildren();
+    const d = dash.data('direction_check'); if (d.status !== 'ok') return;
+    d.data.forEach((r) => {
+      const tr = document.createElement('tr'); tr.dataset.key = r.pos;
+      ['pos', 'experts_found', 'hits', 'random_hits', 'agreement', 'status'].forEach((f) => {
+        const td = document.createElement('td'); td.textContent = r[f];
+        if (f !== 'pos' && f !== 'status') td.className = 'ng-num';
+        if (f === 'status') td.className = r.status === 'on track' ? 'ng-ok' : r.status === 'partly' ? 'ng-warn' : 'ng-bad';
+        tr.append(td);
+      });
+      tb.append(tr);
+    });
+  });
+  dash.draw('exp-picks', (tb) => {
+    tb.replaceChildren();
+    const d = dash.data('expert_picks'); if (d.status !== 'ok') return;
+    d.data.forEach((r) => {
+      const tr = document.createElement('tr'); tr.dataset.key = r.key;
+      ['pos', 'expert_order', 'player', 'our_rank', 'pool'].forEach((f) => {
+        const td = document.createElement('td'); td.textContent = r[f];
+        if (f !== 'pos' && f !== 'player') td.className = 'ng-num';
+        if (f === 'our_rank' && r.our_rank && +r.our_rank > 25) td.className = 'ng-num ng-bad';
+        tr.append(td);
+      });
+      tb.append(tr);
+    });
+  });
+
+  if (NG.settings.start === 'fav' && NG.settings.fav && !location.hash) dash.setParams({ tab: 'team', team: NG.settings.fav });
+  const named = document.getElementById(location.hash.slice(1));
+  if (named && named.classList.contains('ng-page')) dash.setParams({ tab: named.dataset.page });
+</script>
+<script>
+(async function () {
+  // Check for new data every time the app opens (and when it comes back to the foreground).
+  async function check(first) {
+    let v = null;
+    try { v = await (await fetch('data/version.json?t=' + Date.now(), { cache: 'no-store' })).json(); } catch (e) {}
+    if (!v) { if (first) window.__ngRun(); return; }
+    const tag = v.season + '-' + v.thru + '-' + v.updated;
+    const changed = window.NG_VERSION && window.NG_VERSION !== tag;
+    window.NG_VERSION = tag;
+    if (first && !localStorage.getItem('ng-params')) window.__ngParams.season = String(v.season);
+    let note = document.querySelector('.ng-updated');
+    if (!note) { note = document.createElement('p'); note.className = 'ng-updated'; const top = document.querySelector('.ng-top'); top && top.after(note); }
+    const d = new Date(v.updated + 'T12:00:00');
+    note.textContent = `Data through Week ${v.thru} of ${v.season} · updated ${d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}`;
+    const last = localStorage.getItem('ng-last-version');
+    if ((last && last !== tag) || changed) {
+      const t = document.createElement('div'); t.className = 'ng-toast'; t.textContent = `New data: through Week ${v.thru}`;
+      document.body.append(t); setTimeout(() => t.remove(), 4000);
+    }
+    localStorage.setItem('ng-last-version', tag);
+    if (changed) window.__ngReload(); else if (first) window.__ngRun();
+  }
+  await check(true);
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') check(false); });
+  if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
+})();
+</script>
+</body></html>
