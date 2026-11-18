@@ -80,30 +80,30 @@ id,season,cat,icon,title,text,team
 2025-24,2025,Players,🦵,Longest field goal,Cam Little (JAX) hit the season's longest field goal: 68 yards.,JAX
 2025-25,2025,Players,🏃,YAC king,Bijan Robinson (ATL) leads the league with 857 yards after the catch.,ATL
 2025-26,2025,Players,🚫,Nobody throws at him,"Ja'Sir Taylor (NYJ) is targeted once every 20 snaps, the least of any starting corner.",NYJ
-2026-0,2026,Teams,🧱,Defense carrying the load,MIN has the #1 defense but only the #31 offense. No team leans harder on its defense.,MIN
+2026-0,2026,Teams,🧱,Defense carrying the load,MIN has the #1 defense but only the #30 offense. No team leans harder on its defense.,MIN
 2026-1,2026,Teams,🎯,All offense,"DAL has the #5 offense but only the #32 defense, the most offense-first team in the league.",DAL
 2026-2,2026,Teams,🍀,Luckiest team,DEN has won 2.2 more games than its point differential predicts. Close games have broken its way.,DEN
 2026-3,2026,Teams,😬,Unluckiest team,TB has won 2.2 fewer games than its point differential predicts. It's better than its record.,TB
-2026-4,2026,Teams,🛩️,Air raid,"CIN throws 8.5% more often than the situation calls for, the most pass-happy team in football.",CIN
-2026-5,2026,Teams,🚜,Ground and pound,MIA runs it more than any team: it passes 10.5% less often than expected.,MIA
+2026-4,2026,Teams,🛩️,Air raid,"CIN throws 9.3% more often than the situation calls for, the most pass-happy team in football.",CIN
+2026-5,2026,Teams,🚜,Ground and pound,MIA runs it more than any team: it passes 9.7% less often than expected.,MIA
 2026-6,2026,Teams,🎲,Fourth-down gamblers,"BUF goes for it on 100% of 4th-and-short tries, the boldest coach in the league.",BUF
-2026-7,2026,Teams,⚡,Best special teams,"MIN has the #1 special teams, adding 4.3 points a game on kicks and returns.",MIN
-2026-8,2026,Coaching,🦁,Most aggressive on 4th down,DET goes for it 13% more often than the league does in the same spots (+7 extra tries).,DET
-2026-9,2026,Coaching,🐢,Most conservative on 4th down,HOU goes for it 11% less often than the league does in the same spots.,HOU
-2026-10,2026,Coaching,📈,Beating the odds,DEN has 7 wins; Vegas lines said about 4.7. Nobody has outrun expectations more.,DEN
-2026-11,2026,Coaching,📉,Falling short,"LAC has 0 wins; Vegas lines said about 3.4, the biggest shortfall in the league.",LAC
+2026-7,2026,Teams,⚡,Best special teams,"MIN has the #1 special teams, adding 3.8 points a game on kicks and returns.",MIN
+2026-8,2026,Coaching,🦁,Most aggressive on 4th down,DET goes for it 12% more often than the league does in the same spots (+7 extra tries).,DET
+2026-9,2026,Coaching,🐢,Most conservative on 4th down,DEN goes for it 10% less often than the league does in the same spots.,DEN
+2026-10,2026,Coaching,📈,Beating the odds,SF has 8 wins; Vegas lines said about 5.6. Nobody has outrun expectations more.,SF
+2026-11,2026,Coaching,📉,Falling short,"LAC has 1 wins; Vegas lines said about 3.7, the biggest shortfall in the league.",LAC
 2026-12,2026,Coaching,🎯,Throwing at the goal line,"NE passes on 60% of 1st and 2nd downs inside the 3, the most pass-happy goal-line offense (5 plays).",NE
 2026-13,2026,Teams,🏳️,Most timid punt,"LV punted on 4th-and-2 from the opponent's 40 while up 10 in the 4th quarter (Week 2 vs LAC). Surrender score 31, the most timid punt of the season.",LV
 2026-14,2026,Games,🎆,Highest-scoring team game,"CHI put up 59 points on CAR in Week 1, the most by any team this season.",CHI
 2026-15,2026,Games,💨,Biggest blowout,"JAX beat IND 42-7 in Week 8, a 35-point win.",JAX
-2026-16,2026,Games,😰,Cardiac kids,"CLE has won 4 games by 3 points or fewer, the most nail-biter wins in the league.",CLE
-2026-17,2026,Players,🔥,Most dominant games,"Jaxon Smith-Njigba (WR, SEA) has ranked top 3 at his position in 5 games, the most in the league.",SEA
-2026-18,2026,Players,📏,Mr. Consistent,"Brock Bowers (TE, LV) hasn't had an off week: his worst game still ranked #8 of 60 at his position.",LV
-2026-19,2026,Players,📈,Heating up,"Ja'Quan McMillian (cornerback, DEN) went from beating 24% of his position each week early on to beating 87% since Week 5.",DEN
-2026-20,2026,Players,💥,Pressure machine,Greg Rousseau (BUF) leads the league with 35 QB pressures.,BUF
-2026-21,2026,Players,🧲,Ballhawk,Amani Hooker (TEN) and 1 other player share the league lead with 5 interceptions.,TEN
-2026-22,2026,Players,🛑,Tackling machine,Alex Singleton (DEN) leads all defenders with 106 tackles.,DEN
+2026-16,2026,Games,😰,Cardiac kids,"CLE has won 5 games by 3 points or fewer, the most nail-biter wins in the league.",CLE
+2026-17,2026,Players,🔥,Most dominant games,"Jaxon Smith-Njigba (WR, SEA) has ranked top 3 at his position in 6 games, the most in the league.",SEA
+2026-18,2026,Players,📏,Mr. Consistent,"Jaxon Smith-Njigba (WR, SEA) hasn't had an off week: his worst game still ranked #20 of 100 at his position.",SEA
+2026-19,2026,Players,📈,Heating up,"Adetomiwa Adebawore (interior lineman, IND) went from beating 26% of his position each week early on to beating 86% since Week 6.",IND
+2026-20,2026,Players,💥,Pressure machine,Greg Rousseau (BUF) leads the league with 37 QB pressures.,BUF
+2026-21,2026,Players,🧲,Ballhawk,"Xavier McKinney (GB) has 6 interceptions, more than anyone.",GB
+2026-22,2026,Players,🛑,Tackling machine,Nakobe Dean (LV) leads all defenders with 107 tackles.,LV
 2026-23,2026,Players,🌀,Hard to bring down,"Jaylen Warren (PIT) has broken 23 tackles, the most of any player.",PIT
 2026-24,2026,Players,🦵,Longest field goal,Tyler Loop (BAL) hit the season's longest field goal: 64 yards.,BAL
-2026-25,2026,Players,🏃,YAC king,Puka Nacua (LA) leads the league with 381 yards after the catch.,LA
+2026-25,2026,Players,🏃,YAC king,Jaxon Smith-Njigba (SEA) leads the league with 419 yards after the catch.,SEA
 2026-26,2026,Players,🚫,Nobody throws at him,"Mike Jackson (CAR) is targeted once every 25 snaps, the least of any starting corner.",CAR

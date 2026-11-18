@@ -1607,8 +1607,12 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg)} body{paddin
     if (first && !localStorage.getItem('ng-params')) window.__ngParams.season = String(v.season);
     let note = document.querySelector('.ng-updated');
     if (!note) { note = document.createElement('p'); note.className = 'ng-updated'; const top = document.querySelector('.ng-top'); top && top.after(note); }
-    const d = new Date(v.updated + 'T12:00:00');
-    note.textContent = `Data through Week ${v.thru} of ${v.season} · updated ${d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}`;
+    const day = (s) => new Date(s + 'T12:00:00').toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+    let st = null; try { st = await (await fetch('data/status.json?t=' + Date.now(), { cache: 'no-store' })).json(); } catch (e) {}
+    let txt = `Data through Week ${v.thru} of ${v.season}` + (v.games_through ? ` (games through ${day(v.games_through)})` : '');
+    if (v.partial) txt += ' · one game\'s advanced stats still coming';
+    if (st && st.latest_played > v.thru && st.waiting_on && st.waiting_on.length) txt += ` · Week ${st.latest_played} is in once ${st.waiting_on.join(' and ')} post`;
+    note.textContent = txt;
     const last = localStorage.getItem('ng-last-version');
     if ((last && last !== tag) || changed) {
       const t = document.createElement('div'); t.className = 'ng-toast'; t.textContent = `New data: through Week ${v.thru}`;
