@@ -4,7 +4,7 @@ C|00-0032383|1,C,00-0032383,1,Starts (50%+ of snaps),5,,
 C|00-0032383|2,C,00-0032383,2,Offensive snaps,329,39,64
 C|00-0032383|3,C,00-0032383,3,Penalties,1,,
 C|00-0032383|4,C,00-0032383,4,Penalty yards,5,,
-C|00-0032383|100,C,00-0032383,100,"Pressures allowed vs expected, per 100 pass snaps (20% of grade)",-0.3,20,43
+C|00-0032383|100,C,00-0032383,100,"Pressures allowed vs expected, per 100 pass snaps (20% of grade)",-0.3,21,43
 C|00-0032383|101,C,00-0032383,101,Run success through his gaps vs expected (20% of grade),2.5%,7,43
 C|00-0032383|102,C,00-0032383,102,Run EPA through his gaps vs expected (15% of grade),0.031,10,43
 C|00-0032383|103,C,00-0032383,103,Penalty rate per snap (30% of grade),0.4%,29,43
@@ -76,7 +76,7 @@ C|00-0034261|1,C,00-0034261,1,Starts (50%+ of snaps),12,,
 C|00-0034261|2,C,00-0034261,2,Offensive snaps,673,32,64
 C|00-0034261|3,C,00-0034261,3,Penalties,1,,
 C|00-0034261|4,C,00-0034261,4,Penalty yards,5,,
-C|00-0034261|100,C,00-0034261,100,"Pressures allowed vs expected, per 100 pass snaps (20% of grade)",-0.3,21,43
+C|00-0034261|100,C,00-0034261,100,"Pressures allowed vs expected, per 100 pass snaps (20% of grade)",-0.3,20,43
 C|00-0034261|101,C,00-0034261,101,Run success through his gaps vs expected (20% of grade),-5.3%,42,43
 C|00-0034261|102,C,00-0034261,102,Run EPA through his gaps vs expected (15% of grade),-0.026,34,43
 C|00-0034261|103,C,00-0034261,103,Penalty rate per snap (30% of grade),0.1%,2,43
@@ -85,7 +85,7 @@ C|00-0034281|1,C,00-0034281,1,Starts (50%+ of snaps),16,,
 C|00-0034281|2,C,00-0034281,2,Offensive snaps,"1,059",10,64
 C|00-0034281|3,C,00-0034281,3,Penalties,1,,
 C|00-0034281|4,C,00-0034281,4,Penalty yards,10,,
-C|00-0034281|100,C,00-0034281,100,"Pressures allowed vs expected, per 100 pass snaps (20% of grade)",-0.3,18,43
+C|00-0034281|100,C,00-0034281,100,"Pressures allowed vs expected, per 100 pass snaps (20% of grade)",-0.3,19,43
 C|00-0034281|101,C,00-0034281,101,Run success through his gaps vs expected (20% of grade),-2.9%,35,43
 C|00-0034281|102,C,00-0034281,102,Run EPA through his gaps vs expected (15% of grade),-0.068,42,43
 C|00-0034281|103,C,00-0034281,103,Penalty rate per snap (30% of grade),0.2%,6,43
@@ -229,7 +229,7 @@ C|00-0036604|1,C,00-0036604,1,Starts (50%+ of snaps),11,,
 C|00-0036604|2,C,00-0036604,2,Offensive snaps,676,31,64
 C|00-0036604|3,C,00-0036604,3,Penalties,2,,
 C|00-0036604|4,C,00-0036604,4,Penalty yards,15,,
-C|00-0036604|100,C,00-0036604,100,"Pressures allowed vs expected, per 100 pass snaps (20% of grade)",-0.2,29,43
+C|00-0036604|100,C,00-0036604,100,"Pressures allowed vs expected, per 100 pass snaps (20% of grade)",-0.2,28,43
 C|00-0036604|101,C,00-0036604,101,Run success through his gaps vs expected (20% of grade),-3.0%,38,43
 C|00-0036604|102,C,00-0036604,102,Run EPA through his gaps vs expected (15% of grade),-0.067,41,43
 C|00-0036604|103,C,00-0036604,103,Penalty rate per snap (30% of grade),0.2%,10,43
@@ -364,7 +364,7 @@ C|00-0038571|1,C,00-0038571,1,Starts (50%+ of snaps),6,,
 C|00-0038571|2,C,00-0038571,2,Offensive snaps,339,38,64
 C|00-0038571|3,C,00-0038571,3,Penalties,2,,
 C|00-0038571|4,C,00-0038571,4,Penalty yards,20,,
-C|00-0038571|100,C,00-0038571,100,"Pressures allowed vs expected, per 100 pass snaps (20% of grade)",-0.3,19,43
+C|00-0038571|100,C,00-0038571,100,"Pressures allowed vs expected, per 100 pass snaps (20% of grade)",-0.3,18,43
 C|00-0038571|101,C,00-0038571,101,Run success through his gaps vs expected (20% of grade),2.0%,10,43
 C|00-0038571|102,C,00-0038571,102,Run EPA through his gaps vs expected (15% of grade),0.041,5,43
 C|00-0038571|103,C,00-0038571,103,Penalty rate per snap (30% of grade),0.4%,28,43
@@ -535,7 +535,7 @@ C|00-0039905|1,C,00-0039905,1,Starts (50%+ of snaps),17,,
 C|00-0039905|2,C,00-0039905,2,Offensive snaps,"1,134",2,64
 C|00-0039905|3,C,00-0039905,3,Penalties,5,,
 C|00-0039905|4,C,00-0039905,4,Penalty yards,49,,
-C|00-0039905|100,C,00-0039905,100,"Pressures allowed vs expected, per 100 pass snaps (20% of grade)",-0.2,28,43
+C|00-0039905|100,C,00-0039905,100,"Pressures allowed vs expected, per 100 pass snaps (20% of grade)",-0.1,29,43
 C|00-0039905|101,C,00-0039905,101,Run success through his gaps vs expected (20% of grade),-1.3%,30,43
 C|00-0039905|102,C,00-0039905,102,Run EPA through his gaps vs expected (15% of grade),-0.002,24,43
 C|00-0039905|103,C,00-0039905,103,Penalty rate per snap (30% of grade),0.3%,18,43
@@ -15151,7 +15151,7 @@ OG|00-0029685|1,OG,00-0029685,1,Starts (50%+ of snaps),17,,
 OG|00-0029685|2,OG,00-0029685,2,Offensive snaps,"1,150",1,133
 OG|00-0029685|3,OG,00-0029685,3,Penalties,2,,
 OG|00-0029685|4,OG,00-0029685,4,Penalty yards,10,,
-OG|00-0029685|100,OG,00-0029685,100,"Pressures allowed vs expected, per 100 pass snaps (45% of grade)",-0.9,3,85
+OG|00-0029685|100,OG,00-0029685,100,"Pressures allowed vs expected, per 100 pass snaps (45% of grade)",-0.9,4,85
 OG|00-0029685|101,OG,00-0029685,101,Run success through his gaps vs expected (20% of grade),-1.7%,67,85
 OG|00-0029685|102,OG,00-0029685,102,Penalty rate per snap (20% of grade),0.2%,18,85
 OG|00-0031426|0,OG,00-0031426,0,Games,17,,
@@ -15231,7 +15231,7 @@ OG|00-0034346|1,OG,00-0034346,1,Starts (50%+ of snaps),5,,
 OG|00-0034346|2,OG,00-0034346,2,Offensive snaps,396,68,133
 OG|00-0034346|3,OG,00-0034346,3,Penalties,2,,
 OG|00-0034346|4,OG,00-0034346,4,Penalty yards,8,,
-OG|00-0034346|100,OG,00-0034346,100,"Pressures allowed vs expected, per 100 pass snaps (45% of grade)",0.6,83,85
+OG|00-0034346|100,OG,00-0034346,100,"Pressures allowed vs expected, per 100 pass snaps (45% of grade)",0.5,83,85
 OG|00-0034346|101,OG,00-0034346,101,Run success through his gaps vs expected (20% of grade),1.4%,22,85
 OG|00-0034346|102,OG,00-0034346,102,Penalty rate per snap (20% of grade),0.5%,58,85
 OG|00-0034347|0,OG,00-0034347,0,Games,0,,
@@ -15271,7 +15271,7 @@ OG|00-0034668|1,OG,00-0034668,1,Starts (50%+ of snaps),1,,
 OG|00-0034668|2,OG,00-0034668,2,Offensive snaps,60,98,133
 OG|00-0034668|3,OG,00-0034668,3,Penalties,2,,
 OG|00-0034668|4,OG,00-0034668,4,Penalty yards,15,,
-OG|00-0034668|100,OG,00-0034668,100,"Pressures allowed vs expected, per 100 pass snaps (45% of grade)",-0.4,22,85
+OG|00-0034668|100,OG,00-0034668,100,"Pressures allowed vs expected, per 100 pass snaps (45% of grade)",-0.4,23,85
 OG|00-0034668|101,OG,00-0034668,101,Run success through his gaps vs expected (20% of grade),3.6%,6,85
 OG|00-0034668|102,OG,00-0034668,102,Penalty rate per snap (20% of grade),1.1%,86,85
 OG|00-0034978|0,OG,00-0034978,0,Games,8,,
@@ -15343,7 +15343,7 @@ OG|00-0035702|1,OG,00-0035702,1,Starts (50%+ of snaps),12,,
 OG|00-0035702|2,OG,00-0035702,2,Offensive snaps,768,47,133
 OG|00-0035702|3,OG,00-0035702,3,Penalties,4,,
 OG|00-0035702|4,OG,00-0035702,4,Penalty yards,19,,
-OG|00-0035702|100,OG,00-0035702,100,"Pressures allowed vs expected, per 100 pass snaps (45% of grade)",-0.1,48,85
+OG|00-0035702|100,OG,00-0035702,100,"Pressures allowed vs expected, per 100 pass snaps (45% of grade)",-0.1,49,85
 OG|00-0035702|101,OG,00-0035702,101,Run success through his gaps vs expected (20% of grade),-1.0%,57,85
 OG|00-0035702|102,OG,00-0035702,102,Penalty rate per snap (20% of grade),0.4%,53,85
 OG|00-0035743|0,OG,00-0035743,0,Games,17,,
@@ -15391,7 +15391,7 @@ OG|00-0036246|1,OG,00-0036246,1,Starts (50%+ of snaps),16,,
 OG|00-0036246|2,OG,00-0036246,2,Offensive snaps,"1,094",8,133
 OG|00-0036246|3,OG,00-0036246,3,Penalties,4,,
 OG|00-0036246|4,OG,00-0036246,4,Penalty yards,22,,
-OG|00-0036246|100,OG,00-0036246,100,"Pressures allowed vs expected, per 100 pass snaps (45% of grade)",-0.4,19,85
+OG|00-0036246|100,OG,00-0036246,100,"Pressures allowed vs expected, per 100 pass snaps (45% of grade)",-0.4,20,85
 OG|00-0036246|101,OG,00-0036246,101,Run success through his gaps vs expected (20% of grade),2.0%,14,85
 OG|00-0036246|102,OG,00-0036246,102,Penalty rate per snap (20% of grade),0.3%,30,85
 OG|00-0036258|0,OG,00-0036258,0,Games,17,,
@@ -15487,7 +15487,7 @@ OG|00-0036483|1,OG,00-0036483,1,Starts (50%+ of snaps),17,,
 OG|00-0036483|2,OG,00-0036483,2,Offensive snaps,989,28,133
 OG|00-0036483|3,OG,00-0036483,3,Penalties,3,,
 OG|00-0036483|4,OG,00-0036483,4,Penalty yards,20,,
-OG|00-0036483|100,OG,00-0036483,100,"Pressures allowed vs expected, per 100 pass snaps (45% of grade)",-0.1,49,85
+OG|00-0036483|100,OG,00-0036483,100,"Pressures allowed vs expected, per 100 pass snaps (45% of grade)",-0.1,48,85
 OG|00-0036483|101,OG,00-0036483,101,Run success through his gaps vs expected (20% of grade),1.7%,16,85
 OG|00-0036483|102,OG,00-0036483,102,Penalty rate per snap (20% of grade),0.2%,11,85
 OG|00-0036535|0,OG,00-0036535,0,Games,0,,
@@ -15783,7 +15783,7 @@ OG|00-0038615|1,OG,00-0038615,1,Starts (50%+ of snaps),5,,
 OG|00-0038615|2,OG,00-0038615,2,Offensive snaps,334,76,133
 OG|00-0038615|3,OG,00-0038615,3,Penalties,1,,
 OG|00-0038615|4,OG,00-0038615,4,Penalty yards,5,,
-OG|00-0038615|100,OG,00-0038615,100,"Pressures allowed vs expected, per 100 pass snaps (45% of grade)",0.4,78,85
+OG|00-0038615|100,OG,00-0038615,100,"Pressures allowed vs expected, per 100 pass snaps (45% of grade)",0.4,79,85
 OG|00-0038615|101,OG,00-0038615,101,Run success through his gaps vs expected (20% of grade),2.9%,7,85
 OG|00-0038615|102,OG,00-0038615,102,Penalty rate per snap (20% of grade),0.4%,41,85
 OG|00-0038645|0,OG,00-0038645,0,Games,17,,
@@ -15887,7 +15887,7 @@ OG|00-0039272|1,OG,00-0039272,1,Starts (50%+ of snaps),0,,
 OG|00-0039272|2,OG,00-0039272,2,Offensive snaps,0,103,133
 OG|00-0039272|3,OG,00-0039272,3,Penalties,0,,
 OG|00-0039272|4,OG,00-0039272,4,Penalty yards,0,,
-OG|00-0039272|100,OG,00-0039272,100,"Pressures allowed vs expected, per 100 pass snaps (45% of grade)",0.0,64,85
+OG|00-0039272|100,OG,00-0039272,100,"Pressures allowed vs expected, per 100 pass snaps (45% of grade)",0.0,63,85
 OG|00-0039272|101,OG,00-0039272,101,Run success through his gaps vs expected (20% of grade),-0.6%,55,85
 OG|00-0039272|102,OG,00-0039272,102,Penalty rate per snap (20% of grade),0.4%,55,85
 OG|00-0039310|0,OG,00-0039310,0,Games,0,,
@@ -15911,7 +15911,7 @@ OG|00-0039351|1,OG,00-0039351,1,Starts (50%+ of snaps),17,,
 OG|00-0039351|2,OG,00-0039351,2,Offensive snaps,"1,120",5,133
 OG|00-0039351|3,OG,00-0039351,3,Penalties,4,,
 OG|00-0039351|4,OG,00-0039351,4,Penalty yards,30,,
-OG|00-0039351|100,OG,00-0039351,100,"Pressures allowed vs expected, per 100 pass snaps (45% of grade)",0.1,67,85
+OG|00-0039351|100,OG,00-0039351,100,"Pressures allowed vs expected, per 100 pass snaps (45% of grade)",0.1,66,85
 OG|00-0039351|101,OG,00-0039351,101,Run success through his gaps vs expected (20% of grade),2.2%,11,85
 OG|00-0039351|102,OG,00-0039351,102,Penalty rate per snap (20% of grade),0.4%,44,85
 OG|00-0039358|0,OG,00-0039358,0,Games,17,,
@@ -15919,7 +15919,7 @@ OG|00-0039358|1,OG,00-0039358,1,Starts (50%+ of snaps),17,,
 OG|00-0039358|2,OG,00-0039358,2,Offensive snaps,"1,031",22,133
 OG|00-0039358|3,OG,00-0039358,3,Penalties,1,,
 OG|00-0039358|4,OG,00-0039358,4,Penalty yards,4,,
-OG|00-0039358|100,OG,00-0039358,100,"Pressures allowed vs expected, per 100 pass snaps (45% of grade)",-0.4,20,85
+OG|00-0039358|100,OG,00-0039358,100,"Pressures allowed vs expected, per 100 pass snaps (45% of grade)",-0.4,19,85
 OG|00-0039358|101,OG,00-0039358,101,Run success through his gaps vs expected (20% of grade),0.9%,28,85
 OG|00-0039358|102,OG,00-0039358,102,Penalty rate per snap (20% of grade),0.2%,10,85
 OG|00-0039408|0,OG,00-0039408,0,Games,11,,
@@ -15951,7 +15951,7 @@ OG|00-0039735|1,OG,00-0039735,1,Starts (50%+ of snaps),6,,
 OG|00-0039735|2,OG,00-0039735,2,Offensive snaps,354,73,133
 OG|00-0039735|3,OG,00-0039735,3,Penalties,2,,
 OG|00-0039735|4,OG,00-0039735,4,Penalty yards,25,,
-OG|00-0039735|100,OG,00-0039735,100,"Pressures allowed vs expected, per 100 pass snaps (45% of grade)",-0.9,4,85
+OG|00-0039735|100,OG,00-0039735,100,"Pressures allowed vs expected, per 100 pass snaps (45% of grade)",-0.9,3,85
 OG|00-0039735|101,OG,00-0039735,101,Run success through his gaps vs expected (20% of grade),-0.5%,53,85
 OG|00-0039735|102,OG,00-0039735,102,Penalty rate per snap (20% of grade),0.3%,39,85
 OG|00-0039736|0,OG,00-0039736,0,Games,16,,
@@ -15967,7 +15967,7 @@ OG|00-0039784|1,OG,00-0039784,1,Starts (50%+ of snaps),7,,
 OG|00-0039784|2,OG,00-0039784,2,Offensive snaps,496,61,133
 OG|00-0039784|3,OG,00-0039784,3,Penalties,1,,
 OG|00-0039784|4,OG,00-0039784,4,Penalty yards,4,,
-OG|00-0039784|100,OG,00-0039784,100,"Pressures allowed vs expected, per 100 pass snaps (45% of grade)",0.1,66,85
+OG|00-0039784|100,OG,00-0039784,100,"Pressures allowed vs expected, per 100 pass snaps (45% of grade)",0.1,67,85
 OG|00-0039784|101,OG,00-0039784,101,Run success through his gaps vs expected (20% of grade),0.6%,35,85
 OG|00-0039784|102,OG,00-0039784,102,Penalty rate per snap (20% of grade),0.1%,5,85
 OG|00-0039808|0,OG,00-0039808,0,Games,17,,
@@ -15975,7 +15975,7 @@ OG|00-0039808|1,OG,00-0039808,1,Starts (50%+ of snaps),12,,
 OG|00-0039808|2,OG,00-0039808,2,Offensive snaps,763,49,133
 OG|00-0039808|3,OG,00-0039808,3,Penalties,5,,
 OG|00-0039808|4,OG,00-0039808,4,Penalty yards,35,,
-OG|00-0039808|100,OG,00-0039808,100,"Pressures allowed vs expected, per 100 pass snaps (45% of grade)",0.4,79,85
+OG|00-0039808|100,OG,00-0039808,100,"Pressures allowed vs expected, per 100 pass snaps (45% of grade)",0.4,78,85
 OG|00-0039808|101,OG,00-0039808,101,Run success through his gaps vs expected (20% of grade),-2.9%,79,85
 OG|00-0039808|102,OG,00-0039808,102,Penalty rate per snap (20% of grade),0.6%,76,85
 OG|00-0039833|0,OG,00-0039833,0,Games,0,,
@@ -16071,7 +16071,7 @@ OG|00-0040146|1,OG,00-0040146,1,Starts (50%+ of snaps),0,,
 OG|00-0040146|2,OG,00-0040146,2,Offensive snaps,0,103,133
 OG|00-0040146|3,OG,00-0040146,3,Penalties,0,,
 OG|00-0040146|4,OG,00-0040146,4,Penalty yards,0,,
-OG|00-0040146|100,OG,00-0040146,100,"Pressures allowed vs expected, per 100 pass snaps (45% of grade)",-0.1,54,85
+OG|00-0040146|100,OG,00-0040146,100,"Pressures allowed vs expected, per 100 pass snaps (45% of grade)",-0.1,52,85
 OG|00-0040146|101,OG,00-0040146,101,Run success through his gaps vs expected (20% of grade),0.2%,44,85
 OG|00-0040146|102,OG,00-0040146,102,Penalty rate per snap (20% of grade),0.3%,31,85
 OG|00-0040147|0,OG,00-0040147,0,Games,13,,
@@ -16111,7 +16111,7 @@ OG|00-0040210|1,OG,00-0040210,1,Starts (50%+ of snaps),0,,
 OG|00-0040210|2,OG,00-0040210,2,Offensive snaps,0,103,133
 OG|00-0040210|3,OG,00-0040210,3,Penalties,0,,
 OG|00-0040210|4,OG,00-0040210,4,Penalty yards,0,,
-OG|00-0040210|100,OG,00-0040210,100,"Pressures allowed vs expected, per 100 pass snaps (45% of grade)",-0.4,21,85
+OG|00-0040210|100,OG,00-0040210,100,"Pressures allowed vs expected, per 100 pass snaps (45% of grade)",-0.4,20,85
 OG|00-0040210|101,OG,00-0040210,101,Run success through his gaps vs expected (20% of grade),-3.1%,81,85
 OG|00-0040210|102,OG,00-0040210,102,Penalty rate per snap (20% of grade),0.4%,52,85
 OG|00-0040212|0,OG,00-0040212,0,Games,1,,
@@ -16207,7 +16207,7 @@ OT|00-0027857|1,OT,00-0027857,1,Starts (50%+ of snaps),15,,
 OT|00-0027857|2,OT,00-0027857,2,Offensive snaps,997,22,133
 OT|00-0027857|3,OT,00-0027857,3,Penalties,4,,
 OT|00-0027857|4,OT,00-0027857,4,Penalty yards,35,,
-OT|00-0027857|100,OT,00-0027857,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",-0.5,17,95
+OT|00-0027857|100,OT,00-0027857,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",-0.5,16,95
 OT|00-0027857|101,OT,00-0027857,101,Run EPA through his gaps vs expected (24% of grade),-0.050,76,95
 OT|00-0027857|102,OT,00-0027857,102,Penalty rate per snap (14% of grade),0.2%,9,95
 OT|00-0027857|103,OT,00-0027857,103,Team offensive line grade (14% of grade),75.0,25,95
@@ -16216,7 +16216,7 @@ OT|00-0029316|1,OT,00-0029316,1,Starts (50%+ of snaps),9,,
 OT|00-0029316|2,OT,00-0029316,2,Offensive snaps,667,52,133
 OT|00-0029316|3,OT,00-0029316,3,Penalties,7,,
 OT|00-0029316|4,OT,00-0029316,4,Penalty yards,46,,
-OT|00-0029316|100,OT,00-0029316,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",1.2,79,95
+OT|00-0029316|100,OT,00-0029316,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",1.2,80,95
 OT|00-0029316|101,OT,00-0029316,101,Run EPA through his gaps vs expected (24% of grade),-0.095,93,95
 OT|00-0029316|102,OT,00-0029316,102,Penalty rate per snap (14% of grade),0.9%,87,95
 OT|00-0029316|103,OT,00-0029316,103,Team offensive line grade (14% of grade),60.4,75,95
@@ -16225,7 +16225,7 @@ OT|00-0029963|1,OT,00-0029963,1,Starts (50%+ of snaps),1,,
 OT|00-0029963|2,OT,00-0029963,2,Offensive snaps,73,105,133
 OT|00-0029963|3,OT,00-0029963,3,Penalties,0,,
 OT|00-0029963|4,OT,00-0029963,4,Penalty yards,0,,
-OT|00-0029963|100,OT,00-0029963,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",-0.2,31,95
+OT|00-0029963|100,OT,00-0029963,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",-0.2,30,95
 OT|00-0029963|101,OT,00-0029963,101,Run EPA through his gaps vs expected (24% of grade),-0.041,72,95
 OT|00-0029963|102,OT,00-0029963,102,Penalty rate per snap (14% of grade),0.3%,19,95
 OT|00-0029963|103,OT,00-0029963,103,Team offensive line grade (14% of grade),67.7,50,95
@@ -16234,7 +16234,7 @@ OT|00-0030097|1,OT,00-0030097,1,Starts (50%+ of snaps),0,,
 OT|00-0030097|2,OT,00-0030097,2,Offensive snaps,0,110,133
 OT|00-0030097|3,OT,00-0030097,3,Penalties,0,,
 OT|00-0030097|4,OT,00-0030097,4,Penalty yards,0,,
-OT|00-0030097|100,OT,00-0030097,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.2,49,95
+OT|00-0030097|100,OT,00-0030097,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.2,48,95
 OT|00-0030097|101,OT,00-0030097,101,Run EPA through his gaps vs expected (24% of grade),-0.031,66,95
 OT|00-0030097|102,OT,00-0030097,102,Penalty rate per snap (14% of grade),0.4%,27,95
 OT|00-0030097|103,OT,00-0030097,103,Team offensive line grade (14% of grade),89.3,1,95
@@ -16261,7 +16261,7 @@ OT|00-0031279|1,OT,00-0031279,1,Starts (50%+ of snaps),17,,
 OT|00-0031279|2,OT,00-0031279,2,Offensive snaps,"1,062",11,133
 OT|00-0031279|3,OT,00-0031279,3,Penalties,7,,
 OT|00-0031279|4,OT,00-0031279,4,Penalty yards,50,,
-OT|00-0031279|100,OT,00-0031279,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",-0.5,14,95
+OT|00-0031279|100,OT,00-0031279,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",-0.4,19,95
 OT|00-0031279|101,OT,00-0031279,101,Run EPA through his gaps vs expected (24% of grade),0.019,39,95
 OT|00-0031279|102,OT,00-0031279,102,Penalty rate per snap (14% of grade),0.6%,66,95
 OT|00-0031279|103,OT,00-0031279,103,Team offensive line grade (14% of grade),77.8,19,95
@@ -16288,7 +16288,7 @@ OT|00-0031921|1,OT,00-0031921,1,Starts (50%+ of snaps),0,,
 OT|00-0031921|2,OT,00-0031921,2,Offensive snaps,0,110,133
 OT|00-0031921|3,OT,00-0031921,3,Penalties,0,,
 OT|00-0031921|4,OT,00-0031921,4,Penalty yards,0,,
-OT|00-0031921|100,OT,00-0031921,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.0,41,95
+OT|00-0031921|100,OT,00-0031921,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.0,42,95
 OT|00-0031921|101,OT,00-0031921,101,Run EPA through his gaps vs expected (24% of grade),-0.000,51,95
 OT|00-0031921|102,OT,00-0031921,102,Penalty rate per snap (14% of grade),0.4%,31,95
 OT|00-0031921|103,OT,00-0031921,103,Team offensive line grade (14% of grade),60.4,75,95
@@ -16333,7 +16333,7 @@ OT|00-0032380|1,OT,00-0032380,1,Starts (50%+ of snaps),12,,
 OT|00-0032380|2,OT,00-0032380,2,Offensive snaps,802,41,133
 OT|00-0032380|3,OT,00-0032380,3,Penalties,5,,
 OT|00-0032380|4,OT,00-0032380,4,Penalty yards,34,,
-OT|00-0032380|100,OT,00-0032380,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.0,41,95
+OT|00-0032380|100,OT,00-0032380,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.0,42,95
 OT|00-0032380|101,OT,00-0032380,101,Run EPA through his gaps vs expected (24% of grade),-0.007,53,95
 OT|00-0032380|102,OT,00-0032380,102,Penalty rate per snap (14% of grade),0.6%,60,95
 OT|00-0032380|103,OT,00-0032380,103,Team offensive line grade (14% of grade),75.8,23,95
@@ -16342,7 +16342,7 @@ OT|00-0032381|1,OT,00-0032381,1,Starts (50%+ of snaps),14,,
 OT|00-0032381|2,OT,00-0032381,2,Offensive snaps,893,35,133
 OT|00-0032381|3,OT,00-0032381,3,Penalties,4,,
 OT|00-0032381|4,OT,00-0032381,4,Penalty yards,20,,
-OT|00-0032381|100,OT,00-0032381,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",-0.3,29,95
+OT|00-0032381|100,OT,00-0032381,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",-0.3,28,95
 OT|00-0032381|101,OT,00-0032381,101,Run EPA through his gaps vs expected (24% of grade),-0.058,82,95
 OT|00-0032381|102,OT,00-0032381,102,Penalty rate per snap (14% of grade),0.4%,34,95
 OT|00-0032381|103,OT,00-0032381,103,Team offensive line grade (14% of grade),67.7,50,95
@@ -16396,7 +16396,7 @@ OT|00-0033676|1,OT,00-0033676,1,Starts (50%+ of snaps),17,,
 OT|00-0033676|2,OT,00-0033676,2,Offensive snaps,"1,096",6,133
 OT|00-0033676|3,OT,00-0033676,3,Penalties,11,,
 OT|00-0033676|4,OT,00-0033676,4,Penalty yards,65,,
-OT|00-0033676|100,OT,00-0033676,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.1,44,95
+OT|00-0033676|100,OT,00-0033676,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.1,43,95
 OT|00-0033676|101,OT,00-0033676,101,Run EPA through his gaps vs expected (24% of grade),-0.041,71,95
 OT|00-0033676|102,OT,00-0033676,102,Penalty rate per snap (14% of grade),0.9%,88,95
 OT|00-0033676|103,OT,00-0033676,103,Team offensive line grade (14% of grade),77.8,19,95
@@ -16405,7 +16405,7 @@ OT|00-0033863|1,OT,00-0033863,1,Starts (50%+ of snaps),2,,
 OT|00-0033863|2,OT,00-0033863,2,Offensive snaps,228,92,133
 OT|00-0033863|3,OT,00-0033863,3,Penalties,1,,
 OT|00-0033863|4,OT,00-0033863,4,Penalty yards,10,,
-OT|00-0033863|100,OT,00-0033863,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.3,53,95
+OT|00-0033863|100,OT,00-0033863,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.3,52,95
 OT|00-0033863|101,OT,00-0033863,101,Run EPA through his gaps vs expected (24% of grade),-0.069,89,95
 OT|00-0033863|102,OT,00-0033863,102,Penalty rate per snap (14% of grade),0.4%,32,95
 OT|00-0033863|103,OT,00-0033863,103,Team offensive line grade (14% of grade),67.7,50,95
@@ -16423,7 +16423,7 @@ OT|00-0033904|1,OT,00-0033904,1,Starts (50%+ of snaps),15,,
 OT|00-0033904|2,OT,00-0033904,2,Offensive snaps,957,31,133
 OT|00-0033904|3,OT,00-0033904,3,Penalties,10,,
 OT|00-0033904|4,OT,00-0033904,4,Penalty yards,65,,
-OT|00-0033904|100,OT,00-0033904,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.1,46,95
+OT|00-0033904|100,OT,00-0033904,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.1,44,95
 OT|00-0033904|101,OT,00-0033904,101,Run EPA through his gaps vs expected (24% of grade),-0.059,84,95
 OT|00-0033904|102,OT,00-0033904,102,Penalty rate per snap (14% of grade),0.9%,90,95
 OT|00-0033904|103,OT,00-0033904,103,Team offensive line grade (14% of grade),88.0,4,95
@@ -16441,7 +16441,7 @@ OT|00-0034429|1,OT,00-0034429,1,Starts (50%+ of snaps),16,,
 OT|00-0034429|2,OT,00-0034429,2,Offensive snaps,973,28,133
 OT|00-0034429|3,OT,00-0034429,3,Penalties,6,,
 OT|00-0034429|4,OT,00-0034429,4,Penalty yards,45,,
-OT|00-0034429|100,OT,00-0034429,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",-0.5,16,95
+OT|00-0034429|100,OT,00-0034429,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",-0.5,15,95
 OT|00-0034429|101,OT,00-0034429,101,Run EPA through his gaps vs expected (24% of grade),0.057,15,95
 OT|00-0034429|102,OT,00-0034429,102,Penalty rate per snap (14% of grade),0.6%,57,95
 OT|00-0034429|103,OT,00-0034429,103,Team offensive line grade (14% of grade),74.2,33,95
@@ -16450,7 +16450,7 @@ OT|00-0034571|1,OT,00-0034571,1,Starts (50%+ of snaps),0,,
 OT|00-0034571|2,OT,00-0034571,2,Offensive snaps,82,103,133
 OT|00-0034571|3,OT,00-0034571,3,Penalties,1,,
 OT|00-0034571|4,OT,00-0034571,4,Penalty yards,5,,
-OT|00-0034571|100,OT,00-0034571,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.2,49,95
+OT|00-0034571|100,OT,00-0034571,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.2,48,95
 OT|00-0034571|101,OT,00-0034571,101,Run EPA through his gaps vs expected (24% of grade),-0.016,59,95
 OT|00-0034571|102,OT,00-0034571,102,Penalty rate per snap (14% of grade),0.7%,69,95
 OT|00-0034571|103,OT,00-0034571,103,Team offensive line grade (14% of grade),75.8,23,95
@@ -16468,7 +16468,7 @@ OT|00-0034759|1,OT,00-0034759,1,Starts (50%+ of snaps),0,,
 OT|00-0034759|2,OT,00-0034759,2,Offensive snaps,0,110,133
 OT|00-0034759|3,OT,00-0034759,3,Penalties,0,,
 OT|00-0034759|4,OT,00-0034759,4,Penalty yards,0,,
-OT|00-0034759|100,OT,00-0034759,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",-0.4,18,95
+OT|00-0034759|100,OT,00-0034759,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",-0.4,17,95
 OT|00-0034759|101,OT,00-0034759,101,Run EPA through his gaps vs expected (24% of grade),0.038,29,95
 OT|00-0034759|102,OT,00-0034759,102,Penalty rate per snap (14% of grade),0.2%,6,95
 OT|00-0034759|103,OT,00-0034759,103,Team offensive line grade (14% of grade),52.1,89,95
@@ -16486,7 +16486,7 @@ OT|00-0034836|1,OT,00-0034836,1,Starts (50%+ of snaps),13,,
 OT|00-0034836|2,OT,00-0034836,2,Offensive snaps,766,46,133
 OT|00-0034836|3,OT,00-0034836,3,Penalties,5,,
 OT|00-0034836|4,OT,00-0034836,4,Penalty yards,35,,
-OT|00-0034836|100,OT,00-0034836,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",-0.6,11,95
+OT|00-0034836|100,OT,00-0034836,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",-0.6,13,95
 OT|00-0034836|101,OT,00-0034836,101,Run EPA through his gaps vs expected (24% of grade),0.100,3,95
 OT|00-0034836|102,OT,00-0034836,102,Penalty rate per snap (14% of grade),0.5%,42,95
 OT|00-0034836|103,OT,00-0034836,103,Team offensive line grade (14% of grade),74.9,27,95
@@ -16504,7 +16504,7 @@ OT|00-0034951|1,OT,00-0034951,1,Starts (50%+ of snaps),10,,
 OT|00-0034951|2,OT,00-0034951,2,Offensive snaps,626,58,133
 OT|00-0034951|3,OT,00-0034951,3,Penalties,5,,
 OT|00-0034951|4,OT,00-0034951,4,Penalty yards,34,,
-OT|00-0034951|100,OT,00-0034951,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",-0.3,30,95
+OT|00-0034951|100,OT,00-0034951,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",-0.3,29,95
 OT|00-0034951|101,OT,00-0034951,101,Run EPA through his gaps vs expected (24% of grade),0.040,27,95
 OT|00-0034951|102,OT,00-0034951,102,Penalty rate per snap (14% of grade),0.7%,71,95
 OT|00-0034951|103,OT,00-0034951,103,Team offensive line grade (14% of grade),74.2,33,95
@@ -16513,7 +16513,7 @@ OT|00-0034957|1,OT,00-0034957,1,Starts (50%+ of snaps),0,,
 OT|00-0034957|2,OT,00-0034957,2,Offensive snaps,0,110,133
 OT|00-0034957|3,OT,00-0034957,3,Penalties,0,,
 OT|00-0034957|4,OT,00-0034957,4,Penalty yards,0,,
-OT|00-0034957|100,OT,00-0034957,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.4,54,95
+OT|00-0034957|100,OT,00-0034957,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.4,53,95
 OT|00-0034957|101,OT,00-0034957,101,Run EPA through his gaps vs expected (24% of grade),-0.009,54,95
 OT|00-0034957|102,OT,00-0034957,102,Penalty rate per snap (14% of grade),0.4%,27,95
 OT|00-0034957|103,OT,00-0034957,103,Team offensive line grade (14% of grade),79.0,16,95
@@ -16549,7 +16549,7 @@ OT|00-0035234|1,OT,00-0035234,1,Starts (50%+ of snaps),16,,
 OT|00-0035234|2,OT,00-0035234,2,Offensive snaps,"1,021",20,133
 OT|00-0035234|3,OT,00-0035234,3,Penalties,5,,
 OT|00-0035234|4,OT,00-0035234,4,Penalty yards,45,,
-OT|00-0035234|100,OT,00-0035234,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",-0.2,32,95
+OT|00-0035234|100,OT,00-0035234,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",-0.2,30,95
 OT|00-0035234|101,OT,00-0035234,101,Run EPA through his gaps vs expected (24% of grade),-0.072,90,95
 OT|00-0035234|102,OT,00-0035234,102,Penalty rate per snap (14% of grade),0.5%,36,95
 OT|00-0035234|103,OT,00-0035234,103,Team offensive line grade (14% of grade),65.1,55,95
@@ -16567,7 +16567,7 @@ OT|00-0035629|1,OT,00-0035629,1,Starts (50%+ of snaps),9,,
 OT|00-0035629|2,OT,00-0035629,2,Offensive snaps,592,62,133
 OT|00-0035629|3,OT,00-0035629,3,Penalties,4,,
 OT|00-0035629|4,OT,00-0035629,4,Penalty yards,25,,
-OT|00-0035629|100,OT,00-0035629,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.1,43,95
+OT|00-0035629|100,OT,00-0035629,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.1,45,95
 OT|00-0035629|101,OT,00-0035629,101,Run EPA through his gaps vs expected (24% of grade),-0.010,54,95
 OT|00-0035629|102,OT,00-0035629,102,Penalty rate per snap (14% of grade),0.6%,64,95
 OT|00-0035629|103,OT,00-0035629,103,Team offensive line grade (14% of grade),60.4,75,95
@@ -16585,7 +16585,7 @@ OT|00-0035829|1,OT,00-0035829,1,Starts (50%+ of snaps),0,,
 OT|00-0035829|2,OT,00-0035829,2,Offensive snaps,0,110,133
 OT|00-0035829|3,OT,00-0035829,3,Penalties,0,,
 OT|00-0035829|4,OT,00-0035829,4,Penalty yards,0,,
-OT|00-0035829|100,OT,00-0035829,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.3,53,95
+OT|00-0035829|100,OT,00-0035829,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.3,52,95
 OT|00-0035829|101,OT,00-0035829,101,Run EPA through his gaps vs expected (24% of grade),0.009,46,95
 OT|00-0035829|102,OT,00-0035829,102,Penalty rate per snap (14% of grade),0.3%,11,95
 OT|00-0035829|103,OT,00-0035829,103,Team offensive line grade (14% of grade),75.0,25,95
@@ -16594,7 +16594,7 @@ OT|00-0036036|1,OT,00-0036036,1,Starts (50%+ of snaps),17,,
 OT|00-0036036|2,OT,00-0036036,2,Offensive snaps,"1,162",1,133
 OT|00-0036036|3,OT,00-0036036,3,Penalties,3,,
 OT|00-0036036|4,OT,00-0036036,4,Penalty yards,25,,
-OT|00-0036036|100,OT,00-0036036,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",-0.2,31,95
+OT|00-0036036|100,OT,00-0036036,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",-0.2,32,95
 OT|00-0036036|101,OT,00-0036036,101,Run EPA through his gaps vs expected (24% of grade),-0.025,59,95
 OT|00-0036036|102,OT,00-0036036,102,Penalty rate per snap (14% of grade),0.3%,12,95
 OT|00-0036036|103,OT,00-0036036,103,Team offensive line grade (14% of grade),81.7,10,95
@@ -16603,7 +16603,7 @@ OT|00-0036195|1,OT,00-0036195,1,Starts (50%+ of snaps),7,,
 OT|00-0036195|2,OT,00-0036195,2,Offensive snaps,473,71,133
 OT|00-0036195|3,OT,00-0036195,3,Penalties,2,,
 OT|00-0036195|4,OT,00-0036195,4,Penalty yards,10,,
-OT|00-0036195|100,OT,00-0036195,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.2,47,95
+OT|00-0036195|100,OT,00-0036195,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.6,60,95
 OT|00-0036195|101,OT,00-0036195,101,Run EPA through his gaps vs expected (24% of grade),-0.072,89,95
 OT|00-0036195|102,OT,00-0036195,102,Penalty rate per snap (14% of grade),0.4%,30,95
 OT|00-0036195|103,OT,00-0036195,103,Team offensive line grade (14% of grade),79.4,13,95
@@ -16621,7 +16621,7 @@ OT|00-0036256|1,OT,00-0036256,1,Starts (50%+ of snaps),17,,
 OT|00-0036256|2,OT,00-0036256,2,Offensive snaps,"1,117",4,133
 OT|00-0036256|3,OT,00-0036256,3,Penalties,5,,
 OT|00-0036256|4,OT,00-0036256,4,Penalty yards,30,,
-OT|00-0036256|100,OT,00-0036256,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.2,52,95
+OT|00-0036256|100,OT,00-0036256,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.2,51,95
 OT|00-0036256|101,OT,00-0036256,101,Run EPA through his gaps vs expected (24% of grade),-0.074,91,95
 OT|00-0036256|102,OT,00-0036256,102,Penalty rate per snap (14% of grade),0.4%,23,95
 OT|00-0036256|103,OT,00-0036256,103,Team offensive line grade (14% of grade),75.0,25,95
@@ -16630,7 +16630,7 @@ OT|00-0036310|1,OT,00-0036310,1,Starts (50%+ of snaps),1,,
 OT|00-0036310|2,OT,00-0036310,2,Offensive snaps,76,104,133
 OT|00-0036310|3,OT,00-0036310,3,Penalties,1,,
 OT|00-0036310|4,OT,00-0036310,4,Penalty yards,10,,
-OT|00-0036310|100,OT,00-0036310,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.4,54,95
+OT|00-0036310|100,OT,00-0036310,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.4,53,95
 OT|00-0036310|101,OT,00-0036310,101,Run EPA through his gaps vs expected (24% of grade),-0.015,59,95
 OT|00-0036310|102,OT,00-0036310,102,Penalty rate per snap (14% of grade),0.7%,70,95
 OT|00-0036310|103,OT,00-0036310,103,Team offensive line grade (14% of grade),81.7,10,95
@@ -16639,7 +16639,7 @@ OT|00-0036347|1,OT,00-0036347,1,Starts (50%+ of snaps),9,,
 OT|00-0036347|2,OT,00-0036347,2,Offensive snaps,604,61,133
 OT|00-0036347|3,OT,00-0036347,3,Penalties,5,,
 OT|00-0036347|4,OT,00-0036347,4,Penalty yards,40,,
-OT|00-0036347|100,OT,00-0036347,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.2,48,95
+OT|00-0036347|100,OT,00-0036347,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.2,46,95
 OT|00-0036347|101,OT,00-0036347,101,Run EPA through his gaps vs expected (24% of grade),0.016,40,95
 OT|00-0036347|102,OT,00-0036347,102,Penalty rate per snap (14% of grade),0.5%,37,95
 OT|00-0036347|103,OT,00-0036347,103,Team offensive line grade (14% of grade),61.7,68,95
@@ -16648,7 +16648,7 @@ OT|00-0036363|1,OT,00-0036363,1,Starts (50%+ of snaps),0,,
 OT|00-0036363|2,OT,00-0036363,2,Offensive snaps,0,110,133
 OT|00-0036363|3,OT,00-0036363,3,Penalties,0,,
 OT|00-0036363|4,OT,00-0036363,4,Penalty yards,0,,
-OT|00-0036363|100,OT,00-0036363,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",-0.0,39,95
+OT|00-0036363|100,OT,00-0036363,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",-0.0,40,95
 OT|00-0036363|101,OT,00-0036363,101,Run EPA through his gaps vs expected (24% of grade),0.008,47,95
 OT|00-0036363|102,OT,00-0036363,102,Penalty rate per snap (14% of grade),0.2%,5,95
 OT|00-0036363|103,OT,00-0036363,103,Team offensive line grade (14% of grade),74.5,30,95
@@ -16657,7 +16657,7 @@ OT|00-0036386|1,OT,00-0036386,1,Starts (50%+ of snaps),11,,
 OT|00-0036386|2,OT,00-0036386,2,Offensive snaps,802,41,133
 OT|00-0036386|3,OT,00-0036386,3,Penalties,2,,
 OT|00-0036386|4,OT,00-0036386,4,Penalty yards,20,,
-OT|00-0036386|100,OT,00-0036386,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",1.1,76,95
+OT|00-0036386|100,OT,00-0036386,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",1.0,73,95
 OT|00-0036386|101,OT,00-0036386,101,Run EPA through his gaps vs expected (24% of grade),-0.033,66,95
 OT|00-0036386|102,OT,00-0036386,102,Penalty rate per snap (14% of grade),0.3%,13,95
 OT|00-0036386|103,OT,00-0036386,103,Team offensive line grade (14% of grade),62.8,65,95
@@ -16666,7 +16666,7 @@ OT|00-0036406|1,OT,00-0036406,1,Starts (50%+ of snaps),12,,
 OT|00-0036406|2,OT,00-0036406,2,Offensive snaps,777,45,133
 OT|00-0036406|3,OT,00-0036406,3,Penalties,4,,
 OT|00-0036406|4,OT,00-0036406,4,Penalty yards,30,,
-OT|00-0036406|100,OT,00-0036406,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",-0.5,15,95
+OT|00-0036406|100,OT,00-0036406,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",-0.8,5,95
 OT|00-0036406|101,OT,00-0036406,101,Run EPA through his gaps vs expected (24% of grade),0.065,12,95
 OT|00-0036406|102,OT,00-0036406,102,Penalty rate per snap (14% of grade),0.5%,41,95
 OT|00-0036406|103,OT,00-0036406,103,Team offensive line grade (14% of grade),79.4,13,95
@@ -16675,7 +16675,7 @@ OT|00-0036557|1,OT,00-0036557,1,Starts (50%+ of snaps),0,,
 OT|00-0036557|2,OT,00-0036557,2,Offensive snaps,0,110,133
 OT|00-0036557|3,OT,00-0036557,3,Penalties,0,,
 OT|00-0036557|4,OT,00-0036557,4,Penalty yards,0,,
-OT|00-0036557|100,OT,00-0036557,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",1.2,80,95
+OT|00-0036557|100,OT,00-0036557,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",1.2,79,95
 OT|00-0036557|101,OT,00-0036557,101,Run EPA through his gaps vs expected (24% of grade),-0.013,57,95
 OT|00-0036557|102,OT,00-0036557,102,Penalty rate per snap (14% of grade),0.1%,3,95
 OT|00-0036557|103,OT,00-0036557,103,Team offensive line grade (14% of grade),71.1,43,95
@@ -16684,7 +16684,7 @@ OT|00-0036603|1,OT,00-0036603,1,Starts (50%+ of snaps),16,,
 OT|00-0036603|2,OT,00-0036603,2,Offensive snaps,"1,051",14,133
 OT|00-0036603|3,OT,00-0036603,3,Penalties,3,,
 OT|00-0036603|4,OT,00-0036603,4,Penalty yards,20,,
-OT|00-0036603|100,OT,00-0036603,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",-0.3,25,95
+OT|00-0036603|100,OT,00-0036603,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",-0.2,31,95
 OT|00-0036603|101,OT,00-0036603,101,Run EPA through his gaps vs expected (24% of grade),0.149,1,95
 OT|00-0036603|102,OT,00-0036603,102,Penalty rate per snap (14% of grade),0.3%,15,95
 OT|00-0036603|103,OT,00-0036603,103,Team offensive line grade (14% of grade),89.3,1,95
@@ -16720,7 +16720,7 @@ OT|00-0036866|1,OT,00-0036866,1,Starts (50%+ of snaps),1,,
 OT|00-0036866|2,OT,00-0036866,2,Offensive snaps,85,101,133
 OT|00-0036866|3,OT,00-0036866,3,Penalties,5,,
 OT|00-0036866|4,OT,00-0036866,4,Penalty yards,50,,
-OT|00-0036866|100,OT,00-0036866,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",-0.3,22,95
+OT|00-0036866|100,OT,00-0036866,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",-0.3,23,95
 OT|00-0036866|101,OT,00-0036866,101,Run EPA through his gaps vs expected (24% of grade),0.001,51,95
 OT|00-0036866|102,OT,00-0036866,102,Penalty rate per snap (14% of grade),1.4%,96,95
 OT|00-0036866|103,OT,00-0036866,103,Team offensive line grade (14% of grade),62.8,65,95
@@ -16729,7 +16729,7 @@ OT|00-0036869|1,OT,00-0036869,1,Starts (50%+ of snaps),15,,
 OT|00-0036869|2,OT,00-0036869,2,Offensive snaps,949,32,133
 OT|00-0036869|3,OT,00-0036869,3,Penalties,3,,
 OT|00-0036869|4,OT,00-0036869,4,Penalty yards,20,,
-OT|00-0036869|100,OT,00-0036869,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.4,53,95
+OT|00-0036869|100,OT,00-0036869,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.4,52,95
 OT|00-0036869|101,OT,00-0036869,101,Run EPA through his gaps vs expected (24% of grade),-0.011,55,95
 OT|00-0036869|102,OT,00-0036869,102,Penalty rate per snap (14% of grade),0.3%,20,95
 OT|00-0036869|103,OT,00-0036869,103,Team offensive line grade (14% of grade),61.1,72,95
@@ -16738,7 +16738,7 @@ OT|00-0036880|1,OT,00-0036880,1,Starts (50%+ of snaps),16,,
 OT|00-0036880|2,OT,00-0036880,2,Offensive snaps,997,22,133
 OT|00-0036880|3,OT,00-0036880,3,Penalties,2,,
 OT|00-0036880|4,OT,00-0036880,4,Penalty yards,15,,
-OT|00-0036880|100,OT,00-0036880,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",-0.0,38,95
+OT|00-0036880|100,OT,00-0036880,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",-0.0,39,95
 OT|00-0036880|101,OT,00-0036880,101,Run EPA through his gaps vs expected (24% of grade),0.043,25,95
 OT|00-0036880|102,OT,00-0036880,102,Penalty rate per snap (14% of grade),0.2%,9,95
 OT|00-0036880|103,OT,00-0036880,103,Team offensive line grade (14% of grade),67.7,50,95
@@ -16747,7 +16747,7 @@ OT|00-0036905|1,OT,00-0036905,1,Starts (50%+ of snaps),11,,
 OT|00-0036905|2,OT,00-0036905,2,Offensive snaps,662,53,133
 OT|00-0036905|3,OT,00-0036905,3,Penalties,5,,
 OT|00-0036905|4,OT,00-0036905,4,Penalty yards,35,,
-OT|00-0036905|100,OT,00-0036905,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.5,55,95
+OT|00-0036905|100,OT,00-0036905,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.5,54,95
 OT|00-0036905|101,OT,00-0036905,101,Run EPA through his gaps vs expected (24% of grade),-0.013,56,95
 OT|00-0036905|102,OT,00-0036905,102,Penalty rate per snap (14% of grade),0.6%,53,95
 OT|00-0036905|103,OT,00-0036905,103,Team offensive line grade (14% of grade),60.4,75,95
@@ -16756,7 +16756,7 @@ OT|00-0036975|1,OT,00-0036975,1,Starts (50%+ of snaps),14,,
 OT|00-0036975|2,OT,00-0036975,2,Offensive snaps,969,30,133
 OT|00-0036975|3,OT,00-0036975,3,Penalties,7,,
 OT|00-0036975|4,OT,00-0036975,4,Penalty yards,40,,
-OT|00-0036975|100,OT,00-0036975,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.4,54,95
+OT|00-0036975|100,OT,00-0036975,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.5,56,95
 OT|00-0036975|101,OT,00-0036975,101,Run EPA through his gaps vs expected (24% of grade),0.075,10,95
 OT|00-0036975|102,OT,00-0036975,102,Penalty rate per snap (14% of grade),0.7%,69,95
 OT|00-0036975|103,OT,00-0036975,103,Team offensive line grade (14% of grade),64.6,59,95
@@ -16765,7 +16765,7 @@ OT|00-0036976|1,OT,00-0036976,1,Starts (50%+ of snaps),13,,
 OT|00-0036976|2,OT,00-0036976,2,Offensive snaps,846,37,133
 OT|00-0036976|3,OT,00-0036976,3,Penalties,4,,
 OT|00-0036976|4,OT,00-0036976,4,Penalty yards,43,,
-OT|00-0036976|100,OT,00-0036976,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",-0.6,12,95
+OT|00-0036976|100,OT,00-0036976,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",-0.6,14,95
 OT|00-0036976|101,OT,00-0036976,101,Run EPA through his gaps vs expected (24% of grade),0.010,45,95
 OT|00-0036976|102,OT,00-0036976,102,Penalty rate per snap (14% of grade),0.4%,24,95
 OT|00-0036976|103,OT,00-0036976,103,Team offensive line grade (14% of grade),88.0,4,95
@@ -16774,7 +16774,7 @@ OT|00-0037081|1,OT,00-0037081,1,Starts (50%+ of snaps),3,,
 OT|00-0037081|2,OT,00-0037081,2,Offensive snaps,210,93,133
 OT|00-0037081|3,OT,00-0037081,3,Penalties,1,,
 OT|00-0037081|4,OT,00-0037081,4,Penalty yards,15,,
-OT|00-0037081|100,OT,00-0037081,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.1,43,95
+OT|00-0037081|100,OT,00-0037081,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.1,44,95
 OT|00-0037081|101,OT,00-0037081,101,Run EPA through his gaps vs expected (24% of grade),-0.133,95,95
 OT|00-0037081|102,OT,00-0037081,102,Penalty rate per snap (14% of grade),0.2%,7,95
 OT|00-0037081|103,OT,00-0037081,103,Team offensive line grade (14% of grade),86.2,7,95
@@ -16783,7 +16783,7 @@ OT|00-0037194|1,OT,00-0037194,1,Starts (50%+ of snaps),3,,
 OT|00-0037194|2,OT,00-0037194,2,Offensive snaps,285,89,133
 OT|00-0037194|3,OT,00-0037194,3,Penalties,2,,
 OT|00-0037194|4,OT,00-0037194,4,Penalty yards,15,,
-OT|00-0037194|100,OT,00-0037194,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",1.1,74,95
+OT|00-0037194|100,OT,00-0037194,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",1.1,75,95
 OT|00-0037194|101,OT,00-0037194,101,Run EPA through his gaps vs expected (24% of grade),-0.059,83,95
 OT|00-0037194|102,OT,00-0037194,102,Penalty rate per snap (14% of grade),0.6%,61,95
 OT|00-0037194|103,OT,00-0037194,103,Team offensive line grade (14% of grade),71.4,40,95
@@ -16801,7 +16801,7 @@ OT|00-0037229|1,OT,00-0037229,1,Starts (50%+ of snaps),15,,
 OT|00-0037229|2,OT,00-0037229,2,Offensive snaps,943,33,133
 OT|00-0037229|3,OT,00-0037229,3,Penalties,5,,
 OT|00-0037229|4,OT,00-0037229,4,Penalty yards,39,,
-OT|00-0037229|100,OT,00-0037229,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",-0.4,19,95
+OT|00-0037229|100,OT,00-0037229,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",-0.4,18,95
 OT|00-0037229|101,OT,00-0037229,101,Run EPA through his gaps vs expected (24% of grade),-0.005,51,95
 OT|00-0037229|102,OT,00-0037229,102,Penalty rate per snap (14% of grade),0.4%,29,95
 OT|00-0037229|103,OT,00-0037229,103,Team offensive line grade (14% of grade),68.0,47,95
@@ -16810,7 +16810,7 @@ OT|00-0037287|1,OT,00-0037287,1,Starts (50%+ of snaps),4,,
 OT|00-0037287|2,OT,00-0037287,2,Offensive snaps,318,82,133
 OT|00-0037287|3,OT,00-0037287,3,Penalties,2,,
 OT|00-0037287|4,OT,00-0037287,4,Penalty yards,9,,
-OT|00-0037287|100,OT,00-0037287,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",-0.0,40,95
+OT|00-0037287|100,OT,00-0037287,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",-0.0,41,95
 OT|00-0037287|101,OT,00-0037287,101,Run EPA through his gaps vs expected (24% of grade),0.047,21,95
 OT|00-0037287|102,OT,00-0037287,102,Penalty rate per snap (14% of grade),0.6%,50,95
 OT|00-0037287|103,OT,00-0037287,103,Team offensive line grade (14% of grade),67.6,52,95
@@ -16837,7 +16837,7 @@ OT|00-0037305|1,OT,00-0037305,1,Starts (50%+ of snaps),0,,
 OT|00-0037305|2,OT,00-0037305,2,Offensive snaps,0,110,133
 OT|00-0037305|3,OT,00-0037305,3,Penalties,0,,
 OT|00-0037305|4,OT,00-0037305,4,Penalty yards,0,,
-OT|00-0037305|100,OT,00-0037305,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.2,49,95
+OT|00-0037305|100,OT,00-0037305,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.2,47,95
 OT|00-0037305|101,OT,00-0037305,101,Run EPA through his gaps vs expected (24% of grade),-0.032,66,95
 OT|00-0037305|102,OT,00-0037305,102,Penalty rate per snap (14% of grade),0.4%,26,95
 OT|00-0037305|103,OT,00-0037305,103,Team offensive line grade (14% of grade),74.9,27,95
@@ -16846,7 +16846,7 @@ OT|00-0037322|1,OT,00-0037322,1,Starts (50%+ of snaps),0,,
 OT|00-0037322|2,OT,00-0037322,2,Offensive snaps,0,110,133
 OT|00-0037322|3,OT,00-0037322,3,Penalties,0,,
 OT|00-0037322|4,OT,00-0037322,4,Penalty yards,0,,
-OT|00-0037322|100,OT,00-0037322,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.1,43,95
+OT|00-0037322|100,OT,00-0037322,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.1,44,95
 OT|00-0037322|101,OT,00-0037322,101,Run EPA through his gaps vs expected (24% of grade),0.012,43,95
 OT|00-0037322|102,OT,00-0037322,102,Penalty rate per snap (14% of grade),0.3%,14,95
 OT|00-0037322|103,OT,00-0037322,103,Team offensive line grade (14% of grade),67.6,52,95
@@ -16864,7 +16864,7 @@ OT|00-0037480|1,OT,00-0037480,1,Starts (50%+ of snaps),4,,
 OT|00-0037480|2,OT,00-0037480,2,Offensive snaps,291,87,133
 OT|00-0037480|3,OT,00-0037480,3,Penalties,1,,
 OT|00-0037480|4,OT,00-0037480,4,Penalty yards,4,,
-OT|00-0037480|100,OT,00-0037480,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",-0.7,9,95
+OT|00-0037480|100,OT,00-0037480,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",-0.7,10,95
 OT|00-0037480|101,OT,00-0037480,101,Run EPA through his gaps vs expected (24% of grade),0.031,34,95
 OT|00-0037480|102,OT,00-0037480,102,Penalty rate per snap (14% of grade),0.4%,25,95
 OT|00-0037480|103,OT,00-0037480,103,Team offensive line grade (14% of grade),79.0,16,95
@@ -16882,7 +16882,7 @@ OT|00-0037812|1,OT,00-0037812,1,Starts (50%+ of snaps),17,,
 OT|00-0037812|2,OT,00-0037812,2,Offensive snaps,"1,061",12,133
 OT|00-0037812|3,OT,00-0037812,3,Penalties,3,,
 OT|00-0037812|4,OT,00-0037812,4,Penalty yards,20,,
-OT|00-0037812|100,OT,00-0037812,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.0,42,95
+OT|00-0037812|100,OT,00-0037812,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",-0.0,37,95
 OT|00-0037812|101,OT,00-0037812,101,Run EPA through his gaps vs expected (24% of grade),-0.035,67,95
 OT|00-0037812|102,OT,00-0037812,102,Penalty rate per snap (14% of grade),0.3%,14,95
 OT|00-0037812|103,OT,00-0037812,103,Team offensive line grade (14% of grade),74.5,30,95
@@ -16891,7 +16891,7 @@ OT|00-0037817|1,OT,00-0037817,1,Starts (50%+ of snaps),10,,
 OT|00-0037817|2,OT,00-0037817,2,Offensive snaps,605,60,133
 OT|00-0037817|3,OT,00-0037817,3,Penalties,0,,
 OT|00-0037817|4,OT,00-0037817,4,Penalty yards,0,,
-OT|00-0037817|100,OT,00-0037817,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.2,51,95
+OT|00-0037817|100,OT,00-0037817,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.2,50,95
 OT|00-0037817|101,OT,00-0037817,101,Run EPA through his gaps vs expected (24% of grade),0.005,50,95
 OT|00-0037817|102,OT,00-0037817,102,Penalty rate per snap (14% of grade),0.1%,2,95
 OT|00-0037817|103,OT,00-0037817,103,Team offensive line grade (14% of grade),71.4,40,95
@@ -16900,7 +16900,7 @@ OT|00-0037821|1,OT,00-0037821,1,Starts (50%+ of snaps),14,,
 OT|00-0037821|2,OT,00-0037821,2,Offensive snaps,822,38,133
 OT|00-0037821|3,OT,00-0037821,3,Penalties,5,,
 OT|00-0037821|4,OT,00-0037821,4,Penalty yards,28,,
-OT|00-0037821|100,OT,00-0037821,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",1.0,73,95
+OT|00-0037821|100,OT,00-0037821,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",1.1,77,95
 OT|00-0037821|101,OT,00-0037821,101,Run EPA through his gaps vs expected (24% of grade),-0.028,64,95
 OT|00-0037821|102,OT,00-0037821,102,Penalty rate per snap (14% of grade),0.6%,54,95
 OT|00-0037821|103,OT,00-0037821,103,Team offensive line grade (14% of grade),74.5,30,95
@@ -16927,7 +16927,7 @@ OT|00-0038540|1,OT,00-0038540,1,Starts (50%+ of snaps),12,,
 OT|00-0038540|2,OT,00-0038540,2,Offensive snaps,807,40,133
 OT|00-0038540|3,OT,00-0038540,3,Penalties,6,,
 OT|00-0038540|4,OT,00-0038540,4,Penalty yards,45,,
-OT|00-0038540|100,OT,00-0038540,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.2,50,95
+OT|00-0038540|100,OT,00-0038540,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.2,48,95
 OT|00-0038540|101,OT,00-0038540,101,Run EPA through his gaps vs expected (24% of grade),0.035,31,95
 OT|00-0038540|102,OT,00-0038540,102,Penalty rate per snap (14% of grade),0.6%,56,95
 OT|00-0038540|103,OT,00-0038540,103,Team offensive line grade (14% of grade),60.4,75,95
@@ -16945,7 +16945,7 @@ OT|00-0038792|1,OT,00-0038792,1,Starts (50%+ of snaps),0,,
 OT|00-0038792|2,OT,00-0038792,2,Offensive snaps,0,110,133
 OT|00-0038792|3,OT,00-0038792,3,Penalties,0,,
 OT|00-0038792|4,OT,00-0038792,4,Penalty yards,0,,
-OT|00-0038792|100,OT,00-0038792,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.0,41,95
+OT|00-0038792|100,OT,00-0038792,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",-0.0,41,95
 OT|00-0038792|101,OT,00-0038792,101,Run EPA through his gaps vs expected (24% of grade),0.005,50,95
 OT|00-0038792|102,OT,00-0038792,102,Penalty rate per snap (14% of grade),0.3%,20,95
 OT|00-0038792|103,OT,00-0038792,103,Team offensive line grade (14% of grade),60.4,75,95
@@ -16954,7 +16954,7 @@ OT|00-0038852|1,OT,00-0038852,1,Starts (50%+ of snaps),1,,
 OT|00-0038852|2,OT,00-0038852,2,Offensive snaps,97,99,133
 OT|00-0038852|3,OT,00-0038852,3,Penalties,2,,
 OT|00-0038852|4,OT,00-0038852,4,Penalty yards,10,,
-OT|00-0038852|100,OT,00-0038852,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.4,54,95
+OT|00-0038852|100,OT,00-0038852,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.4,53,95
 OT|00-0038852|101,OT,00-0038852,101,Run EPA through his gaps vs expected (24% of grade),0.014,43,95
 OT|00-0038852|102,OT,00-0038852,102,Penalty rate per snap (14% of grade),1.0%,91,95
 OT|00-0038852|103,OT,00-0038852,103,Team offensive line grade (14% of grade),61.1,72,95
@@ -16981,7 +16981,7 @@ OT|00-0038934|1,OT,00-0038934,1,Starts (50%+ of snaps),15,,
 OT|00-0038934|2,OT,00-0038934,2,Offensive snaps,973,28,133
 OT|00-0038934|3,OT,00-0038934,3,Penalties,6,,
 OT|00-0038934|4,OT,00-0038934,4,Penalty yards,43,,
-OT|00-0038934|100,OT,00-0038934,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.5,57,95
+OT|00-0038934|100,OT,00-0038934,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.4,53,95
 OT|00-0038934|101,OT,00-0038934,101,Run EPA through his gaps vs expected (24% of grade),0.057,16,95
 OT|00-0038934|102,OT,00-0038934,102,Penalty rate per snap (14% of grade),0.4%,27,95
 OT|00-0038934|103,OT,00-0038934,103,Team offensive line grade (14% of grade),64.6,59,95
@@ -16990,7 +16990,7 @@ OT|00-0038981|1,OT,00-0038981,1,Starts (50%+ of snaps),0,,
 OT|00-0038981|2,OT,00-0038981,2,Offensive snaps,66,107,133
 OT|00-0038981|3,OT,00-0038981,3,Penalties,2,,
 OT|00-0038981|4,OT,00-0038981,4,Penalty yards,20,,
-OT|00-0038981|100,OT,00-0038981,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.3,53,95
+OT|00-0038981|100,OT,00-0038981,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.3,52,95
 OT|00-0038981|101,OT,00-0038981,101,Run EPA through his gaps vs expected (24% of grade),0.006,50,95
 OT|00-0038981|102,OT,00-0038981,102,Penalty rate per snap (14% of grade),1.1%,92,95
 OT|00-0038981|103,OT,00-0038981,103,Team offensive line grade (14% of grade),71.1,43,95
@@ -17008,7 +17008,7 @@ OT|00-0039077|1,OT,00-0039077,1,Starts (50%+ of snaps),0,,
 OT|00-0039077|2,OT,00-0039077,2,Offensive snaps,0,110,133
 OT|00-0039077|3,OT,00-0039077,3,Penalties,0,,
 OT|00-0039077|4,OT,00-0039077,4,Penalty yards,0,,
-OT|00-0039077|100,OT,00-0039077,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",-0.5,13,95
+OT|00-0039077|100,OT,00-0039077,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",-0.6,11,95
 OT|00-0039077|101,OT,00-0039077,101,Run EPA through his gaps vs expected (24% of grade),-0.063,86,95
 OT|00-0039077|102,OT,00-0039077,102,Penalty rate per snap (14% of grade),0.1%,1,95
 OT|00-0039077|103,OT,00-0039077,103,Team offensive line grade (14% of grade),89.3,1,95
@@ -17035,7 +17035,7 @@ OT|00-0039233|1,OT,00-0039233,1,Starts (50%+ of snaps),17,,
 OT|00-0039233|2,OT,00-0039233,2,Offensive snaps,"1,014",21,133
 OT|00-0039233|3,OT,00-0039233,3,Penalties,4,,
 OT|00-0039233|4,OT,00-0039233,4,Penalty yards,19,,
-OT|00-0039233|100,OT,00-0039233,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.5,56,95
+OT|00-0039233|100,OT,00-0039233,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.5,55,95
 OT|00-0039233|101,OT,00-0039233,101,Run EPA through his gaps vs expected (24% of grade),0.084,6,95
 OT|00-0039233|102,OT,00-0039233,102,Penalty rate per snap (14% of grade),0.3%,17,95
 OT|00-0039233|103,OT,00-0039233,103,Team offensive line grade (14% of grade),74.1,38,95
@@ -17044,7 +17044,7 @@ OT|00-0039339|1,OT,00-0039339,1,Starts (50%+ of snaps),13,,
 OT|00-0039339|2,OT,00-0039339,2,Offensive snaps,814,39,133
 OT|00-0039339|3,OT,00-0039339,3,Penalties,6,,
 OT|00-0039339|4,OT,00-0039339,4,Penalty yards,40,,
-OT|00-0039339|100,OT,00-0039339,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",1.1,77,95
+OT|00-0039339|100,OT,00-0039339,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",1.0,74,95
 OT|00-0039339|101,OT,00-0039339,101,Run EPA through his gaps vs expected (24% of grade),-0.026,60,95
 OT|00-0039339|102,OT,00-0039339,102,Penalty rate per snap (14% of grade),0.6%,55,95
 OT|00-0039339|103,OT,00-0039339,103,Team offensive line grade (14% of grade),63.6,62,95
@@ -17089,7 +17089,7 @@ OT|00-0039459|1,OT,00-0039459,1,Starts (50%+ of snaps),8,,
 OT|00-0039459|2,OT,00-0039459,2,Offensive snaps,577,64,133
 OT|00-0039459|3,OT,00-0039459,3,Penalties,7,,
 OT|00-0039459|4,OT,00-0039459,4,Penalty yards,37,,
-OT|00-0039459|100,OT,00-0039459,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.5,59,95
+OT|00-0039459|100,OT,00-0039459,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.5,58,95
 OT|00-0039459|101,OT,00-0039459,101,Run EPA through his gaps vs expected (24% of grade),0.067,11,95
 OT|00-0039459|102,OT,00-0039459,102,Penalty rate per snap (14% of grade),0.9%,86,95
 OT|00-0039459|103,OT,00-0039459,103,Team offensive line grade (14% of grade),86.2,7,95
@@ -17098,7 +17098,7 @@ OT|00-0039568|1,OT,00-0039568,1,Starts (50%+ of snaps),0,,
 OT|00-0039568|2,OT,00-0039568,2,Offensive snaps,65,108,133
 OT|00-0039568|3,OT,00-0039568,3,Penalties,0,,
 OT|00-0039568|4,OT,00-0039568,4,Penalty yards,0,,
-OT|00-0039568|100,OT,00-0039568,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.2,51,95
+OT|00-0039568|100,OT,00-0039568,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.2,50,95
 OT|00-0039568|101,OT,00-0039568,101,Run EPA through his gaps vs expected (24% of grade),0.001,51,95
 OT|00-0039568|102,OT,00-0039568,102,Penalty rate per snap (14% of grade),0.3%,20,95
 OT|00-0039568|103,OT,00-0039568,103,Team offensive line grade (14% of grade),77.8,19,95
@@ -17125,7 +17125,7 @@ OT|00-0039790|1,OT,00-0039790,1,Starts (50%+ of snaps),17,,
 OT|00-0039790|2,OT,00-0039790,2,Offensive snaps,"1,040",17,133
 OT|00-0039790|3,OT,00-0039790,3,Penalties,3,,
 OT|00-0039790|4,OT,00-0039790,4,Penalty yards,20,,
-OT|00-0039790|100,OT,00-0039790,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",1.1,75,95
+OT|00-0039790|100,OT,00-0039790,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",1.1,76,95
 OT|00-0039790|101,OT,00-0039790,101,Run EPA through his gaps vs expected (24% of grade),-0.053,79,95
 OT|00-0039790|102,OT,00-0039790,102,Penalty rate per snap (14% of grade),0.3%,16,95
 OT|00-0039790|103,OT,00-0039790,103,Team offensive line grade (14% of grade),57.4,82,95
@@ -17134,7 +17134,7 @@ OT|00-0039828|1,OT,00-0039828,1,Starts (50%+ of snaps),1,,
 OT|00-0039828|2,OT,00-0039828,2,Offensive snaps,88,100,133
 OT|00-0039828|3,OT,00-0039828,3,Penalties,1,,
 OT|00-0039828|4,OT,00-0039828,4,Penalty yards,10,,
-OT|00-0039828|100,OT,00-0039828,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",-0.5,14,95
+OT|00-0039828|100,OT,00-0039828,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",-0.5,15,95
 OT|00-0039828|101,OT,00-0039828,101,Run EPA through his gaps vs expected (24% of grade),-0.025,59,95
 OT|00-0039828|102,OT,00-0039828,102,Penalty rate per snap (14% of grade),0.7%,69,95
 OT|00-0039828|103,OT,00-0039828,103,Team offensive line grade (14% of grade),61.7,68,95
@@ -17143,7 +17143,7 @@ OT|00-0039832|1,OT,00-0039832,1,Starts (50%+ of snaps),0,,
 OT|00-0039832|2,OT,00-0039832,2,Offensive snaps,0,110,133
 OT|00-0039832|3,OT,00-0039832,3,Penalties,0,,
 OT|00-0039832|4,OT,00-0039832,4,Penalty yards,0,,
-OT|00-0039832|100,OT,00-0039832,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.3,53,95
+OT|00-0039832|100,OT,00-0039832,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.3,52,95
 OT|00-0039832|101,OT,00-0039832,101,Run EPA through his gaps vs expected (24% of grade),0.021,38,95
 OT|00-0039832|102,OT,00-0039832,102,Penalty rate per snap (14% of grade),0.4%,25,95
 OT|00-0039832|103,OT,00-0039832,103,Team offensive line grade (14% of grade),65.1,55,95
@@ -17152,7 +17152,7 @@ OT|00-0039842|1,OT,00-0039842,1,Starts (50%+ of snaps),0,,
 OT|00-0039842|2,OT,00-0039842,2,Offensive snaps,0,110,133
 OT|00-0039842|3,OT,00-0039842,3,Penalties,0,,
 OT|00-0039842|4,OT,00-0039842,4,Penalty yards,0,,
-OT|00-0039842|100,OT,00-0039842,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",-0.3,22,95
+OT|00-0039842|100,OT,00-0039842,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",-0.3,23,95
 OT|00-0039842|101,OT,00-0039842,101,Run EPA through his gaps vs expected (24% of grade),-0.006,53,95
 OT|00-0039842|102,OT,00-0039842,102,Penalty rate per snap (14% of grade),0.4%,25,95
 OT|00-0039842|103,OT,00-0039842,103,Team offensive line grade (14% of grade),77.8,19,95
@@ -17161,7 +17161,7 @@ OT|00-0039857|1,OT,00-0039857,1,Starts (50%+ of snaps),2,,
 OT|00-0039857|2,OT,00-0039857,2,Offensive snaps,337,79,133
 OT|00-0039857|3,OT,00-0039857,3,Penalties,5,,
 OT|00-0039857|4,OT,00-0039857,4,Penalty yards,39,,
-OT|00-0039857|100,OT,00-0039857,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",-0.3,22,95
+OT|00-0039857|100,OT,00-0039857,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",-0.4,22,95
 OT|00-0039857|101,OT,00-0039857,101,Run EPA through his gaps vs expected (24% of grade),-0.013,58,95
 OT|00-0039857|102,OT,00-0039857,102,Penalty rate per snap (14% of grade),0.5%,47,95
 OT|00-0039857|103,OT,00-0039857,103,Team offensive line grade (14% of grade),65.1,55,95
@@ -17170,7 +17170,7 @@ OT|00-0039871|1,OT,00-0039871,1,Starts (50%+ of snaps),17,,
 OT|00-0039871|2,OT,00-0039871,2,Offensive snaps,"1,031",19,133
 OT|00-0039871|3,OT,00-0039871,3,Penalties,2,,
 OT|00-0039871|4,OT,00-0039871,4,Penalty yards,14,,
-OT|00-0039871|100,OT,00-0039871,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",-0.6,10,95
+OT|00-0039871|100,OT,00-0039871,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",-0.6,12,95
 OT|00-0039871|101,OT,00-0039871,101,Run EPA through his gaps vs expected (24% of grade),-0.006,52,95
 OT|00-0039871|102,OT,00-0039871,102,Penalty rate per snap (14% of grade),0.2%,8,95
 OT|00-0039871|103,OT,00-0039871,103,Team offensive line grade (14% of grade),79.0,16,95
@@ -17188,7 +17188,7 @@ OT|00-0039897|1,OT,00-0039897,1,Starts (50%+ of snaps),4,,
 OT|00-0039897|2,OT,00-0039897,2,Offensive snaps,313,84,133
 OT|00-0039897|3,OT,00-0039897,3,Penalties,1,,
 OT|00-0039897|4,OT,00-0039897,4,Penalty yards,5,,
-OT|00-0039897|100,OT,00-0039897,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",-0.0,37,95
+OT|00-0039897|100,OT,00-0039897,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",-0.0,38,95
 OT|00-0039897|101,OT,00-0039897,101,Run EPA through his gaps vs expected (24% of grade),0.025,37,95
 OT|00-0039897|102,OT,00-0039897,102,Penalty rate per snap (14% of grade),0.4%,22,95
 OT|00-0039897|103,OT,00-0039897,103,Team offensive line grade (14% of grade),52.2,84,95
@@ -17197,7 +17197,7 @@ OT|00-0039899|1,OT,00-0039899,1,Starts (50%+ of snaps),17,,
 OT|00-0039899|2,OT,00-0039899,2,Offensive snaps,974,27,133
 OT|00-0039899|3,OT,00-0039899,3,Penalties,8,,
 OT|00-0039899|4,OT,00-0039899,4,Penalty yards,47,,
-OT|00-0039899|100,OT,00-0039899,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.6,60,95
+OT|00-0039899|100,OT,00-0039899,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.6,59,95
 OT|00-0039899|101,OT,00-0039899,101,Run EPA through his gaps vs expected (24% of grade),0.030,35,95
 OT|00-0039899|102,OT,00-0039899,102,Penalty rate per snap (14% of grade),0.8%,76,95
 OT|00-0039899|103,OT,00-0039899,103,Team offensive line grade (14% of grade),60.4,75,95
@@ -17215,7 +17215,7 @@ OT|00-0040059|1,OT,00-0040059,1,Starts (50%+ of snaps),0,,
 OT|00-0040059|2,OT,00-0040059,2,Offensive snaps,0,110,133
 OT|00-0040059|3,OT,00-0040059,3,Penalties,0,,
 OT|00-0040059|4,OT,00-0040059,4,Penalty yards,0,,
-OT|00-0040059|100,OT,00-0040059,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.2,49,95
+OT|00-0040059|100,OT,00-0040059,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.2,48,95
 OT|00-0040059|101,OT,00-0040059,101,Run EPA through his gaps vs expected (24% of grade),0.002,51,95
 OT|00-0040059|102,OT,00-0040059,102,Penalty rate per snap (14% of grade),0.4%,32,95
 OT|00-0040059|103,OT,00-0040059,103,Team offensive line grade (14% of grade),74.5,30,95
@@ -17224,7 +17224,7 @@ OT|00-0040070|1,OT,00-0040070,1,Starts (50%+ of snaps),0,,
 OT|00-0040070|2,OT,00-0040070,2,Offensive snaps,0,110,133
 OT|00-0040070|3,OT,00-0040070,3,Penalties,0,,
 OT|00-0040070|4,OT,00-0040070,4,Penalty yards,0,,
-OT|00-0040070|100,OT,00-0040070,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.1,43,95
+OT|00-0040070|100,OT,00-0040070,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.1,44,95
 OT|00-0040070|101,OT,00-0040070,101,Run EPA through his gaps vs expected (24% of grade),-0.026,60,95
 OT|00-0040070|102,OT,00-0040070,102,Penalty rate per snap (14% of grade),0.4%,31,95
 OT|00-0040070|103,OT,00-0040070,103,Team offensive line grade (14% of grade),74.1,38,95
@@ -17260,7 +17260,7 @@ OT|00-0040125|1,OT,00-0040125,1,Starts (50%+ of snaps),16,,
 OT|00-0040125|2,OT,00-0040125,2,Offensive snaps,"1,066",10,133
 OT|00-0040125|3,OT,00-0040125,3,Penalties,9,,
 OT|00-0040125|4,OT,00-0040125,4,Penalty yards,65,,
-OT|00-0040125|100,OT,00-0040125,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.1,45,95
+OT|00-0040125|100,OT,00-0040125,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.2,47,95
 OT|00-0040125|101,OT,00-0040125,101,Run EPA through his gaps vs expected (24% of grade),0.045,24,95
 OT|00-0040125|102,OT,00-0040125,102,Penalty rate per snap (14% of grade),0.6%,65,95
 OT|00-0040125|103,OT,00-0040125,103,Team offensive line grade (14% of grade),63.6,62,95
@@ -17278,7 +17278,7 @@ OT|00-0040163|1,OT,00-0040163,1,Starts (50%+ of snaps),5,,
 OT|00-0040163|2,OT,00-0040163,2,Offensive snaps,315,83,133
 OT|00-0040163|3,OT,00-0040163,3,Penalties,2,,
 OT|00-0040163|4,OT,00-0040163,4,Penalty yards,10,,
-OT|00-0040163|100,OT,00-0040163,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",-0.8,5,95
+OT|00-0040163|100,OT,00-0040163,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",-0.8,4,95
 OT|00-0040163|101,OT,00-0040163,101,Run EPA through his gaps vs expected (24% of grade),-0.065,87,95
 OT|00-0040163|102,OT,00-0040163,102,Penalty rate per snap (14% of grade),0.4%,21,95
 OT|00-0040163|103,OT,00-0040163,103,Team offensive line grade (14% of grade),74.9,27,95
@@ -17287,7 +17287,7 @@ OT|00-0040181|1,OT,00-0040181,1,Starts (50%+ of snaps),6,,
 OT|00-0040181|2,OT,00-0040181,2,Offensive snaps,324,80,133
 OT|00-0040181|3,OT,00-0040181,3,Penalties,3,,
 OT|00-0040181|4,OT,00-0040181,4,Penalty yards,30,,
-OT|00-0040181|100,OT,00-0040181,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",1.9,93,95
+OT|00-0040181|100,OT,00-0040181,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",1.8,93,95
 OT|00-0040181|101,OT,00-0040181,101,Run EPA through his gaps vs expected (24% of grade),0.053,18,95
 OT|00-0040181|102,OT,00-0040181,102,Penalty rate per snap (14% of grade),0.6%,49,95
 OT|00-0040181|103,OT,00-0040181,103,Team offensive line grade (14% of grade),62.8,65,95
@@ -17296,7 +17296,7 @@ OT|00-0040217|1,OT,00-0040217,1,Starts (50%+ of snaps),0,,
 OT|00-0040217|2,OT,00-0040217,2,Offensive snaps,0,110,133
 OT|00-0040217|3,OT,00-0040217,3,Penalties,0,,
 OT|00-0040217|4,OT,00-0040217,4,Penalty yards,0,,
-OT|00-0040217|100,OT,00-0040217,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.3,53,95
+OT|00-0040217|100,OT,00-0040217,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.3,52,95
 OT|00-0040217|101,OT,00-0040217,101,Run EPA through his gaps vs expected (24% of grade),-0.020,59,95
 OT|00-0040217|102,OT,00-0040217,102,Penalty rate per snap (14% of grade),0.4%,32,95
 OT|00-0040217|103,OT,00-0040217,103,Team offensive line grade (14% of grade),88.0,4,95
@@ -17305,7 +17305,7 @@ OT|00-0040224|1,OT,00-0040224,1,Starts (50%+ of snaps),0,,
 OT|00-0040224|2,OT,00-0040224,2,Offensive snaps,4,109,133
 OT|00-0040224|3,OT,00-0040224,3,Penalties,0,,
 OT|00-0040224|4,OT,00-0040224,4,Penalty yards,0,,
-OT|00-0040224|100,OT,00-0040224,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.2,48,95
+OT|00-0040224|100,OT,00-0040224,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.2,46,95
 OT|00-0040224|101,OT,00-0040224,101,Run EPA through his gaps vs expected (24% of grade),0.007,49,95
 OT|00-0040224|102,OT,00-0040224,102,Penalty rate per snap (14% of grade),0.4%,32,95
 OT|00-0040224|103,OT,00-0040224,103,Team offensive line grade (14% of grade),77.8,19,95
@@ -17323,7 +17323,7 @@ OT|00-0040382|1,OT,00-0040382,1,Starts (50%+ of snaps),5,,
 OT|00-0040382|2,OT,00-0040382,2,Offensive snaps,289,88,133
 OT|00-0040382|3,OT,00-0040382,3,Penalties,4,,
 OT|00-0040382|4,OT,00-0040382,4,Penalty yards,25,,
-OT|00-0040382|100,OT,00-0040382,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",-0.3,28,95
+OT|00-0040382|100,OT,00-0040382,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",-0.3,25,95
 OT|00-0040382|101,OT,00-0040382,101,Run EPA through his gaps vs expected (24% of grade),0.049,19,95
 OT|00-0040382|102,OT,00-0040382,102,Penalty rate per snap (14% of grade),0.8%,79,95
 OT|00-0040382|103,OT,00-0040382,103,Team offensive line grade (14% of grade),60.4,75,95
@@ -17332,7 +17332,7 @@ OT|00-0040417|1,OT,00-0040417,1,Starts (50%+ of snaps),2,,
 OT|00-0040417|2,OT,00-0040417,2,Offensive snaps,151,95,133
 OT|00-0040417|3,OT,00-0040417,3,Penalties,1,,
 OT|00-0040417|4,OT,00-0040417,4,Penalty yards,5,,
-OT|00-0040417|100,OT,00-0040417,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",-0.4,19,95
+OT|00-0040417|100,OT,00-0040417,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",-0.4,18,95
 OT|00-0040417|101,OT,00-0040417,101,Run EPA through his gaps vs expected (24% of grade),0.016,42,95
 OT|00-0040417|102,OT,00-0040417,102,Penalty rate per snap (14% of grade),0.3%,11,95
 OT|00-0040417|103,OT,00-0040417,103,Team offensive line grade (14% of grade),79.4,13,95
@@ -17350,7 +17350,7 @@ OT|00-0040652|1,OT,00-0040652,1,Starts (50%+ of snaps),0,,
 OT|00-0040652|2,OT,00-0040652,2,Offensive snaps,0,110,133
 OT|00-0040652|3,OT,00-0040652,3,Penalties,0,,
 OT|00-0040652|4,OT,00-0040652,4,Penalty yards,0,,
-OT|00-0040652|100,OT,00-0040652,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.2,49,95
+OT|00-0040652|100,OT,00-0040652,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.2,47,95
 OT|00-0040652|101,OT,00-0040652,101,Run EPA through his gaps vs expected (24% of grade),0.002,51,95
 OT|00-0040652|102,OT,00-0040652,102,Penalty rate per snap (14% of grade),0.4%,32,95
 OT|00-0040652|103,OT,00-0040652,103,Team offensive line grade (14% of grade),74.5,30,95
@@ -17368,7 +17368,7 @@ OT|00-0040687|1,OT,00-0040687,1,Starts (50%+ of snaps),0,,
 OT|00-0040687|2,OT,00-0040687,2,Offensive snaps,0,110,133
 OT|00-0040687|3,OT,00-0040687,3,Penalties,0,,
 OT|00-0040687|4,OT,00-0040687,4,Penalty yards,0,,
-OT|00-0040687|100,OT,00-0040687,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.2,47,95
+OT|00-0040687|100,OT,00-0040687,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.2,46,95
 OT|00-0040687|101,OT,00-0040687,101,Run EPA through his gaps vs expected (24% of grade),0.020,38,95
 OT|00-0040687|102,OT,00-0040687,102,Penalty rate per snap (14% of grade),0.4%,21,95
 OT|00-0040687|103,OT,00-0040687,103,Team offensive line grade (14% of grade),74.2,33,95
@@ -17377,7 +17377,7 @@ OT|00-0040699|1,OT,00-0040699,1,Starts (50%+ of snaps),13,,
 OT|00-0040699|2,OT,00-0040699,2,Offensive snaps,783,44,133
 OT|00-0040699|3,OT,00-0040699,3,Penalties,5,,
 OT|00-0040699|4,OT,00-0040699,4,Penalty yards,30,,
-OT|00-0040699|100,OT,00-0040699,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.5,58,95
+OT|00-0040699|100,OT,00-0040699,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",0.5,57,95
 OT|00-0040699|101,OT,00-0040699,101,Run EPA through his gaps vs expected (24% of grade),0.049,20,95
 OT|00-0040699|102,OT,00-0040699,102,Penalty rate per snap (14% of grade),0.6%,63,95
 OT|00-0040699|103,OT,00-0040699,103,Team offensive line grade (14% of grade),67.6,52,95
@@ -17395,7 +17395,7 @@ OT|00-0040745|1,OT,00-0040745,1,Starts (50%+ of snaps),16,,
 OT|00-0040745|2,OT,00-0040745,2,Offensive snaps,"1,082",8,133
 OT|00-0040745|3,OT,00-0040745,3,Penalties,8,,
 OT|00-0040745|4,OT,00-0040745,4,Penalty yards,66,,
-OT|00-0040745|100,OT,00-0040745,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",-0.8,4,95
+OT|00-0040745|100,OT,00-0040745,100,"Pressures allowed vs expected, per 100 pass snaps (33% of grade)",-0.7,9,95
 OT|00-0040745|101,OT,00-0040745,101,Run EPA through his gaps vs expected (24% of grade),-0.049,75,95
 OT|00-0040745|102,OT,00-0040745,102,Penalty rate per snap (14% of grade),0.5%,46,95
 OT|00-0040745|103,OT,00-0040745,103,Team offensive line grade (14% of grade),65.1,55,95

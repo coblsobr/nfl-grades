@@ -11074,30 +11074,30 @@ key,season,scope,team,side,ord,stat,value,rank
 2026|regular|SF|10,2026,regular,SF,Offense,10,Pressure rate allowed,17.8%,5
 2026|regular|BUF|10,2026,regular,BUF,Offense,10,Pressure rate allowed,17.5%,4
 2026|regular|JAX|10,2026,regular,JAX,Offense,10,Pressure rate allowed,19.1%,10
-2026|regular|KC|10,2026,regular,KC,Offense,10,Pressure rate allowed,21.1%,17
-2026|regular|CIN|10,2026,regular,CIN,Offense,10,Pressure rate allowed,19.2%,13
+2026|regular|KC|10,2026,regular,KC,Offense,10,Pressure rate allowed,21.1%,15
+2026|regular|CIN|10,2026,regular,CIN,Offense,10,Pressure rate allowed,21.6%,20
 2026|regular|DEN|10,2026,regular,DEN,Offense,10,Pressure rate allowed,18.7%,7
 2026|regular|LA|10,2026,regular,LA,Offense,10,Pressure rate allowed,15.4%,2
 2026|regular|CHI|10,2026,regular,CHI,Offense,10,Pressure rate allowed,18.9%,8
 2026|regular|DET|10,2026,regular,DET,Offense,10,Pressure rate allowed,19.2%,12
 2026|regular|SEA|10,2026,regular,SEA,Offense,10,Pressure rate allowed,25.3%,30
 2026|regular|MIN|10,2026,regular,MIN,Offense,10,Pressure rate allowed,19.1%,11
-2026|regular|TB|10,2026,regular,TB,Offense,10,Pressure rate allowed,20.6%,16
+2026|regular|TB|10,2026,regular,TB,Offense,10,Pressure rate allowed,20.6%,14
 2026|regular|HOU|10,2026,regular,HOU,Offense,10,Pressure rate allowed,16.9%,3
-2026|regular|GB|10,2026,regular,GB,Offense,10,Pressure rate allowed,21.5%,20
+2026|regular|GB|10,2026,regular,GB,Offense,10,Pressure rate allowed,21.5%,19
 2026|regular|NE|10,2026,regular,NE,Offense,10,Pressure rate allowed,22.2%,21
 2026|regular|NYG|10,2026,regular,NYG,Offense,10,Pressure rate allowed,18.6%,6
-2026|regular|DAL|10,2026,regular,DAL,Offense,10,Pressure rate allowed,21.4%,18
+2026|regular|DAL|10,2026,regular,DAL,Offense,10,Pressure rate allowed,21.4%,17
 2026|regular|PIT|10,2026,regular,PIT,Offense,10,Pressure rate allowed,19.1%,9
-2026|regular|WAS|10,2026,regular,WAS,Offense,10,Pressure rate allowed,19.4%,14
+2026|regular|WAS|10,2026,regular,WAS,Offense,10,Pressure rate allowed,21.3%,16
 2026|regular|LV|10,2026,regular,LV,Offense,10,Pressure rate allowed,24.4%,28
 2026|regular|CAR|10,2026,regular,CAR,Offense,10,Pressure rate allowed,28.0%,32
 2026|regular|CLE|10,2026,regular,CLE,Offense,10,Pressure rate allowed,24.1%,27
 2026|regular|ATL|10,2026,regular,ATL,Offense,10,Pressure rate allowed,14.4%,1
-2026|regular|NYJ|10,2026,regular,NYJ,Offense,10,Pressure rate allowed,21.5%,19
+2026|regular|NYJ|10,2026,regular,NYJ,Offense,10,Pressure rate allowed,21.5%,18
 2026|regular|BAL|10,2026,regular,BAL,Offense,10,Pressure rate allowed,23.2%,24
 2026|regular|ARI|10,2026,regular,ARI,Offense,10,Pressure rate allowed,22.5%,23
-2026|regular|NO|10,2026,regular,NO,Offense,10,Pressure rate allowed,20.0%,15
+2026|regular|NO|10,2026,regular,NO,Offense,10,Pressure rate allowed,20.0%,13
 2026|regular|MIA|10,2026,regular,MIA,Offense,10,Pressure rate allowed,23.9%,26
 2026|regular|IND|10,2026,regular,IND,Offense,10,Pressure rate allowed,22.2%,22
 2026|regular|LAC|10,2026,regular,LAC,Offense,10,Pressure rate allowed,24.9%,29
@@ -11423,30 +11423,30 @@ key,season,scope,team,side,ord,stat,value,rank
 2026|regular|LAC|20,2026,regular,LAC,Defense,20,Sacks,16,31
 2026|regular|PHI|20,2026,regular,PHI,Defense,20,Sacks,21,20
 2026|regular|TEN|20,2026,regular,TEN,Defense,20,Sacks,21,20
-2026|regular|SF|21,2026,regular,SF,Defense,21,Pressure rate,22.9%,12
+2026|regular|SF|21,2026,regular,SF,Defense,21,Pressure rate,22.9%,14
 2026|regular|BUF|21,2026,regular,BUF,Defense,21,Pressure rate,26.0%,5
-2026|regular|JAX|21,2026,regular,JAX,Defense,21,Pressure rate,22.6%,13
+2026|regular|JAX|21,2026,regular,JAX,Defense,21,Pressure rate,22.6%,15
 2026|regular|KC|21,2026,regular,KC,Defense,21,Pressure rate,19.2%,28
-2026|regular|CIN|21,2026,regular,CIN,Defense,21,Pressure rate,22.5%,15
+2026|regular|CIN|21,2026,regular,CIN,Defense,21,Pressure rate,24.4%,10
 2026|regular|DEN|21,2026,regular,DEN,Defense,21,Pressure rate,26.5%,4
 2026|regular|LA|21,2026,regular,LA,Defense,21,Pressure rate,20.5%,22
 2026|regular|CHI|21,2026,regular,CHI,Defense,21,Pressure rate,24.7%,9
-2026|regular|DET|21,2026,regular,DET,Defense,21,Pressure rate,24.2%,10
+2026|regular|DET|21,2026,regular,DET,Defense,21,Pressure rate,24.2%,11
 2026|regular|SEA|21,2026,regular,SEA,Defense,21,Pressure rate,28.9%,2
 2026|regular|MIN|21,2026,regular,MIN,Defense,21,Pressure rate,35.6%,1
 2026|regular|TB|21,2026,regular,TB,Defense,21,Pressure rate,20.0%,25
 2026|regular|HOU|21,2026,regular,HOU,Defense,21,Pressure rate,25.4%,7
-2026|regular|GB|21,2026,regular,GB,Defense,21,Pressure rate,21.6%,18
-2026|regular|NE|21,2026,regular,NE,Defense,21,Pressure rate,22.6%,14
+2026|regular|GB|21,2026,regular,GB,Defense,21,Pressure rate,21.6%,19
+2026|regular|NE|21,2026,regular,NE,Defense,21,Pressure rate,22.6%,16
 2026|regular|NYG|21,2026,regular,NYG,Defense,21,Pressure rate,18.9%,29
 2026|regular|DAL|21,2026,regular,DAL,Defense,21,Pressure rate,25.7%,6
 2026|regular|PIT|21,2026,regular,PIT,Defense,21,Pressure rate,18.6%,31
-2026|regular|WAS|21,2026,regular,WAS,Defense,21,Pressure rate,21.3%,19
+2026|regular|WAS|21,2026,regular,WAS,Defense,21,Pressure rate,24.1%,12
 2026|regular|LV|21,2026,regular,LV,Defense,21,Pressure rate,27.0%,3
-2026|regular|CAR|21,2026,regular,CAR,Defense,21,Pressure rate,21.7%,17
+2026|regular|CAR|21,2026,regular,CAR,Defense,21,Pressure rate,21.7%,18
 2026|regular|CLE|21,2026,regular,CLE,Defense,21,Pressure rate,21.0%,21
 2026|regular|ATL|21,2026,regular,ATL,Defense,21,Pressure rate,25.1%,8
-2026|regular|NYJ|21,2026,regular,NYJ,Defense,21,Pressure rate,22.4%,16
+2026|regular|NYJ|21,2026,regular,NYJ,Defense,21,Pressure rate,22.4%,17
 2026|regular|BAL|21,2026,regular,BAL,Defense,21,Pressure rate,21.3%,20
 2026|regular|ARI|21,2026,regular,ARI,Defense,21,Pressure rate,17.8%,32
 2026|regular|NO|21,2026,regular,NO,Defense,21,Pressure rate,19.6%,27
@@ -11454,7 +11454,7 @@ key,season,scope,team,side,ord,stat,value,rank
 2026|regular|IND|21,2026,regular,IND,Defense,21,Pressure rate,19.8%,26
 2026|regular|LAC|21,2026,regular,LAC,Defense,21,Pressure rate,20.3%,24
 2026|regular|PHI|21,2026,regular,PHI,Defense,21,Pressure rate,18.7%,30
-2026|regular|TEN|21,2026,regular,TEN,Defense,21,Pressure rate,23.2%,11
+2026|regular|TEN|21,2026,regular,TEN,Defense,21,Pressure rate,23.2%,13
 2026|regular|SF|22,2026,regular,SF,Offense,22,Explosive play rate,11.0%,2
 2026|regular|BUF|22,2026,regular,BUF,Offense,22,Explosive play rate,11.7%,1
 2026|regular|JAX|22,2026,regular,JAX,Offense,22,Explosive play rate,9.6%,5
@@ -11596,7 +11596,7 @@ key,season,scope,team,side,ord,stat,value,rank
 2026|regular|MIN|26,2026,regular,MIN,Offense,26,QB time to throw (sec),2.88,11
 2026|regular|TB|26,2026,regular,TB,Offense,26,QB time to throw (sec),2.85,15
 2026|regular|HOU|26,2026,regular,HOU,Offense,26,QB time to throw (sec),2.92,7
-2026|regular|GB|26,2026,regular,GB,Offense,26,QB time to throw (sec),2.58,29
+2026|regular|GB|26,2026,regular,GB,Offense,26,QB time to throw (sec),2.60,29
 2026|regular|NE|26,2026,regular,NE,Offense,26,QB time to throw (sec),3.16,2
 2026|regular|NYG|26,2026,regular,NYG,Offense,26,QB time to throw (sec),2.71,25
 2026|regular|DAL|26,2026,regular,DAL,Offense,26,QB time to throw (sec),2.81,21
@@ -11872,7 +11872,7 @@ key,season,scope,team,side,ord,stat,value,rank
 2026|regular|TEN|200,2026,regular,TEN,Coaching,200,Aggressiveness rank (4th downs + punts),,26
 2026|regular|WAS|200,2026,regular,WAS,Coaching,200,Aggressiveness rank (4th downs + punts),,18
 2026|regular|ARI|201,2026,regular,ARI,Coaching,201,Play-calling rank,,19
-2026|regular|ATL|201,2026,regular,ATL,Coaching,201,Play-calling rank,,24
+2026|regular|ATL|201,2026,regular,ATL,Coaching,201,Play-calling rank,,25
 2026|regular|BAL|201,2026,regular,BAL,Coaching,201,Play-calling rank,,7
 2026|regular|BUF|201,2026,regular,BUF,Coaching,201,Play-calling rank,,5
 2026|regular|CAR|201,2026,regular,CAR,Coaching,201,Play-calling rank,,3
@@ -11885,9 +11885,9 @@ key,season,scope,team,side,ord,stat,value,rank
 2026|regular|GB|201,2026,regular,GB,Coaching,201,Play-calling rank,,8
 2026|regular|HOU|201,2026,regular,HOU,Coaching,201,Play-calling rank,,4
 2026|regular|IND|201,2026,regular,IND,Coaching,201,Play-calling rank,,23
-2026|regular|JAX|201,2026,regular,JAX,Coaching,201,Play-calling rank,,9
+2026|regular|JAX|201,2026,regular,JAX,Coaching,201,Play-calling rank,,10
 2026|regular|KC|201,2026,regular,KC,Coaching,201,Play-calling rank,,1
-2026|regular|LA|201,2026,regular,LA,Coaching,201,Play-calling rank,,15
+2026|regular|LA|201,2026,regular,LA,Coaching,201,Play-calling rank,,16
 2026|regular|LAC|201,2026,regular,LAC,Coaching,201,Play-calling rank,,24
 2026|regular|LV|201,2026,regular,LV,Coaching,201,Play-calling rank,,14
 2026|regular|MIA|201,2026,regular,MIA,Coaching,201,Play-calling rank,,30
@@ -11902,7 +11902,7 @@ key,season,scope,team,side,ord,stat,value,rank
 2026|regular|SF|201,2026,regular,SF,Coaching,201,Play-calling rank,,2
 2026|regular|TB|201,2026,regular,TB,Coaching,201,Play-calling rank,,31
 2026|regular|TEN|201,2026,regular,TEN,Coaching,201,Play-calling rank,,17
-2026|regular|WAS|201,2026,regular,WAS,Coaching,201,Play-calling rank,,16
+2026|regular|WAS|201,2026,regular,WAS,Coaching,201,Play-calling rank,,14
 2026|regular|ARI|202,2026,regular,ARI,Coaching,202,Go-for-it rate vs. league in same spots,-4.4%,26
 2026|regular|ATL|202,2026,regular,ATL,Coaching,202,Go-for-it rate vs. league in same spots,-3.6%,24
 2026|regular|BAL|202,2026,regular,BAL,Coaching,202,Go-for-it rate vs. league in same spots,-2.1%,20
@@ -12224,18 +12224,18 @@ key,season,scope,team,side,ord,stat,value,rank
 2026|regular|TEN|211,2026,regular,TEN,Play calling,211,Plays inside the 3 on 1st/2nd down,8,24
 2026|regular|WAS|211,2026,regular,WAS,Play calling,211,Plays inside the 3 on 1st/2nd down,10,21
 2026|regular|ARI|212,2026,regular,ARI,Play calling,212,Play-action rate,17%,27
-2026|regular|ATL|212,2026,regular,ATL,Play calling,212,Play-action rate,19%,24
+2026|regular|ATL|212,2026,regular,ATL,Play calling,212,Play-action rate,19%,25
 2026|regular|BAL|212,2026,regular,BAL,Play calling,212,Play-action rate,25%,8
 2026|regular|BUF|212,2026,regular,BUF,Play calling,212,Play-action rate,27%,7
 2026|regular|CAR|212,2026,regular,CAR,Play calling,212,Play-action rate,25%,11
 2026|regular|CHI|212,2026,regular,CHI,Play calling,212,Play-action rate,33%,1
-2026|regular|CIN|212,2026,regular,CIN,Play calling,212,Play-action rate,12%,32
+2026|regular|CIN|212,2026,regular,CIN,Play calling,212,Play-action rate,13%,32
 2026|regular|CLE|212,2026,regular,CLE,Play calling,212,Play-action rate,17%,30
 2026|regular|DAL|212,2026,regular,DAL,Play calling,212,Play-action rate,23%,15
 2026|regular|DEN|212,2026,regular,DEN,Play calling,212,Play-action rate,24%,12
 2026|regular|DET|212,2026,regular,DET,Play calling,212,Play-action rate,30%,3
 2026|regular|GB|212,2026,regular,GB,Play calling,212,Play-action rate,17%,29
-2026|regular|HOU|212,2026,regular,HOU,Play calling,212,Play-action rate,20%,23
+2026|regular|HOU|212,2026,regular,HOU,Play calling,212,Play-action rate,20%,24
 2026|regular|IND|212,2026,regular,IND,Play calling,212,Play-action rate,28%,5
 2026|regular|JAX|212,2026,regular,JAX,Play calling,212,Play-action rate,24%,14
 2026|regular|KC|212,2026,regular,KC,Play calling,212,Play-action rate,29%,4
@@ -12244,24 +12244,24 @@ key,season,scope,team,side,ord,stat,value,rank
 2026|regular|LV|212,2026,regular,LV,Play calling,212,Play-action rate,24%,13
 2026|regular|MIA|212,2026,regular,MIA,Play calling,212,Play-action rate,22%,18
 2026|regular|MIN|212,2026,regular,MIN,Play calling,212,Play-action rate,31%,2
-2026|regular|NE|212,2026,regular,NE,Play calling,212,Play-action rate,20%,21
+2026|regular|NE|212,2026,regular,NE,Play calling,212,Play-action rate,20%,22
 2026|regular|NO|212,2026,regular,NO,Play calling,212,Play-action rate,17%,26
-2026|regular|NYG|212,2026,regular,NYG,Play calling,212,Play-action rate,21%,19
-2026|regular|NYJ|212,2026,regular,NYJ,Play calling,212,Play-action rate,20%,20
+2026|regular|NYG|212,2026,regular,NYG,Play calling,212,Play-action rate,21%,20
+2026|regular|NYJ|212,2026,regular,NYJ,Play calling,212,Play-action rate,20%,21
 2026|regular|PHI|212,2026,regular,PHI,Play calling,212,Play-action rate,17%,28
 2026|regular|PIT|212,2026,regular,PIT,Play calling,212,Play-action rate,17%,31
 2026|regular|SEA|212,2026,regular,SEA,Play calling,212,Play-action rate,27%,6
 2026|regular|SF|212,2026,regular,SF,Play calling,212,Play-action rate,23%,17
-2026|regular|TB|212,2026,regular,TB,Play calling,212,Play-action rate,20%,22
+2026|regular|TB|212,2026,regular,TB,Play calling,212,Play-action rate,20%,23
 2026|regular|TEN|212,2026,regular,TEN,Play calling,212,Play-action rate,23%,16
-2026|regular|WAS|212,2026,regular,WAS,Play calling,212,Play-action rate,18%,25
+2026|regular|WAS|212,2026,regular,WAS,Play calling,212,Play-action rate,22%,19
 2026|regular|ARI|213,2026,regular,ARI,Play calling,213,Play-action EPA boost,+0.089,12
 2026|regular|ATL|213,2026,regular,ATL,Play calling,213,Play-action EPA boost,+0.107,9
 2026|regular|BAL|213,2026,regular,BAL,Play calling,213,Play-action EPA boost,+0.138,7
 2026|regular|BUF|213,2026,regular,BUF,Play calling,213,Play-action EPA boost,+0.060,15
 2026|regular|CAR|213,2026,regular,CAR,Play calling,213,Play-action EPA boost,-0.074,24
 2026|regular|CHI|213,2026,regular,CHI,Play calling,213,Play-action EPA boost,+0.047,17
-2026|regular|CIN|213,2026,regular,CIN,Play calling,213,Play-action EPA boost,-0.236,31
+2026|regular|CIN|213,2026,regular,CIN,Play calling,213,Play-action EPA boost,-0.260,32
 2026|regular|CLE|213,2026,regular,CLE,Play calling,213,Play-action EPA boost,-0.104,26
 2026|regular|DAL|213,2026,regular,DAL,Play calling,213,Play-action EPA boost,-0.038,21
 2026|regular|DEN|213,2026,regular,DEN,Play calling,213,Play-action EPA boost,-0.016,20
@@ -12273,7 +12273,7 @@ key,season,scope,team,side,ord,stat,value,rank
 2026|regular|KC|213,2026,regular,KC,Play calling,213,Play-action EPA boost,+0.128,8
 2026|regular|LA|213,2026,regular,LA,Play calling,213,Play-action EPA boost,-0.059,23
 2026|regular|LAC|213,2026,regular,LAC,Play calling,213,Play-action EPA boost,+0.002,19
-2026|regular|LV|213,2026,regular,LV,Play calling,213,Play-action EPA boost,+0.168,3
+2026|regular|LV|213,2026,regular,LV,Play calling,213,Play-action EPA boost,+0.168,4
 2026|regular|MIA|213,2026,regular,MIA,Play calling,213,Play-action EPA boost,+0.026,18
 2026|regular|MIN|213,2026,regular,MIN,Play calling,213,Play-action EPA boost,+0.071,14
 2026|regular|NE|213,2026,regular,NE,Play calling,213,Play-action EPA boost,-0.143,29
@@ -12283,19 +12283,19 @@ key,season,scope,team,side,ord,stat,value,rank
 2026|regular|PHI|213,2026,regular,PHI,Play calling,213,Play-action EPA boost,-0.108,27
 2026|regular|PIT|213,2026,regular,PIT,Play calling,213,Play-action EPA boost,+0.281,1
 2026|regular|SEA|213,2026,regular,SEA,Play calling,213,Play-action EPA boost,-0.092,25
-2026|regular|SF|213,2026,regular,SF,Play calling,213,Play-action EPA boost,-0.240,32
+2026|regular|SF|213,2026,regular,SF,Play calling,213,Play-action EPA boost,-0.240,31
 2026|regular|TB|213,2026,regular,TB,Play calling,213,Play-action EPA boost,-0.047,22
 2026|regular|TEN|213,2026,regular,TEN,Play calling,213,Play-action EPA boost,+0.102,10
-2026|regular|WAS|213,2026,regular,WAS,Play calling,213,Play-action EPA boost,+0.163,4
+2026|regular|WAS|213,2026,regular,WAS,Play calling,213,Play-action EPA boost,+0.217,3
 2026|regular|ARI|214,2026,regular,ARI,Play calling,214,Pre-snap motion rate,59%,14
 2026|regular|ATL|214,2026,regular,ATL,Play calling,214,Pre-snap motion rate,56%,19
 2026|regular|BAL|214,2026,regular,BAL,Play calling,214,Pre-snap motion rate,62%,8
 2026|regular|BUF|214,2026,regular,BUF,Play calling,214,Pre-snap motion rate,63%,7
 2026|regular|CAR|214,2026,regular,CAR,Play calling,214,Pre-snap motion rate,56%,20
 2026|regular|CHI|214,2026,regular,CHI,Play calling,214,Pre-snap motion rate,55%,22
-2026|regular|CIN|214,2026,regular,CIN,Play calling,214,Pre-snap motion rate,48%,31
+2026|regular|CIN|214,2026,regular,CIN,Play calling,214,Pre-snap motion rate,51%,27
 2026|regular|CLE|214,2026,regular,CLE,Play calling,214,Pre-snap motion rate,57%,16
-2026|regular|DAL|214,2026,regular,DAL,Play calling,214,Pre-snap motion rate,48%,30
+2026|regular|DAL|214,2026,regular,DAL,Play calling,214,Pre-snap motion rate,48%,31
 2026|regular|DEN|214,2026,regular,DEN,Play calling,214,Pre-snap motion rate,61%,11
 2026|regular|DET|214,2026,regular,DET,Play calling,214,Pre-snap motion rate,55%,23
 2026|regular|GB|214,2026,regular,GB,Play calling,214,Pre-snap motion rate,60%,13
@@ -12307,25 +12307,25 @@ key,season,scope,team,side,ord,stat,value,rank
 2026|regular|LAC|214,2026,regular,LAC,Play calling,214,Pre-snap motion rate,73%,2
 2026|regular|LV|214,2026,regular,LV,Play calling,214,Pre-snap motion rate,60%,12
 2026|regular|MIA|214,2026,regular,MIA,Play calling,214,Pre-snap motion rate,69%,3
-2026|regular|MIN|214,2026,regular,MIN,Play calling,214,Pre-snap motion rate,52%,25
+2026|regular|MIN|214,2026,regular,MIN,Play calling,214,Pre-snap motion rate,52%,26
 2026|regular|NE|214,2026,regular,NE,Play calling,214,Pre-snap motion rate,55%,21
 2026|regular|NO|214,2026,regular,NO,Play calling,214,Pre-snap motion rate,62%,9
-2026|regular|NYG|214,2026,regular,NYG,Play calling,214,Pre-snap motion rate,51%,26
-2026|regular|NYJ|214,2026,regular,NYJ,Play calling,214,Pre-snap motion rate,50%,27
+2026|regular|NYG|214,2026,regular,NYG,Play calling,214,Pre-snap motion rate,51%,28
+2026|regular|NYJ|214,2026,regular,NYJ,Play calling,214,Pre-snap motion rate,50%,29
 2026|regular|PHI|214,2026,regular,PHI,Play calling,214,Pre-snap motion rate,59%,15
 2026|regular|PIT|214,2026,regular,PIT,Play calling,214,Pre-snap motion rate,47%,32
-2026|regular|SEA|214,2026,regular,SEA,Play calling,214,Pre-snap motion rate,53%,24
+2026|regular|SEA|214,2026,regular,SEA,Play calling,214,Pre-snap motion rate,53%,25
 2026|regular|SF|214,2026,regular,SF,Play calling,214,Pre-snap motion rate,76%,1
 2026|regular|TB|214,2026,regular,TB,Play calling,214,Pre-snap motion rate,69%,5
-2026|regular|TEN|214,2026,regular,TEN,Play calling,214,Pre-snap motion rate,48%,28
-2026|regular|WAS|214,2026,regular,WAS,Play calling,214,Pre-snap motion rate,48%,29
+2026|regular|TEN|214,2026,regular,TEN,Play calling,214,Pre-snap motion rate,48%,30
+2026|regular|WAS|214,2026,regular,WAS,Play calling,214,Pre-snap motion rate,53%,24
 2026|regular|ARI|215,2026,regular,ARI,Play calling,215,Screen rate,6%,24
 2026|regular|ATL|215,2026,regular,ATL,Play calling,215,Screen rate,11%,5
 2026|regular|BAL|215,2026,regular,BAL,Play calling,215,Screen rate,9%,14
 2026|regular|BUF|215,2026,regular,BUF,Play calling,215,Screen rate,10%,10
 2026|regular|CAR|215,2026,regular,CAR,Play calling,215,Screen rate,5%,29
 2026|regular|CHI|215,2026,regular,CHI,Play calling,215,Screen rate,10%,7
-2026|regular|CIN|215,2026,regular,CIN,Play calling,215,Screen rate,5%,26
+2026|regular|CIN|215,2026,regular,CIN,Play calling,215,Screen rate,6%,25
 2026|regular|CLE|215,2026,regular,CLE,Play calling,215,Screen rate,11%,6
 2026|regular|DAL|215,2026,regular,DAL,Play calling,215,Screen rate,5%,28
 2026|regular|DEN|215,2026,regular,DEN,Play calling,215,Screen rate,10%,9
@@ -12341,16 +12341,16 @@ key,season,scope,team,side,ord,stat,value,rank
 2026|regular|MIA|215,2026,regular,MIA,Play calling,215,Screen rate,8%,19
 2026|regular|MIN|215,2026,regular,MIN,Play calling,215,Screen rate,10%,8
 2026|regular|NE|215,2026,regular,NE,Play calling,215,Screen rate,6%,23
-2026|regular|NO|215,2026,regular,NO,Play calling,215,Screen rate,4%,31
-2026|regular|NYG|215,2026,regular,NYG,Play calling,215,Screen rate,6%,25
+2026|regular|NO|215,2026,regular,NO,Play calling,215,Screen rate,4%,32
+2026|regular|NYG|215,2026,regular,NYG,Play calling,215,Screen rate,6%,26
 2026|regular|NYJ|215,2026,regular,NYJ,Play calling,215,Screen rate,9%,12
-2026|regular|PHI|215,2026,regular,PHI,Play calling,215,Screen rate,5%,30
+2026|regular|PHI|215,2026,regular,PHI,Play calling,215,Screen rate,5%,31
 2026|regular|PIT|215,2026,regular,PIT,Play calling,215,Screen rate,13%,2
 2026|regular|SEA|215,2026,regular,SEA,Play calling,215,Screen rate,11%,4
 2026|regular|SF|215,2026,regular,SF,Play calling,215,Screen rate,9%,11
 2026|regular|TB|215,2026,regular,TB,Play calling,215,Screen rate,9%,15
 2026|regular|TEN|215,2026,regular,TEN,Play calling,215,Screen rate,8%,21
-2026|regular|WAS|215,2026,regular,WAS,Play calling,215,Screen rate,4%,32
+2026|regular|WAS|215,2026,regular,WAS,Play calling,215,Screen rate,5%,30
 2026|regular|ARI|216,2026,regular,ARI,Play calling,216,Predictability (shotgun vs under-center pass gap),53%,29
 2026|regular|ATL|216,2026,regular,ATL,Play calling,216,Predictability (shotgun vs under-center pass gap),52%,28
 2026|regular|BAL|216,2026,regular,BAL,Play calling,216,Predictability (shotgun vs under-center pass gap),46%,19
